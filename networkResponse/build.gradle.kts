@@ -32,7 +32,7 @@ dependencies {
     testImplementation(Dependencies.OkHttp.loggingInterceptor)
     testImplementation(Dependencies.OkHttp.mockWebServer)
 
-    implementation(Dependencies.resource)
+    api(Dependencies.resource)
 
     testImplementation(Dependencies.jUnit)
     testRuntimeOnly(Dependencies.jUnitEngine)

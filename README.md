@@ -1,17 +1,17 @@
-[![Download](https://api.bintray.com/packages/javiersegoviacordoba/Resources/Resource/images/download.svg)](https://bintray.com/javiersegoviacordoba/Resources/Resource/_latestVersion)
-![Build](https://github.com/JavierSegoviaCordoba/Resource/workflows/Build/badge.svg)
+[comment]: [![Download](https://api.bintray.com/packages/javiersegoviacordoba/Resources/Resource/images/download.svg)](https://bintray.com/javiersegoviacordoba/Resources/Resource/_latestVersion)
+![Build](https://github.com/JavierSegoviaCordoba/NetworkResponse/workflows/Build/badge.svg)
 
 # Resource
 
 ## Download
 ```groovy
 Groovy
-implementation "com.javiersc.resources:resource:$version"
+implementation "com.javiersc.resources:network-response:$version"
 ```
 
 ```kotlin
 Kotlin DSL
-implementation("com.javiersc.resources:resource:$version")
+implementation("com.javiersc.resources:network-response:$version")
 ```
 
 ## [Resource](/resource/src/main/kotlin/com/javiersc/resource/Resource.kt) and [NetworkResponse](/resource/src/main/kotlin/com/javiersc/resource/network/NetworkResponse.kt) sealed classes
