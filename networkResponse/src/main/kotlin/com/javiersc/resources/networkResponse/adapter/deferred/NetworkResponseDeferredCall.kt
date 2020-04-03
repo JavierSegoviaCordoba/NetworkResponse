@@ -4,11 +4,15 @@ import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.adapter.deferred.handlers.httpExceptionDeferredHandler
 import com.javiersc.resources.networkResponse.adapter.deferred.handlers.responseDeferredHandler
 import com.javiersc.resources.networkResponse.adapter.utils.isInternetAvailable
-import com.javiersc.resources.networkResponse.utils.printlnError
-import com.javiersc.resources.networkResponse.utils.printlnWarning
+import com.javiersc.resources.networkResponse.adapter.utils.printlnError
+import com.javiersc.resources.networkResponse.adapter.utils.printlnWarning
 import kotlinx.coroutines.CompletableDeferred
 import okhttp3.ResponseBody
-import retrofit2.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Converter
+import retrofit2.HttpException
+import retrofit2.Response
 import java.io.EOFException
 import java.net.ConnectException
 import java.net.UnknownHostException
@@ -24,26 +28,12 @@ internal fun <R : Any, E : Any> deferredAdapt(
     call.enqueue(object : Callback<R> {
         override fun onFailure(call: Call<R>, throwable: Throwable) {
             when (throwable) {
-                is UnknownHostException -> onUnknownException(
-                    deferred,
-                    throwable
-                )
-                is EOFException -> onEOFException(
-                    deferred
-                )
-                is IllegalStateException -> onIllegalStateException(
-                    throwable
-                )
-                is ConnectException -> onConnectException(
-                    deferred,
-                    throwable
-                )
-                is HttpException -> onHttpException(
-                    deferred,
-                    errorConverter,
-                    throwable
-                )
-                else -> throw Throwable("${throwable.message}")
+                is UnknownHostException -> onUnknownException(deferred, throwable)
+                is EOFException -> onEOFException(deferred)
+                is IllegalStateException -> onIllegalStateException(throwable)
+                is ConnectException -> onConnectException(deferred, throwable)
+                is HttpException -> onHttpException(deferred, errorConverter, throwable)
+                else -> throw UnknownError("${throwable.message}")
             }
         }
 
@@ -60,7 +50,8 @@ private fun <R, E> onUnknownException(
 ) {
     val message = "${throwable.message}"
     if (isInternetAvailable) deferred.complete(
-        NetworkResponse.RemoteError(message))
+        NetworkResponse.RemoteError(message)
+    )
     else deferred.complete(NetworkResponse.InternetNotAvailable(message))
 }
 

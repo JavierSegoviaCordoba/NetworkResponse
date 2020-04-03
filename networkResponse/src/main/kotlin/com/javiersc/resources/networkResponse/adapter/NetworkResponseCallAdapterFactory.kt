@@ -36,15 +36,9 @@ class NetworkResponseCallAdapterFactory : CallAdapter.Factory() {
 
         return when (getRawType(returnType)) {
             Deferred::class.java ->
-                NetworkResponseDeferredCallAdapter<Any, Any>(
-                    successBodyType,
-                    errorBodyConverter
-                )
+                NetworkResponseDeferredCallAdapter<Any, Any>(successBodyType, errorBodyConverter)
             Call::class.java ->
-                NetworkResponseSuspendCallAdapter<Any, Any>(
-                    successBodyType,
-                    errorBodyConverter
-                )
+                NetworkResponseSuspendCallAdapter<Any, Any>(successBodyType, errorBodyConverter)
             else -> null
         }
     }

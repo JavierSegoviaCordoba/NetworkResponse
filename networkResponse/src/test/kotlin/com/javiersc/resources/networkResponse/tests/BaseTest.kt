@@ -34,7 +34,7 @@ internal interface BaseTest<T> {
     }
 }
 
-internal abstract class BaseNullTest<T>(private val code: Int) {
+internal open class BaseNullTest<T>(private val code: Int) {
 
     private val mockWebServer: MockWebServer get() = mockWebServerSingleton
     val service: DogService get() = DogService.getService(mockWebServer.url("/"))

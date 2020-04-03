@@ -1,13 +1,75 @@
 package com.javiersc.resources.networkResponse.extensions
 
 import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.NetworkResponse.*
-import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.*
-import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.*
-import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.*
-import com.javiersc.resources.networkResponse.NetworkResponse.Success.*
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.BadRequest
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Conflict
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.ExpectationFailed
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.FailedDependency
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Forbidden
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Gone
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.ImATeapot
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.LengthRequired
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Locked
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.MethodNotAllowed
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.MisdirectedRequest
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.NotAcceptable
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.NotFound
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.PayloadTooLarge
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.PaymentRequired
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.PreconditionFailed
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.PreconditionRequired
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.ProxyAuthenticationRequired
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.RequestHeaderFieldsTooLarge
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.RequestTimeout
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.RequestedRangeNotSatisfiable
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.TooManyRequest
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Unauthorized
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UnavailableForLegalReasons
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UnprocessableEntity
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UnsupportedMediaType
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UpgradeRequired
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UriTooLong
+import com.javiersc.resources.networkResponse.NetworkResponse.Info
+import com.javiersc.resources.networkResponse.NetworkResponse.InternetNotAvailable
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.Found
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.MovedPermanently
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.MultipleChoices
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.NotModified
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.PermanentRedirect
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.SeeOther
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.SwitchProxy
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.TemporaryRedirect
+import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.UseProxy
+import com.javiersc.resources.networkResponse.NetworkResponse.RemoteError
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.BadGateway
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.GatewayTimeout
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.HttpVersionNotSupported
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.InsufficientStorage
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.InternalServerError
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.LoopDetected
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.NetworkAuthenticationRequired
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.NotExtended
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.NotImplemented
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.ServiceUnavailable
+import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.VariantAlsoNegotiates
+import com.javiersc.resources.networkResponse.NetworkResponse.Success
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.Accepted
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.AlreadyReported
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.Created
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.Custom
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.ImUsed
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.MultiStatus
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.NoContent
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.NonAuthoritativeInformation
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.OK
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.PartialContent
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.ResetContent
 import com.javiersc.resources.resource.Resource
 
+@Suppress("LongParameterList", "ComplexMethod", "LongMethod")
 inline fun <reified NR : Any,
         reified R : Any,
         reified ErDTO : Any?,
@@ -15,9 +77,11 @@ inline fun <reified NR : Any,
         > NetworkResponse<NR, ErDTO>.toResource(
             crossinline success: (NR) -> R,
             crossinline error: (ErDTO?) -> Er,
-            noinline mapNonGenericSuccess: ((NR?) -> R)? = null,
+            noinline mapCustomError: ((NR?) -> R)? = null,
             noinline mapClientError: ((ErDTO?) -> Er)? = null,
             noinline mapServerError: ((ErDTO?) -> Er)? = null,
+            noinline mapCustomServerError: ((ErDTO?) -> Er)? = null,
+            noinline mapCustomClientError: ((ErDTO?) -> Er)? = null,
             noinline mapBadRequest: ((ErDTO?) -> Er)? = null,
             noinline mapUnauthorized: ((ErDTO?) -> Er)? = null,
             noinline mapPaymentRequired: ((ErDTO?) -> Er)? = null,
@@ -72,7 +136,12 @@ inline fun <reified NR : Any,
         is MultiStatus -> Resource.Success(success(value))
         is AlreadyReported -> Resource.Success(success(value))
         is ImUsed -> Resource.Success(success(value))
-        is NonGenericSuccess -> Resource.Success(mapNonGenericSuccess?.invoke(resource))
+        is Custom -> Resource.Success(mapCustomError?.invoke(value))
+        is ClientError.Custom -> Resource.Error(
+            mapCustomClientError?.invoke(this.error)
+                ?: mapServerError?.invoke(this.error)
+                ?: error(this.error)
+        )
         is BadRequest -> Resource.Error(
             mapBadRequest?.invoke(this.error)
                 ?: mapClientError?.invoke(this.error)
@@ -143,7 +212,7 @@ inline fun <reified NR : Any,
                 ?: mapClientError?.invoke(this.error)
                 ?: error(this.error)
         )
-        is URITooLong -> Resource.Error(
+        is UriTooLong -> Resource.Error(
             mapURITooLong?.invoke(this.error)
                 ?: mapClientError?.invoke(this.error)
                 ?: error(this.error)
@@ -213,6 +282,11 @@ inline fun <reified NR : Any,
                 ?: mapClientError?.invoke(this.error)
                 ?: error(this.error)
         )
+        is ServerError.Custom -> Resource.Error(
+            mapCustomServerError?.invoke(this.error)
+                ?: mapServerError?.invoke(this.error)
+                ?: error(this.error)
+        )
         is InternalServerError -> Resource.Error(
             mapInternalServerError?.invoke(this.error)
                 ?: mapServerError?.invoke(this.error)
@@ -238,7 +312,7 @@ inline fun <reified NR : Any,
                 ?: mapServerError?.invoke(this.error)
                 ?: error(this.error)
         )
-        is HTTPVersionNotSupported -> Resource.Error(
+        is HttpVersionNotSupported -> Resource.Error(
             mapHTTPVersionNotSupported?.invoke(this.error)
                 ?: mapServerError?.invoke(this.error)
                 ?: error(this.error)
@@ -268,17 +342,19 @@ inline fun <reified NR : Any,
                 ?: mapServerError?.invoke(this.error)
                 ?: error(this.error)
         )
-        is NonGenericError -> Resource.Error(mapNonGenericError?.invoke(this.error) ?: error(
-            this.error
-        ))
+        is NetworkResponse.CustomError ->
+            Resource.Error(mapNonGenericError?.invoke(this.error) ?: error(this.error))
         is InternetNotAvailable -> Resource.Error(mapInternetNotAvailable?.invoke(this.error))
         is RemoteError -> Resource.Error(mapRemoteError?.invoke(this.error))
         is Info.Any -> TODO()
+        is Info.Custom -> TODO()
         is Info.Continue -> TODO()
         is Info.SwitchingProtocol -> TODO()
         is Info.Processing -> TODO()
+        is Info.EarlyHints -> TODO()
         is Success.Any -> TODO()
         is Redirection.Any -> TODO()
+        is Redirection.Custom -> TODO()
         is MultipleChoices -> TODO()
         is MovedPermanently -> TODO()
         is Found -> TODO()

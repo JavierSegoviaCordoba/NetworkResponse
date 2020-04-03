@@ -20,6 +20,12 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class Processing(val headers: @CS Headers? = null) : Info()
+
+        @Serializable
+        data class EarlyHints(val headers: @CS Headers? = null) : Info()
+
+        @Serializable
+        data class Custom(val code: Int?, val headers: @CS Headers? = null) : Info()
     }
 
     @Serializable
@@ -74,8 +80,8 @@ sealed class NetworkResponse<out NR, out E> {
         data class ImUsed<out NR>(val value: NR, val headers: @CS Headers? = null) : Success<NR>()
 
         @Serializable
-        data class NonGenericSuccess<out NR>(
-            val resource: NR? = null,
+        data class Custom<out NR>(
+            val value: NR? = null,
             val code: Int? = null,
             val headers: @CS Headers? = null
         ) : Success<NR>()
@@ -112,6 +118,9 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class PermanentRedirect(val headers: @CS Headers? = null) : Redirection()
+
+        @Serializable
+        data class Custom(val code: Int, val headers: @CS Headers? = null) : Redirection()
     }
 
     @Serializable
@@ -208,7 +217,7 @@ sealed class NetworkResponse<out NR, out E> {
         ) : ClientError<E>()
 
         @Serializable
-        data class URITooLong<out E>(
+        data class UriTooLong<out E>(
             val error: E? = null,
             val headers: @CS Headers? = null
         ) : ClientError<E>()
@@ -290,6 +299,13 @@ sealed class NetworkResponse<out NR, out E> {
             val error: E? = null,
             val headers: @CS Headers? = null
         ) : ClientError<E>()
+
+        @Serializable
+        data class Custom<out E>(
+            val error: E? = null,
+            val code: Int,
+            val headers: @CS Headers? = null
+        ) : ClientError<E>()
     }
 
     @Serializable
@@ -332,7 +348,7 @@ sealed class NetworkResponse<out NR, out E> {
         ) : ServerError<E>()
 
         @Serializable
-        data class HTTPVersionNotSupported<out E>(
+        data class HttpVersionNotSupported<out E>(
             val error: E? = null,
             val headers: @CS Headers? = null
         ) : ServerError<E>()
@@ -366,10 +382,17 @@ sealed class NetworkResponse<out NR, out E> {
             val error: E? = null,
             val headers: @CS Headers? = null
         ) : ServerError<E>()
+
+        @Serializable
+        data class Custom<out E>(
+            val error: E? = null,
+            val code: Int,
+            val headers: @CS Headers? = null
+        ) : ServerError<E>()
     }
 
     @Serializable
-    data class NonGenericError<out E>(
+    data class CustomError<out E>(
         val error: E? = null,
         val code: Int? = null,
         val headers: @CS Headers? = null

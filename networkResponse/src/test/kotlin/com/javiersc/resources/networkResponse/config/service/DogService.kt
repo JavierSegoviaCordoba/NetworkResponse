@@ -13,7 +13,6 @@ import retrofit2.Retrofit
 import retrofit2.create
 import retrofit2.http.GET
 
-
 internal interface DogService {
 
     @GET("dos")
@@ -41,6 +40,3 @@ internal interface DogService {
         }
     }
 }
-
-
-
