@@ -13,11 +13,20 @@ subprojects {
 }
 
 allprojects {
+    repositories {
+        jcenter()
+    }
+
     apply(plugin = Plugins.detekt)
+
+    dependencies {
+        detektPlugins(Dependencies.detektFormatting)
+    }
 
     detekt {
         toolVersion = Versions.detekt
         ignoreFailures = true
+        autoCorrect = true
     }
 
     tasks {

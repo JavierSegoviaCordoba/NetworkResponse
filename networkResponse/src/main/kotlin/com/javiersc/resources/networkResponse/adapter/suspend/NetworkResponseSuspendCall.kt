@@ -1,6 +1,5 @@
 package com.javiersc.resources.networkResponse.adapter.suspend
 
-
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.adapter.suspend.handlers.httpExceptionSuspendHandler
 import com.javiersc.resources.networkResponse.adapter.suspend.handlers.responseSuspendHandler
@@ -91,7 +90,6 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
         )
     }
 
-
     private fun onIllegalStateException(throwable: Throwable) {
         printlnError(
             """
@@ -125,4 +123,4 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
     }
 
     override fun timeout(): Timeout = Timeout().timeout(10, TimeUnit.SECONDS)
-} 
+}

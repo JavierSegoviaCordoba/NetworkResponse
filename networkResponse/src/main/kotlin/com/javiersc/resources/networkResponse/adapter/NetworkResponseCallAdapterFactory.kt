@@ -54,4 +54,4 @@ class NetworkResponseCallAdapterFactory : CallAdapter.Factory() {
         val errorType = getParameterUpperBound(1, this)
         return successType to errorType
     }
-} 
+}

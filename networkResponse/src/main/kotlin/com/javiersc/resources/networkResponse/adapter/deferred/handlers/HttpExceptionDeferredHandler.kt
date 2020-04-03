@@ -10,7 +10,6 @@ import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.HttpException
 
-
 internal fun <R : Any, E : Any> HttpException.httpExceptionDeferredHandler(
     errorConverter: Converter<ResponseBody, E>,
     deferred: CompletableDeferred<NetworkResponse<R, E>>

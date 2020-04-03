@@ -8,7 +8,6 @@ import retrofit2.CallAdapter
 import retrofit2.Converter
 import java.lang.reflect.Type
 
-
 internal class NetworkResponseDeferredCallAdapter<R : Any, E : Any>(
     private val successBodyType: Type,
     private val errorConverter: Converter<ResponseBody, E>

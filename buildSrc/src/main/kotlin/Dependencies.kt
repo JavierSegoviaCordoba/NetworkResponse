@@ -43,4 +43,5 @@ object Dependencies {
     const val truth = "com.google.truth:truth:${Versions.truth}"
     const val guava = "com.google.guava:guava:${Versions.guava}"
 
+    const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.detekt}"
 }

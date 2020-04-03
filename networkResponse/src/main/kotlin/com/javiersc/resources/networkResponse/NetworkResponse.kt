@@ -26,7 +26,9 @@ sealed class NetworkResponse<out NR, out E> {
     sealed class Success<out NR> : NetworkResponse<NR, @CS Nothing>() {
         @Serializable
         data class Any<out NR>(
-            val value: NR? = null, val code: Int, val headers: @CS Headers? = null
+            val value: NR? = null,
+            val code: Int,
+            val headers: @CS Headers? = null
         ) : Success<NR>()
 
         @Serializable
@@ -52,17 +54,20 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class PartialContent<out NR>(
-            val value: NR, val headers: @CS Headers? = null
+            val value: NR,
+            val headers: @CS Headers? = null
         ) : Success<NR>()
 
         @Serializable
         data class MultiStatus<out NR>(
-            val value: NR, val headers: @CS Headers? = null
+            val value: NR,
+            val headers: @CS Headers? = null
         ) : Success<NR>()
 
         @Serializable
         data class AlreadyReported<out NR>(
-            val value: NR, val headers: @CS Headers? = null
+            val value: NR,
+            val headers: @CS Headers? = null
         ) : Success<NR>()
 
         @Serializable
@@ -113,42 +118,51 @@ sealed class NetworkResponse<out NR, out E> {
     sealed class ClientError<out E> : NetworkResponse<@CS Nothing, E>() {
         @Serializable
         data class Any<out E>(
-            val error: E? = null, val code: Int, val headers: @CS Headers? = null
+            val error: E? = null,
+            val code: Int,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class BadRequest<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class Unauthorized<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class PaymentRequired<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class Forbidden<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class NotFound<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class MethodNotAllowed<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class NotAcceptable<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
@@ -159,22 +173,26 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class RequestTimeout<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class Conflict<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class Gone<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class LengthRequired<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
@@ -185,12 +203,14 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class PayloadTooLarge<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class URITooLong<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
@@ -213,7 +233,8 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class ImATeapot<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
@@ -230,17 +251,20 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class Locked<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class FailedDependency<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
         data class UpgradeRequired<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
@@ -251,7 +275,8 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class TooManyRequest<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ClientError<E>()
 
         @Serializable
@@ -271,7 +296,9 @@ sealed class NetworkResponse<out NR, out E> {
     sealed class ServerError<out E> : NetworkResponse<@CS Nothing, E>() {
         @Serializable
         data class Any<out E>(
-            val error: E? = null, val code: Int, val headers: @CS Headers? = null
+            val error: E? = null,
+            val code: Int,
+            val headers: @CS Headers? = null
         ) : ServerError<E>()
 
         @Serializable
@@ -282,12 +309,14 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class NotImplemented<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ServerError<E>()
 
         @Serializable
         data class BadGateway<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ServerError<E>()
 
         @Serializable
@@ -298,7 +327,8 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class GatewayTimeout<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ServerError<E>()
 
         @Serializable
@@ -321,12 +351,14 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class LoopDetected<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ServerError<E>()
 
         @Serializable
         data class NotExtended<out E>(
-            val error: E? = null, val headers: @CS Headers? = null
+            val error: E? = null,
+            val headers: @CS Headers? = null
         ) : ServerError<E>()
 
         @Serializable

@@ -1,6 +1,5 @@
 package com.javiersc.resources.networkResponse.adapter.suspend.handlers
 
-
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.*
 import com.javiersc.resources.networkResponse.NetworkResponse.Info.*

@@ -7,9 +7,9 @@ import java.net.Socket
 internal val isInternetAvailable: Boolean
     get() {
         return try {
-            val timeoutMs = 2000
+            val timeoutMs = Constants.DEFAULT_TIMEOUT
             val socket = Socket()
-            val socketAddress = InetSocketAddress("8.8.8.8", 53)
+            val socketAddress = InetSocketAddress("8.8.8.8", Constants.GOOGLE_DNS_PORT)
             socket.connect(socketAddress, timeoutMs)
             socket.close()
 
