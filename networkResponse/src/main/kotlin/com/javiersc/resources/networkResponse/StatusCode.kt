@@ -6,16 +6,16 @@ object StatusCode {
     const val PROCESSING_102 = 102
     const val EARLY_HINTS_103 = 103
 
-    const val OK = 200
-    const val CREATED = 201
-    const val ACCEPTED = 202
-    const val NON_AUTHORITATIVE_INFORMATION = 203
-    const val NO_CONTENT = 204
-    const val RESET_CONTENT = 205
-    const val PARTIAL_CONTENT = 206
-    const val MULTI_STATUS = 207
-    const val ALREADY_REPORTED = 208
-    const val IM_USED = 226
+    const val OK_200 = 200
+    const val CREATED_201 = 201
+    const val ACCEPTED_202 = 202
+    const val NON_AUTHORITATIVE_INFORMATION_203 = 203
+    const val NO_CONTENT_204 = 204
+    const val RESET_CONTENT_205 = 205
+    const val PARTIAL_CONTENT_206 = 206
+    const val MULTI_STATUS_207 = 207
+    const val ALREADY_REPORTED_208 = 208
+    const val IM_USED_226 = 226
 
     const val MULTIPLE_CHOICE_300 = 300
     const val MOVED_PERMANENTLY_301 = 301

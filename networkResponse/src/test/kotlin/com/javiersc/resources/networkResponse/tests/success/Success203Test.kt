@@ -2,6 +2,7 @@ package com.javiersc.resources.networkResponse.tests.success
 
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.NonAuthoritativeInformation
+import com.javiersc.resources.networkResponse.StatusCode
 import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.Error
 import com.javiersc.resources.networkResponse.config.models.unused
@@ -15,7 +16,8 @@ import org.junit.jupiter.api.Test
 
 internal class Success203Test : BaseTest<Dog> {
 
-    override val codeToFile: Pair<Int, String?> get() = 203 to "203.json"
+    override val codeToFile: Pair<Int, String?>
+        get() = StatusCode.NON_AUTHORITATIVE_INFORMATION_203 to "203.json"
     override val expected = Dog(3, "Auriti", 7)
 
     @Test

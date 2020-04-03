@@ -2,6 +2,7 @@ package com.javiersc.resources.networkResponse.tests.success
 
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.Accepted
+import com.javiersc.resources.networkResponse.StatusCode
 import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.Error
 import com.javiersc.resources.networkResponse.config.models.unused
@@ -15,7 +16,7 @@ import org.junit.jupiter.api.Test
 
 internal class Success202Test : BaseTest<Dog> {
 
-    override val codeToFile: Pair<Int, String?> get() = 202 to "202.json"
+    override val codeToFile: Pair<Int, String?> get() = StatusCode.ACCEPTED_202 to "202.json"
     override val expected = Dog(2, "Ronito", 4)
 
     @Test

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 
 internal interface BaseTest<T> {
 
-    private val mockWebServer: MockWebServer get() = mockWebServerSingleton
+    val mockWebServer: MockWebServer get() = mockWebServerSingleton
     val service: DogService get() = DogService.getService(mockWebServer.url("/"))
     val codeToFile: Pair<Int, String?>
     val expected: T

@@ -10,7 +10,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: gradle build --build-cache
-      - name: Detekt
-        run: gradle detekt
       - name: Tests
         run: gradle test

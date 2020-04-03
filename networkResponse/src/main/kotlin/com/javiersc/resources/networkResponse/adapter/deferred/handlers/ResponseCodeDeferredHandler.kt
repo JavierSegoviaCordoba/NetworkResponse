@@ -1,7 +1,6 @@
 package com.javiersc.resources.networkResponse.adapter.deferred.handlers
 
 import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.NetworkResponse.Success.NoContent
 import com.javiersc.resources.networkResponse.adapter.utils.printlnError
 import kotlinx.coroutines.CompletableDeferred
 import okhttp3.Headers
@@ -30,10 +29,9 @@ internal fun <R : Any, E : Any> Response<R>.responseDeferredHandler(
     }
 
     @Suppress("MagicNumber")
-    when {
-        body == null && code in 200..299 -> deferred.complete(NoContent(headers))
-        body != null && code in 200..299 -> handle2xx(deferred, code, body, headers)
-        code in 100..599 -> handleAllNoSuccess(deferred, code, errorBody, headers)
+    when (code) {
+        in 200..299 -> handle2xx(deferred, code, body, headers)
+        in 100..599 -> handleAllNoSuccess(deferred, code, errorBody, headers)
         else -> deferred.complete(NetworkResponse.CustomError(errorBody, code, headers))
     }
 }

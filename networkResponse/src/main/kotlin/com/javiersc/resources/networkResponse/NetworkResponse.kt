@@ -9,8 +9,6 @@ sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
     sealed class Info : NetworkResponse<@CS Nothing, @CS Nothing>() {
-        @Serializable
-        data class Any(val code: Int, val headers: @CS Headers? = null) : Info()
 
         @Serializable
         data class Continue(val headers: @CS Headers? = null) : Info()
@@ -30,12 +28,6 @@ sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
     sealed class Success<out NR> : NetworkResponse<NR, @CS Nothing>() {
-        @Serializable
-        data class Any<out NR>(
-            val value: NR? = null,
-            val code: Int,
-            val headers: @CS Headers? = null
-        ) : Success<NR>()
 
         @Serializable
         data class OK<out NR>(val value: NR, val headers: @CS Headers? = null) : Success<NR>()
@@ -81,7 +73,7 @@ sealed class NetworkResponse<out NR, out E> {
 
         @Serializable
         data class Custom<out NR>(
-            val value: NR? = null,
+            val value: NR,
             val code: Int? = null,
             val headers: @CS Headers? = null
         ) : Success<NR>()
@@ -89,8 +81,6 @@ sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
     sealed class Redirection : NetworkResponse<@CS Nothing, @CS Nothing>() {
-        @Serializable
-        data class Any(val code: Int, val headers: @CS Headers? = null) : Redirection()
 
         @Serializable
         data class MultipleChoices(val headers: @CS Headers? = null) : Redirection()
@@ -125,12 +115,6 @@ sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
     sealed class ClientError<out E> : NetworkResponse<@CS Nothing, E>() {
-        @Serializable
-        data class Any<out E>(
-            val error: E? = null,
-            val code: Int,
-            val headers: @CS Headers? = null
-        ) : ClientError<E>()
 
         @Serializable
         data class BadRequest<out E>(
@@ -310,12 +294,6 @@ sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
     sealed class ServerError<out E> : NetworkResponse<@CS Nothing, E>() {
-        @Serializable
-        data class Any<out E>(
-            val error: E? = null,
-            val code: Int,
-            val headers: @CS Headers? = null
-        ) : ServerError<E>()
 
         @Serializable
         data class InternalServerError<out E>(

@@ -64,13 +64,13 @@ import com.javiersc.resources.networkResponse.NetworkResponse.Success.NonAuthori
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.OK
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.PartialContent
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.ResetContent
-import com.javiersc.resources.networkResponse.StatusCode.ACCEPTED
-import com.javiersc.resources.networkResponse.StatusCode.ALREADY_REPORTED
+import com.javiersc.resources.networkResponse.StatusCode.ACCEPTED_202
+import com.javiersc.resources.networkResponse.StatusCode.ALREADY_REPORTED_208
 import com.javiersc.resources.networkResponse.StatusCode.BAD_GATEWAY
 import com.javiersc.resources.networkResponse.StatusCode.BAD_REQUEST
 import com.javiersc.resources.networkResponse.StatusCode.CONFLICT
 import com.javiersc.resources.networkResponse.StatusCode.CONTINUE_100
-import com.javiersc.resources.networkResponse.StatusCode.CREATED
+import com.javiersc.resources.networkResponse.StatusCode.CREATED_201
 import com.javiersc.resources.networkResponse.StatusCode.EARLY_HINTS_103
 import com.javiersc.resources.networkResponse.StatusCode.EXPECTATION_FAILED
 import com.javiersc.resources.networkResponse.StatusCode.FAILED_DEPENDENCY
@@ -80,7 +80,7 @@ import com.javiersc.resources.networkResponse.StatusCode.GATEWAY_TIMEOUT
 import com.javiersc.resources.networkResponse.StatusCode.GONE
 import com.javiersc.resources.networkResponse.StatusCode.HTTP_VERSION_NOT_SUPPORTED
 import com.javiersc.resources.networkResponse.StatusCode.IM_A_TEAPOT
-import com.javiersc.resources.networkResponse.StatusCode.IM_USED
+import com.javiersc.resources.networkResponse.StatusCode.IM_USED_226
 import com.javiersc.resources.networkResponse.StatusCode.INSUFFICIENT_STORAGE
 import com.javiersc.resources.networkResponse.StatusCode.INTERNAL_SERVER_ERROR
 import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED
@@ -90,17 +90,17 @@ import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED
 import com.javiersc.resources.networkResponse.StatusCode.MISDIRECTED_REQUEST
 import com.javiersc.resources.networkResponse.StatusCode.MOVED_PERMANENTLY_301
 import com.javiersc.resources.networkResponse.StatusCode.MULTIPLE_CHOICE_300
-import com.javiersc.resources.networkResponse.StatusCode.MULTI_STATUS
+import com.javiersc.resources.networkResponse.StatusCode.MULTI_STATUS_207
 import com.javiersc.resources.networkResponse.StatusCode.NETWORK_AUTHENTICATION_REQUIRED
-import com.javiersc.resources.networkResponse.StatusCode.NON_AUTHORITATIVE_INFORMATION
+import com.javiersc.resources.networkResponse.StatusCode.NON_AUTHORITATIVE_INFORMATION_203
 import com.javiersc.resources.networkResponse.StatusCode.NOT_ACCEPTABLE
 import com.javiersc.resources.networkResponse.StatusCode.NOT_EXTENDED
 import com.javiersc.resources.networkResponse.StatusCode.NOT_FOUND
 import com.javiersc.resources.networkResponse.StatusCode.NOT_IMPLEMENTED
 import com.javiersc.resources.networkResponse.StatusCode.NOT_MODIFIED_304
-import com.javiersc.resources.networkResponse.StatusCode.NO_CONTENT
-import com.javiersc.resources.networkResponse.StatusCode.OK
-import com.javiersc.resources.networkResponse.StatusCode.PARTIAL_CONTENT
+import com.javiersc.resources.networkResponse.StatusCode.NO_CONTENT_204
+import com.javiersc.resources.networkResponse.StatusCode.OK_200
+import com.javiersc.resources.networkResponse.StatusCode.PARTIAL_CONTENT_206
 import com.javiersc.resources.networkResponse.StatusCode.PAYLOAD_TOO_LARGE
 import com.javiersc.resources.networkResponse.StatusCode.PAYMENT_REQUIRED
 import com.javiersc.resources.networkResponse.StatusCode.PERMANENT_REDIRECT_308
@@ -111,7 +111,7 @@ import com.javiersc.resources.networkResponse.StatusCode.PROXY_AUTHENTICATION_RE
 import com.javiersc.resources.networkResponse.StatusCode.REQUESTED_RANGE_NOT_SATISFIABLE
 import com.javiersc.resources.networkResponse.StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE
 import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT
-import com.javiersc.resources.networkResponse.StatusCode.RESET_CONTENT
+import com.javiersc.resources.networkResponse.StatusCode.RESET_CONTENT_205
 import com.javiersc.resources.networkResponse.StatusCode.SEE_OTHER_303
 import com.javiersc.resources.networkResponse.StatusCode.SERVICE_UNAVAILABLE
 import com.javiersc.resources.networkResponse.StatusCode.SWITCHING_PROTOCOL_101
@@ -162,25 +162,30 @@ internal fun <R : Any, E : Any> handle1xx(
     }
 }
 
+@Suppress("ComplexMethod")
 internal fun <R : Any, E : Any> handle2xx(
     call: NetworkResponseSuspendCall<R, E>,
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
-    body: R,
+    body: R?,
     headers: Headers?
 ) = with(callback) {
-    when (code) {
-        OK -> onResponse(call, Response.success(OK(body, headers)))
-        CREATED -> onResponse(call, Response.success(Created(body, headers)))
-        ACCEPTED -> onResponse(call, Response.success(Accepted(body, headers)))
-        NON_AUTHORITATIVE_INFORMATION ->
+    if (body == null) when (code) {
+        NO_CONTENT_204 -> onResponse(call, Response.success(NoContent(headers)))
+        RESET_CONTENT_205 -> onResponse(call, Response.success(ResetContent(headers)))
+        else -> onResponse(call, Response.success(NoContent(headers)))
+    } else when (code) {
+        OK_200 -> onResponse(call, Response.success(OK(body, headers)))
+        CREATED_201 -> onResponse(call, Response.success(Created(body, headers)))
+        ACCEPTED_202 -> onResponse(call, Response.success(Accepted(body, headers)))
+        NON_AUTHORITATIVE_INFORMATION_203 ->
             onResponse(call, Response.success(NonAuthoritativeInformation(body, headers)))
-        NO_CONTENT -> onResponse(call, Response.success(NoContent(headers)))
-        RESET_CONTENT -> onResponse(call, Response.success(ResetContent(headers)))
-        PARTIAL_CONTENT -> onResponse(call, Response.success(PartialContent(body, headers)))
-        MULTI_STATUS -> onResponse(call, Response.success(MultiStatus(body, headers)))
-        ALREADY_REPORTED -> onResponse(call, Response.success(AlreadyReported(body, headers)))
-        IM_USED -> onResponse(call, Response.success(ImUsed(body, headers)))
+        NO_CONTENT_204 -> onResponse(call, Response.success(NoContent(headers)))
+        RESET_CONTENT_205 -> onResponse(call, Response.success(ResetContent(headers)))
+        PARTIAL_CONTENT_206 -> onResponse(call, Response.success(PartialContent(body, headers)))
+        MULTI_STATUS_207 -> onResponse(call, Response.success(MultiStatus(body, headers)))
+        ALREADY_REPORTED_208 -> onResponse(call, Response.success(AlreadyReported(body, headers)))
+        IM_USED_226 -> onResponse(call, Response.success(ImUsed(body, headers)))
         else -> onResponse(call, Response.success(Custom(body, code, headers)))
     }
 }

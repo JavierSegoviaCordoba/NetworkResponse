@@ -13,6 +13,6 @@ object Plugins {
     const val bintray = "com.jfrog.bintray"
     const val mavenPublish = "maven-publish"
 
-    const val versions = "com.github.ben-manes.versions"
+    const val gradleVersions = "com.github.ben-manes.versions"
     const val detekt = "io.gitlab.arturbosch.detekt"
 }

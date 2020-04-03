@@ -9,5 +9,5 @@ val DependencyHandler.projects: Projects
 class Projects(
   dh: DependencyHandler
 ) {
-  val retrofitNetworkResponse: Dependency = dh.project(":retrofitNetworkResponse")
+  val networkResponse: Dependency = dh.project(":networkResponse")
 }

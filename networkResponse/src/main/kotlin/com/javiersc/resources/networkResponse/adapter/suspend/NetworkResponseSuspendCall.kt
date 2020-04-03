@@ -1,12 +1,16 @@
 package com.javiersc.resources.networkResponse.adapter.suspend
 
 import com.javiersc.resources.networkResponse.NetworkResponse
+import com.javiersc.resources.networkResponse.NetworkResponse.InternetNotAvailable
+import com.javiersc.resources.networkResponse.NetworkResponse.RemoteError
 import com.javiersc.resources.networkResponse.adapter.suspend.handlers.httpExceptionSuspendHandler
 import com.javiersc.resources.networkResponse.adapter.suspend.handlers.responseSuspendHandler
-import com.javiersc.resources.networkResponse.adapter.utils.Constants
+import com.javiersc.resources.networkResponse.adapter.utils.hasBody
 import com.javiersc.resources.networkResponse.adapter.utils.isInternetAvailable
 import com.javiersc.resources.networkResponse.adapter.utils.printlnError
 import com.javiersc.resources.networkResponse.adapter.utils.printlnWarning
+import kotlinx.serialization.json.JsonDecodingException
+import kotlinx.serialization.json.JsonException
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
@@ -16,9 +20,9 @@ import retrofit2.Converter
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.EOFException
+import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.UnknownHostException
-import java.util.concurrent.TimeUnit
 
 internal class NetworkResponseSuspendCall<R : Any, E : Any>(
     private val backingCall: Call<R>,
@@ -38,11 +42,14 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
 
             override fun onFailure(call: Call<R>, throwable: Throwable) {
                 when (throwable) {
-                    is UnknownHostException -> onUnknownHostException(callback, throwable)
+                    is UnknownHostException, is ConnectException, is InterruptedIOException ->
+                        onCommonConnectionExceptions(callback, throwable)
                     is EOFException -> onEOFException(callback)
                     is IllegalStateException -> onIllegalStateException(throwable)
-                    is ConnectException -> onConnectionException(callback, throwable)
                     is HttpException -> onHttpException(callback, errorConverter, throwable)
+                    is JsonDecodingException ->
+                        if (throwable.hasBody) onIllegalStateException(throwable)
+                        else onEOFException(callback)
                     else -> throw UnknownError("${throwable.message}")
                 }
             }
@@ -63,66 +70,43 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
 
     override fun request(): Request = backingCall.request()
 
-    private fun onEOFException(callback: Callback<NetworkResponse<R, E>>) {
-        printlnWarning(
-            """
-               | # # # # # # # # # # # # # # WARNING # # # # # # # # # # # # # # # # # # #
-               | # Every 2XX response should have a body except 204/205, as the response #
-               | # was empty, the NetworkResponse is transformed to NoContent (204)      #
-               | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-               """.trimMargin()
-        )
-        callback.onResponse(
-            this,
-            Response.success(NetworkResponse.Success.NoContent(headers = null))
-        )
-    }
-
-    private fun onIllegalStateException(throwable: Throwable) {
-        printlnError(
-            """
-               | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # #
-               | # Response body can't be serialized with the object provided" #
-               | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-               """.trimMargin()
-        )
-        throw IllegalStateException(throwable.localizedMessage)
-    }
-
-    override fun timeout(): Timeout = Timeout().timeout(Constants.TIMEOUT, TimeUnit.SECONDS)
+    override fun timeout(): Timeout = backingCall.timeout()
 }
 
-private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onConnectionException(
+private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback<NetworkResponse<R, E>>) {
+    printlnWarning(
+        """
+           | # # # # # # # # # # # # # # WARNING # # # # # # # # # # # # # # # # # # #
+           | # Every 2XX response should have a body except 204/205, as the response #
+           | # was empty, the NetworkResponse is transformed to NoContent (204)      #
+           | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        """.trimMargin()
+    )
+    callback.onResponse(this, Response.success(NetworkResponse.Success.NoContent(headers = null)))
+}
+
+private fun onIllegalStateException(throwable: Throwable) {
+    printlnError(
+        """
+           | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # #
+           | # Response body can't be serialized with the object provided" #
+           | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        """.trimMargin()
+    )
+    throw JsonException(throwable.localizedMessage)
+}
+
+private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnectionExceptions(
     callback: Callback<NetworkResponse<R, E>>,
     throwable: Throwable
 ) {
-    callback.onResponse(
-        this, Response.success(NetworkResponse.RemoteError(throwable.localizedMessage))
-    )
+    val message = "${throwable.message}"
+    if (isInternetAvailable) callback.onResponse(this, Response.success(RemoteError(message)))
+    else callback.onResponse(this, Response.success(InternetNotAvailable(message)))
 }
 
 private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onHttpException(
     callback: Callback<NetworkResponse<R, E>>,
     errorConverter: Converter<ResponseBody, E>,
     exception: HttpException
-) {
-    exception.httpExceptionSuspendHandler(
-        errorConverter,
-        this,
-        callback
-    )
-}
-
-private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onUnknownHostException(
-    callback: Callback<NetworkResponse<R, E>>,
-    throwable: Throwable
-) {
-    val message = "${throwable.message}"
-    if (isInternetAvailable) callback.onResponse(
-        this,
-        Response.success(NetworkResponse.RemoteError(message))
-    ) else callback.onResponse(
-        this,
-        Response.success(NetworkResponse.InternetNotAvailable(message))
-    )
-}
+) = exception.httpExceptionSuspendHandler(errorConverter, this, callback)

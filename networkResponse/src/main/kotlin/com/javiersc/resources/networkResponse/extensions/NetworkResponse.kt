@@ -55,7 +55,6 @@ import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.NotExt
 import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.NotImplemented
 import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.ServiceUnavailable
 import com.javiersc.resources.networkResponse.NetworkResponse.ServerError.VariantAlsoNegotiates
-import com.javiersc.resources.networkResponse.NetworkResponse.Success
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.Accepted
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.AlreadyReported
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.Created
@@ -77,11 +76,8 @@ inline fun <reified NR : Any,
         > NetworkResponse<NR, ErDTO>.toResource(
             crossinline success: (NR) -> R,
             crossinline error: (ErDTO?) -> Er,
-            noinline mapCustomError: ((NR?) -> R)? = null,
             noinline mapClientError: ((ErDTO?) -> Er)? = null,
             noinline mapServerError: ((ErDTO?) -> Er)? = null,
-            noinline mapCustomServerError: ((ErDTO?) -> Er)? = null,
-            noinline mapCustomClientError: ((ErDTO?) -> Er)? = null,
             noinline mapBadRequest: ((ErDTO?) -> Er)? = null,
             noinline mapUnauthorized: ((ErDTO?) -> Er)? = null,
             noinline mapPaymentRequired: ((ErDTO?) -> Er)? = null,
@@ -110,6 +106,7 @@ inline fun <reified NR : Any,
             noinline mapTooManyRequest: ((ErDTO?) -> Er)? = null,
             noinline mapRequestHeaderFieldsTooLarge: ((ErDTO?) -> Er)? = null,
             noinline mapUnavailableForLegalReasons: ((ErDTO?) -> Er)? = null,
+            noinline mapCustomClientError: ((ErDTO?) -> Er)? = null,
             noinline mapInternalServerError: ((ErDTO?) -> Er)? = null,
             noinline mapNotImplemented: ((ErDTO?) -> Er)? = null,
             noinline mapBadGateway: ((ErDTO?) -> Er)? = null,
@@ -121,7 +118,8 @@ inline fun <reified NR : Any,
             noinline mapLoopDetected: ((ErDTO?) -> Er)? = null,
             noinline mapNotExtended: ((ErDTO?) -> Er)? = null,
             noinline mapNetworkAuthenticationRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapNonGenericError: ((ErDTO?) -> Er)? = null,
+            noinline mapCustomServerError: ((ErDTO?) -> Er)? = null,
+            noinline mapCustomError: ((ErDTO?) -> Er)? = null,
             noinline mapInternetNotAvailable: ((String?) -> Er)? = null,
             noinline mapRemoteError: ((String?) -> Er)? = null
         ): Resource<R, Er> {
@@ -136,7 +134,7 @@ inline fun <reified NR : Any,
         is MultiStatus -> Resource.Success(success(value))
         is AlreadyReported -> Resource.Success(success(value))
         is ImUsed -> Resource.Success(success(value))
-        is Custom -> Resource.Success(mapCustomError?.invoke(value))
+        is Custom -> Resource.Success(success(value))
         is ClientError.Custom -> Resource.Error(
             mapCustomClientError?.invoke(this.error)
                 ?: mapServerError?.invoke(this.error)
@@ -343,18 +341,14 @@ inline fun <reified NR : Any,
                 ?: error(this.error)
         )
         is NetworkResponse.CustomError ->
-            Resource.Error(mapNonGenericError?.invoke(this.error) ?: error(this.error))
+            Resource.Error(mapCustomError?.invoke(this.error) ?: error(this.error))
         is InternetNotAvailable -> Resource.Error(mapInternetNotAvailable?.invoke(this.error))
         is RemoteError -> Resource.Error(mapRemoteError?.invoke(this.error))
-        is Info.Any -> TODO()
-        is Info.Custom -> TODO()
         is Info.Continue -> TODO()
         is Info.SwitchingProtocol -> TODO()
         is Info.Processing -> TODO()
         is Info.EarlyHints -> TODO()
-        is Success.Any -> TODO()
-        is Redirection.Any -> TODO()
-        is Redirection.Custom -> TODO()
+        is Info.Custom -> TODO()
         is MultipleChoices -> TODO()
         is MovedPermanently -> TODO()
         is Found -> TODO()
@@ -364,7 +358,6 @@ inline fun <reified NR : Any,
         is SwitchProxy -> TODO()
         is TemporaryRedirect -> TODO()
         is PermanentRedirect -> TODO()
-        is ClientError.Any -> TODO()
-        is ServerError.Any -> TODO()
+        is Redirection.Custom -> TODO()
     }
 }

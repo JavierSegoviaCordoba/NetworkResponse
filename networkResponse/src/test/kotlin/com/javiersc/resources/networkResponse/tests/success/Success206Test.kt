@@ -1,7 +1,7 @@
 package com.javiersc.resources.networkResponse.tests.success
 
 import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.NetworkResponse.Success.OK
+import com.javiersc.resources.networkResponse.NetworkResponse.Success.PartialContent
 import com.javiersc.resources.networkResponse.StatusCode
 import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.Error
@@ -14,15 +14,16 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
-internal class Success200Test : BaseTest<Dog> {
+internal class Success206Test : BaseTest<Dog> {
 
-    override val codeToFile: Pair<Int, String?> get() = StatusCode.OK_200 to "200.json"
-    override val expected = Dog(0, "Roni", 4)
+    override val codeToFile: Pair<Int, String?>
+        get() = StatusCode.PARTIAL_CONTENT_206 to "206.json"
+    override val expected = Dog(3, "Auriti", 7)
 
     @Test
     fun `suspend call`() = runBlocking {
         val response: NetworkResponse<Dog, Error> = service.getDog()
-        val dog: Dog = (response as OK).value
+        val dog: Dog = (response as PartialContent).value
         dog shouldBe expected
     }
 
@@ -30,7 +31,7 @@ internal class Success200Test : BaseTest<Dog> {
     fun `async call`() = runBlocking {
         val deferredResponse: Deferred<NetworkResponse<Dog, Error>> = service.getDogAsync()
         val response: NetworkResponse<Dog, Error> = deferredResponse.await()
-        val dog: Dog = (response as OK).value
+        val dog: Dog = (response as PartialContent).value
         dog shouldBe expected
     }
 

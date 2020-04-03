@@ -1,7 +1,7 @@
 
 object Versions {
-    const val versions = "0.28.0"
-    const val detekt = "1.7.3"
+    const val gradleVersions = "0.28.0"
+    const val detekt = "1.7.4"
     const val kotlin = "1.3.71"
     const val coroutines = "1.3.5"
     const val retrofit = "2.8.1"

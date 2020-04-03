@@ -2,6 +2,7 @@ package com.javiersc.resources.networkResponse.tests.success
 
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.NoContent
+import com.javiersc.resources.networkResponse.StatusCode
 import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.Error
 import com.javiersc.resources.networkResponse.config.models.unused
@@ -15,7 +16,7 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
-internal class Success204Test : BaseNullTest<Dog>(204) {
+internal class Success204Test : BaseNullTest<Dog>(StatusCode.NO_CONTENT_204) {
 
     @Test
     fun `suspend call`() = runBlocking {
