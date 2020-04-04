@@ -15,7 +15,7 @@ tasks {
         useJUnitPlatform()
         testLogging {
             setExceptionFormat("full")
-            events("passed", "skipped", "failed")
+            events("skipped", "failed")
         }
     }
     jacocoTestReport {

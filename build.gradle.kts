@@ -10,7 +10,8 @@ plugins {
 subprojects {
     tasks {
         withType<Test> {
-            maxParallelForks = Runtime.getRuntime().availableProcessors()
+            // ToFix MockWebServer with gradle parallel tests execution
+            // maxParallelForks = Runtime.getRuntime().availableProcessors()
             useJUnitPlatform()
             useTestNG()
         }
@@ -32,10 +33,6 @@ allprojects {
         toolVersion = Versions.detekt
         ignoreFailures = true
         autoCorrect = true
-    }
-
-    tasks {
-        withType<Test> { maxParallelForks = Runtime.getRuntime().availableProcessors() }
     }
 
     tasks {
