@@ -69,59 +69,60 @@ import com.javiersc.resources.networkResponse.NetworkResponse.Success.ResetConte
 import com.javiersc.resources.resource.Resource
 
 @Suppress("LongParameterList", "ComplexMethod", "LongMethod")
-inline fun <reified NR : Any,
+inline fun <
+        reified NR : Any,
         reified R : Any,
         reified ErDTO : Any?,
         reified Er : Any
         > NetworkResponse<NR, ErDTO>.toResource(
             crossinline success: (NR) -> R,
             crossinline error: (ErDTO?) -> Er,
-            noinline mapClientError: ((ErDTO?) -> Er)? = null,
-            noinline mapServerError: ((ErDTO?) -> Er)? = null,
-            noinline mapBadRequest: ((ErDTO?) -> Er)? = null,
-            noinline mapUnauthorized: ((ErDTO?) -> Er)? = null,
-            noinline mapPaymentRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapForbidden: ((ErDTO?) -> Er)? = null,
-            noinline mapNotFound: ((ErDTO?) -> Er)? = null,
-            noinline mapMethodNotAllowed: ((ErDTO?) -> Er)? = null,
-            noinline mapNotAcceptable: ((ErDTO?) -> Er)? = null,
-            noinline mapProxyAuthenticationRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapRequestTimeout: ((ErDTO?) -> Er)? = null,
-            noinline mapConflict: ((ErDTO?) -> Er)? = null,
-            noinline mapGone: ((ErDTO?) -> Er)? = null,
-            noinline mapLengthRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapPreconditionFailed: ((ErDTO?) -> Er)? = null,
-            noinline mapPayloadTooLarge: ((ErDTO?) -> Er)? = null,
-            noinline mapURITooLong: ((ErDTO?) -> Er)? = null,
-            noinline mapUnsupportedMediaType: ((ErDTO?) -> Er)? = null,
-            noinline mapRequestedRangeNotSatisfiable: ((ErDTO?) -> Er)? = null,
-            noinline mapExpectationFailed: ((ErDTO?) -> Er)? = null,
-            noinline mapImATeapot: ((ErDTO?) -> Er)? = null,
-            noinline mapMisdirectedRequest: ((ErDTO?) -> Er)? = null,
-            noinline mapUnprocessableEntity: ((ErDTO?) -> Er)? = null,
-            noinline mapLocked: ((ErDTO?) -> Er)? = null,
-            noinline mapFailedDependency: ((ErDTO?) -> Er)? = null,
-            noinline mapUpgradeRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapPreconditionRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapTooManyRequest: ((ErDTO?) -> Er)? = null,
-            noinline mapRequestHeaderFieldsTooLarge: ((ErDTO?) -> Er)? = null,
-            noinline mapUnavailableForLegalReasons: ((ErDTO?) -> Er)? = null,
-            noinline mapCustomClientError: ((ErDTO?) -> Er)? = null,
-            noinline mapInternalServerError: ((ErDTO?) -> Er)? = null,
-            noinline mapNotImplemented: ((ErDTO?) -> Er)? = null,
-            noinline mapBadGateway: ((ErDTO?) -> Er)? = null,
-            noinline mapServiceUnavailable: ((ErDTO?) -> Er)? = null,
-            noinline mapGatewayTimeout: ((ErDTO?) -> Er)? = null,
-            noinline mapHTTPVersionNotSupported: ((ErDTO?) -> Er)? = null,
-            noinline mapVariantAlsoNegotiates: ((ErDTO?) -> Er)? = null,
-            noinline mapInsufficientStorage: ((ErDTO?) -> Er)? = null,
-            noinline mapLoopDetected: ((ErDTO?) -> Er)? = null,
-            noinline mapNotExtended: ((ErDTO?) -> Er)? = null,
-            noinline mapNetworkAuthenticationRequired: ((ErDTO?) -> Er)? = null,
-            noinline mapCustomServerError: ((ErDTO?) -> Er)? = null,
-            noinline mapCustomError: ((ErDTO?) -> Er)? = null,
-            noinline mapInternetNotAvailable: ((String?) -> Er)? = null,
-            noinline mapRemoteError: ((String?) -> Er)? = null
+            noinline clientError: ((ErDTO?) -> Er)? = null,
+            noinline serverError: ((ErDTO?) -> Er)? = null,
+            noinline badRequest: ((ErDTO?) -> Er)? = null,
+            noinline unauthorized: ((ErDTO?) -> Er)? = null,
+            noinline paymentRequired: ((ErDTO?) -> Er)? = null,
+            noinline forbidden: ((ErDTO?) -> Er)? = null,
+            noinline notFound: ((ErDTO?) -> Er)? = null,
+            noinline methodNotAllowed: ((ErDTO?) -> Er)? = null,
+            noinline notAcceptable: ((ErDTO?) -> Er)? = null,
+            noinline proxyAuthenticationRequired: ((ErDTO?) -> Er)? = null,
+            noinline requestTimeout: ((ErDTO?) -> Er)? = null,
+            noinline conflict: ((ErDTO?) -> Er)? = null,
+            noinline gone: ((ErDTO?) -> Er)? = null,
+            noinline lengthRequired: ((ErDTO?) -> Er)? = null,
+            noinline preconditionFailed: ((ErDTO?) -> Er)? = null,
+            noinline payloadTooLarge: ((ErDTO?) -> Er)? = null,
+            noinline uriTooLong: ((ErDTO?) -> Er)? = null,
+            noinline unsupportedMediaType: ((ErDTO?) -> Er)? = null,
+            noinline requestedRangeNotSatisfiable: ((ErDTO?) -> Er)? = null,
+            noinline expectationFailed: ((ErDTO?) -> Er)? = null,
+            noinline imATeapot: ((ErDTO?) -> Er)? = null,
+            noinline misdirectedRequest: ((ErDTO?) -> Er)? = null,
+            noinline unprocessableEntity: ((ErDTO?) -> Er)? = null,
+            noinline locked: ((ErDTO?) -> Er)? = null,
+            noinline failedDependency: ((ErDTO?) -> Er)? = null,
+            noinline upgradeRequired: ((ErDTO?) -> Er)? = null,
+            noinline preconditionRequired: ((ErDTO?) -> Er)? = null,
+            noinline tooManyRequest: ((ErDTO?) -> Er)? = null,
+            noinline requestHeaderFieldsTooLarge: ((ErDTO?) -> Er)? = null,
+            noinline unavailableForLegalReasons: ((ErDTO?) -> Er)? = null,
+            noinline customClientError: ((ErDTO?) -> Er)? = null,
+            noinline internalServerError: ((ErDTO?) -> Er)? = null,
+            noinline notImplemented: ((ErDTO?) -> Er)? = null,
+            noinline badGateway: ((ErDTO?) -> Er)? = null,
+            noinline serviceUnavailable: ((ErDTO?) -> Er)? = null,
+            noinline gatewayTimeout: ((ErDTO?) -> Er)? = null,
+            noinline httpVersionNotSupported: ((ErDTO?) -> Er)? = null,
+            noinline variantAlsoNegotiates: ((ErDTO?) -> Er)? = null,
+            noinline insufficientStorage: ((ErDTO?) -> Er)? = null,
+            noinline loopDetected: ((ErDTO?) -> Er)? = null,
+            noinline notExtended: ((ErDTO?) -> Er)? = null,
+            noinline networkAuthenticationRequired: ((ErDTO?) -> Er)? = null,
+            noinline customServerError: ((ErDTO?) -> Er)? = null,
+            noinline customError: ((ErDTO?) -> Er)? = null,
+            noinline internetNotAvailable: ((String?) -> Er)? = null,
+            noinline remoteError: ((String?) -> Er)? = null
         ): Resource<R, Er> {
     return when (this) {
         is OK -> Resource.Success(success(value))
@@ -136,214 +137,214 @@ inline fun <reified NR : Any,
         is ImUsed -> Resource.Success(success(value))
         is Custom -> Resource.Success(success(value))
         is ClientError.Custom -> Resource.Error(
-            mapCustomClientError?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            customClientError?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is BadRequest -> Resource.Error(
-            mapBadRequest?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            badRequest?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is Unauthorized -> Resource.Error(
-            mapUnauthorized?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            unauthorized?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is PaymentRequired -> Resource.Error(
-            mapPaymentRequired?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            paymentRequired?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is Forbidden -> Resource.Error(
-            mapForbidden?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            forbidden?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is NotFound -> Resource.Error(
-            mapNotFound?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            notFound?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is MethodNotAllowed -> Resource.Error(
-            mapMethodNotAllowed?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            methodNotAllowed?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is NotAcceptable -> Resource.Error(
-            mapNotAcceptable?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            notAcceptable?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is ProxyAuthenticationRequired -> Resource.Error(
-            mapProxyAuthenticationRequired?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            proxyAuthenticationRequired?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is RequestTimeout -> Resource.Error(
-            mapRequestTimeout?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            requestTimeout?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is Conflict -> Resource.Error(
-            mapConflict?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            conflict?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is Gone -> Resource.Error(
-            mapGone?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            gone?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is LengthRequired -> Resource.Error(
-            mapLengthRequired?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            lengthRequired?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is PreconditionFailed -> Resource.Error(
-            mapPreconditionFailed?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            preconditionFailed?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is PayloadTooLarge -> Resource.Error(
-            mapPayloadTooLarge?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            payloadTooLarge?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is UriTooLong -> Resource.Error(
-            mapURITooLong?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            uriTooLong?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is UnsupportedMediaType -> Resource.Error(
-            mapUnsupportedMediaType?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            unsupportedMediaType?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is RequestedRangeNotSatisfiable -> Resource.Error(
-            mapRequestedRangeNotSatisfiable?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            requestedRangeNotSatisfiable?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is ExpectationFailed -> Resource.Error(
-            mapExpectationFailed?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            expectationFailed?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is ImATeapot -> Resource.Error(
-            mapImATeapot?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            imATeapot?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is MisdirectedRequest -> Resource.Error(
-            mapMisdirectedRequest?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            misdirectedRequest?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is UnprocessableEntity -> Resource.Error(
-            mapUnprocessableEntity?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            unprocessableEntity?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is Locked -> Resource.Error(
-            mapLocked?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            locked?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is FailedDependency -> Resource.Error(
-            mapFailedDependency?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            failedDependency?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is UpgradeRequired -> Resource.Error(
-            mapUpgradeRequired?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            upgradeRequired?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is PreconditionRequired -> Resource.Error(
-            mapPreconditionRequired?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            preconditionRequired?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is TooManyRequest -> Resource.Error(
-            mapTooManyRequest?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            tooManyRequest?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is RequestHeaderFieldsTooLarge -> Resource.Error(
-            mapRequestHeaderFieldsTooLarge?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            requestHeaderFieldsTooLarge?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is UnavailableForLegalReasons -> Resource.Error(
-            mapUnavailableForLegalReasons?.invoke(this.error)
-                ?: mapClientError?.invoke(this.error)
+            unavailableForLegalReasons?.invoke(this.error)
+                ?: clientError?.invoke(this.error)
                 ?: error(this.error)
         )
         is ServerError.Custom -> Resource.Error(
-            mapCustomServerError?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            customServerError?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is InternalServerError -> Resource.Error(
-            mapInternalServerError?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            internalServerError?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is NotImplemented -> Resource.Error(
-            mapNotImplemented?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            notImplemented?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is BadGateway -> Resource.Error(
-            mapBadGateway?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            badGateway?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is ServiceUnavailable -> Resource.Error(
-            mapServiceUnavailable?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            serviceUnavailable?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is GatewayTimeout -> Resource.Error(
-            mapGatewayTimeout?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            gatewayTimeout?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is HttpVersionNotSupported -> Resource.Error(
-            mapHTTPVersionNotSupported?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            httpVersionNotSupported?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is VariantAlsoNegotiates -> Resource.Error(
-            mapVariantAlsoNegotiates?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            variantAlsoNegotiates?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is InsufficientStorage -> Resource.Error(
-            mapInsufficientStorage?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            insufficientStorage?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is LoopDetected -> Resource.Error(
-            mapLoopDetected?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            loopDetected?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is NotExtended -> Resource.Error(
-            mapNotExtended?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            notExtended?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is NetworkAuthenticationRequired -> Resource.Error(
-            mapNetworkAuthenticationRequired?.invoke(this.error)
-                ?: mapServerError?.invoke(this.error)
+            networkAuthenticationRequired?.invoke(this.error)
+                ?: serverError?.invoke(this.error)
                 ?: error(this.error)
         )
         is NetworkResponse.CustomError ->
-            Resource.Error(mapCustomError?.invoke(this.error) ?: error(this.error))
-        is InternetNotAvailable -> Resource.Error(mapInternetNotAvailable?.invoke(this.error))
-        is RemoteError -> Resource.Error(mapRemoteError?.invoke(this.error))
+            Resource.Error(customError?.invoke(this.error) ?: error(this.error))
+        is InternetNotAvailable -> Resource.Error(internetNotAvailable?.invoke(this.error))
+        is RemoteError -> Resource.Error(remoteError?.invoke(this.error))
         is Info.Continue -> TODO()
         is Info.SwitchingProtocol -> TODO()
         is Info.Processing -> TODO()

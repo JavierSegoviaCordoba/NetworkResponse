@@ -47,7 +47,7 @@ internal class Error404Test : BaseTest<Error> {
     @Test
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::unused, mapNotFound = Error?::text)
+            service.getDog().toResource(Dog::name, Error?::unused, notFound = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }

@@ -40,7 +40,7 @@ internal class RemoteErrorTest : BaseTest<String> {
     fun `mapping NetworkResponse to Resource`() = runBlocking {
         val response: NetworkResponse<Dog, Error> = service.getDog()
         val resource: Resource<String, String> =
-            response.toResource(Dog::unused, Error?::unused, mapRemoteError = { expected })
+            response.toResource(Dog::unused, Error?::unused, remoteError = { expected })
         val error = (resource as Resource.Error).error
         error shouldBe expected
     }

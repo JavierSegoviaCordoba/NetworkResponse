@@ -48,7 +48,7 @@ internal class Error402Test : BaseTest<Error> {
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
             service.getDog()
-                .toResource(Dog::name, Error?::unused, mapPaymentRequired = Error?::text)
+                .toResource(Dog::name, Error?::unused, paymentRequired = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }
