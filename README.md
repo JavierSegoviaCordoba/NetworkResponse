@@ -1,4 +1,4 @@
-[comment]: [![Download](https://api.bintray.com/packages/javiersegoviacordoba/NetworkResponse/NetworkResponse/images/download.svg)](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion)
+[![Download](https://api.bintray.com/packages/javiersegoviacordoba/Resources/NetworkResponse/images/download.svg) ](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion)
 ![Build](https://github.com/JavierSegoviaCordoba/NetworkResponse/workflows/Build/badge.svg)
 ![coverage](https://img.shields.io/codecov/c/github/javiersegoviacordoba/networkResponse)
 
