@@ -8,5 +8,9 @@ internal fun Any.readResource(jsonFileName: String): String {
 
 internal fun mockResponse(codeToFile: Pair<Int, String?>): MockResponse {
     val (code: Int, file: String?) = codeToFile
-    return MockResponse().apply { setResponseCode(code); file?.let { setBody(readResource(it)) } }
+    return MockResponse().apply {
+        setResponseCode(code)
+        file?.let { setBody(readResource(it)) }
+        setHeader("Token", 1234)
+    }
 }

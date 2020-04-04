@@ -67,50 +67,50 @@ import com.javiersc.resources.networkResponse.NetworkResponse.Success.ResetConte
 import com.javiersc.resources.networkResponse.StatusCode.ACCEPTED_202
 import com.javiersc.resources.networkResponse.StatusCode.ALREADY_REPORTED_208
 import com.javiersc.resources.networkResponse.StatusCode.BAD_GATEWAY
-import com.javiersc.resources.networkResponse.StatusCode.BAD_REQUEST
-import com.javiersc.resources.networkResponse.StatusCode.CONFLICT
+import com.javiersc.resources.networkResponse.StatusCode.BAD_REQUEST_400
+import com.javiersc.resources.networkResponse.StatusCode.CONFLICT_409
 import com.javiersc.resources.networkResponse.StatusCode.CONTINUE_100
 import com.javiersc.resources.networkResponse.StatusCode.CREATED_201
 import com.javiersc.resources.networkResponse.StatusCode.EARLY_HINTS_103
 import com.javiersc.resources.networkResponse.StatusCode.EXPECTATION_FAILED
 import com.javiersc.resources.networkResponse.StatusCode.FAILED_DEPENDENCY
-import com.javiersc.resources.networkResponse.StatusCode.FORBIDDEN
+import com.javiersc.resources.networkResponse.StatusCode.FORBIDDEN_403
 import com.javiersc.resources.networkResponse.StatusCode.FOUND_302
 import com.javiersc.resources.networkResponse.StatusCode.GATEWAY_TIMEOUT
-import com.javiersc.resources.networkResponse.StatusCode.GONE
+import com.javiersc.resources.networkResponse.StatusCode.GONE_410
 import com.javiersc.resources.networkResponse.StatusCode.HTTP_VERSION_NOT_SUPPORTED
 import com.javiersc.resources.networkResponse.StatusCode.IM_A_TEAPOT
 import com.javiersc.resources.networkResponse.StatusCode.IM_USED_226
 import com.javiersc.resources.networkResponse.StatusCode.INSUFFICIENT_STORAGE
 import com.javiersc.resources.networkResponse.StatusCode.INTERNAL_SERVER_ERROR
-import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED_411
 import com.javiersc.resources.networkResponse.StatusCode.LOCKED
 import com.javiersc.resources.networkResponse.StatusCode.LOOP_DETECTED
-import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED
+import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED_405
 import com.javiersc.resources.networkResponse.StatusCode.MISDIRECTED_REQUEST
 import com.javiersc.resources.networkResponse.StatusCode.MOVED_PERMANENTLY_301
 import com.javiersc.resources.networkResponse.StatusCode.MULTIPLE_CHOICE_300
 import com.javiersc.resources.networkResponse.StatusCode.MULTI_STATUS_207
 import com.javiersc.resources.networkResponse.StatusCode.NETWORK_AUTHENTICATION_REQUIRED
 import com.javiersc.resources.networkResponse.StatusCode.NON_AUTHORITATIVE_INFORMATION_203
-import com.javiersc.resources.networkResponse.StatusCode.NOT_ACCEPTABLE
+import com.javiersc.resources.networkResponse.StatusCode.NOT_ACCEPTABLE_406
 import com.javiersc.resources.networkResponse.StatusCode.NOT_EXTENDED
-import com.javiersc.resources.networkResponse.StatusCode.NOT_FOUND
+import com.javiersc.resources.networkResponse.StatusCode.NOT_FOUND_404
 import com.javiersc.resources.networkResponse.StatusCode.NOT_IMPLEMENTED
 import com.javiersc.resources.networkResponse.StatusCode.NOT_MODIFIED_304
 import com.javiersc.resources.networkResponse.StatusCode.NO_CONTENT_204
 import com.javiersc.resources.networkResponse.StatusCode.OK_200
 import com.javiersc.resources.networkResponse.StatusCode.PARTIAL_CONTENT_206
 import com.javiersc.resources.networkResponse.StatusCode.PAYLOAD_TOO_LARGE
-import com.javiersc.resources.networkResponse.StatusCode.PAYMENT_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.PAYMENT_REQUIRED_402
 import com.javiersc.resources.networkResponse.StatusCode.PERMANENT_REDIRECT_308
 import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_FAILED
 import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_REQUIRED
 import com.javiersc.resources.networkResponse.StatusCode.PROCESSING_102
-import com.javiersc.resources.networkResponse.StatusCode.PROXY_AUTHENTICATION_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.PROXY_AUTHENTICATION_REQUIRED_407
 import com.javiersc.resources.networkResponse.StatusCode.REQUESTED_RANGE_NOT_SATISFIABLE
 import com.javiersc.resources.networkResponse.StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE
-import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT
+import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT_408
 import com.javiersc.resources.networkResponse.StatusCode.RESET_CONTENT_205
 import com.javiersc.resources.networkResponse.StatusCode.SEE_OTHER_303
 import com.javiersc.resources.networkResponse.StatusCode.SERVICE_UNAVAILABLE
@@ -118,7 +118,7 @@ import com.javiersc.resources.networkResponse.StatusCode.SWITCHING_PROTOCOL_101
 import com.javiersc.resources.networkResponse.StatusCode.SWITCH_PROXY_306
 import com.javiersc.resources.networkResponse.StatusCode.TEMPORARY_REDIRECT_307
 import com.javiersc.resources.networkResponse.StatusCode.TOO_MANY_REQUEST
-import com.javiersc.resources.networkResponse.StatusCode.UNAUTHORIZED
+import com.javiersc.resources.networkResponse.StatusCode.UNAUTHORIZED_401
 import com.javiersc.resources.networkResponse.StatusCode.UNAVAILABLE_FOR_LEGAL_REASONS
 import com.javiersc.resources.networkResponse.StatusCode.UNPROCESSABLE_ENTITY
 import com.javiersc.resources.networkResponse.StatusCode.UNSUPPORTED_MEDIA_TYPE
@@ -126,6 +126,7 @@ import com.javiersc.resources.networkResponse.StatusCode.UPGRADE_REQUIRED
 import com.javiersc.resources.networkResponse.StatusCode.URI_TOO_LONG
 import com.javiersc.resources.networkResponse.StatusCode.USE_PROXY_305
 import com.javiersc.resources.networkResponse.StatusCode.VARIANT_ALSO_NEGOTIATES
+import com.javiersc.resources.networkResponse.statusCode
 import kotlinx.coroutines.CompletableDeferred
 import okhttp3.Headers
 
@@ -149,7 +150,7 @@ internal fun <R, E> handle1xx(
     code: Int,
     headers: Headers?
 ) = with(deferred) {
-    when (code) {
+    when (code.statusCode) {
         CONTINUE_100 -> complete(Continue(headers))
         SWITCHING_PROTOCOL_101 -> complete(SwitchingProtocol(headers))
         PROCESSING_102 -> complete(Processing(headers))
@@ -165,11 +166,11 @@ internal fun <R, E> handle2xx(
     body: R?,
     headers: Headers?
 ) = with(deferred) {
-    if (body == null) when (code) {
+    if (body == null) when (code.statusCode) {
         NO_CONTENT_204 -> complete(NoContent(headers))
         RESET_CONTENT_205 -> complete(ResetContent(headers))
         else -> complete(NoContent(headers))
-    } else when (code) {
+    } else when (code.statusCode) {
         OK_200 -> complete(OK(body, headers))
         CREATED_201 -> complete(Created(body, headers))
         ACCEPTED_202 -> complete(Accepted(body, headers))
@@ -189,7 +190,7 @@ internal fun <R, E> handle3xx(
     code: Int,
     headers: Headers?
 ) = with(deferred) {
-    when (code) {
+    when (code.statusCode) {
         MULTIPLE_CHOICE_300 -> complete(MultipleChoices(headers))
         MOVED_PERMANENTLY_301 -> complete(MovedPermanently(headers))
         FOUND_302 -> complete(Found(headers))
@@ -210,19 +211,20 @@ internal fun <R, E> handle4xx(
     errorBody: E?,
     headers: Headers?
 ) = with(deferred) {
-    when (code) {
-        BAD_REQUEST -> complete(BadRequest(errorBody, headers))
-        UNAUTHORIZED -> complete(Unauthorized(errorBody, headers))
-        PAYMENT_REQUIRED -> complete(PaymentRequired(errorBody, headers))
-        FORBIDDEN -> complete(Forbidden(errorBody, headers))
-        NOT_FOUND -> complete(NotFound(errorBody, headers))
-        METHOD_NOT_ALLOWED -> complete(MethodNotAllowed(errorBody, headers))
-        NOT_ACCEPTABLE -> complete(NotAcceptable(errorBody, headers))
-        PROXY_AUTHENTICATION_REQUIRED -> complete(ProxyAuthenticationRequired(errorBody, headers))
-        REQUEST_TIMEOUT -> complete(RequestTimeout(errorBody, headers))
-        CONFLICT -> complete(Conflict(errorBody, headers))
-        GONE -> complete(Gone(errorBody, headers))
-        LENGTH_REQUIRED -> complete(LengthRequired(errorBody, headers))
+    when (code.statusCode) {
+        BAD_REQUEST_400 -> complete(BadRequest(errorBody, headers))
+        UNAUTHORIZED_401 -> complete(Unauthorized(errorBody, headers))
+        PAYMENT_REQUIRED_402 -> complete(PaymentRequired(errorBody, headers))
+        FORBIDDEN_403 -> complete(Forbidden(errorBody, headers))
+        NOT_FOUND_404 -> complete(NotFound(errorBody, headers))
+        METHOD_NOT_ALLOWED_405 -> complete(MethodNotAllowed(errorBody, headers))
+        NOT_ACCEPTABLE_406 -> complete(NotAcceptable(errorBody, headers))
+        PROXY_AUTHENTICATION_REQUIRED_407 ->
+            complete(ProxyAuthenticationRequired(errorBody, headers))
+        REQUEST_TIMEOUT_408 -> complete(RequestTimeout(errorBody, headers))
+        CONFLICT_409 -> complete(Conflict(errorBody, headers))
+        GONE_410 -> complete(Gone(errorBody, headers))
+        LENGTH_REQUIRED_411 -> complete(LengthRequired(errorBody, headers))
         PRECONDITION_FAILED -> complete(PreconditionFailed(errorBody, headers))
         PAYLOAD_TOO_LARGE -> complete(PayloadTooLarge(errorBody, headers))
         URI_TOO_LONG -> complete(UriTooLong(errorBody, headers))
@@ -251,7 +253,7 @@ internal fun <R, E> handle5xx(
     errorBody: E?,
     headers: Headers?
 ) = with(deferred) {
-    when (code) {
+    when (code.statusCode) {
         INTERNAL_SERVER_ERROR -> complete(InternalServerError(errorBody, headers))
         NOT_IMPLEMENTED -> complete(NotImplemented(errorBody, headers))
         BAD_GATEWAY -> complete(BadGateway(errorBody, headers))

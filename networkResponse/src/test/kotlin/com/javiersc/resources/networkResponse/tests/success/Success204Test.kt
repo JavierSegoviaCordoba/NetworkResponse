@@ -1,6 +1,5 @@
 package com.javiersc.resources.networkResponse.tests.success
 
-import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.NoContent
 import com.javiersc.resources.networkResponse.StatusCode
 import com.javiersc.resources.networkResponse.config.models.Dog
@@ -10,32 +9,35 @@ import com.javiersc.resources.networkResponse.extensions.toResource
 import com.javiersc.resources.networkResponse.tests.BaseNullTest
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.beOfType
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
+import okhttp3.internal.toHeaderList
 import org.junit.jupiter.api.Test
 
-internal class Success204Test : BaseNullTest<Dog>(StatusCode.NO_CONTENT_204) {
+internal class Success204Test : BaseNullTest<Dog?>(StatusCode.NO_CONTENT_204.code) {
 
     @Test
     fun `suspend call`() = runBlocking {
-        val response: NetworkResponse<Dog, Error> = service.getDog()
-        response should beOfType<NoContent<Dog>>()
+        with(service.getDog()) {
+            this should beOfType<NoContent<Dog>>()
+            (this as NoContent).headers!!.toHeaderList() shouldContain expectedHeader
+        }
     }
 
     @Test
     fun `async call`() = runBlocking {
-        val deferredResponse: Deferred<NetworkResponse<Dog, Error>> = service.getDogAsync()
-        val response: NetworkResponse<Dog, Error> = deferredResponse.await()
-        response should beOfType<NoContent<Dog>>()
+        with(service.getDogAsync().await()) {
+            this should beOfType<NoContent<Dog>>()
+            (this as NoContent).headers!!.toHeaderList() shouldContain expectedHeader
+        }
     }
 
     @Test
     fun `mapping NetworkResponse to Resource`() = runBlocking {
-        val response: NetworkResponse<Dog, Error> = service.getDog()
-        val resource: Resource<String, String> = response.toResource(Dog::unused, Error?::unused)
-        val name: String? = (resource as Resource.Success).data
-        name shouldBe null
+        val resource: Resource<String, String> =
+            service.getDog().toResource(Dog::name, Error?::unused)
+        (resource as Resource.Success).data shouldBe null
     }
 }

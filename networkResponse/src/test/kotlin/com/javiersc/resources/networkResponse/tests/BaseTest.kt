@@ -2,6 +2,7 @@ package com.javiersc.resources.networkResponse.tests
 
 import com.javiersc.resources.networkResponse.config.mockResponse
 import com.javiersc.resources.networkResponse.config.service.DogService
+import okhttp3.internal.http2.Header
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
@@ -13,6 +14,7 @@ internal interface BaseTest<T> {
     val service: DogService get() = DogService.getService(mockWebServer.url("/"))
     val codeToFile: Pair<Int, String?>
     val expected: T
+    val expectedHeader: Header get() = Header("Token", "1234")
 
     @Before
     fun `start mockWebServer`() {
@@ -34,27 +36,13 @@ internal interface BaseTest<T> {
     }
 }
 
-internal open class BaseNullTest<T>(private val code: Int) {
+internal abstract class BaseNullTest<T>(private val code: Int) : BaseTest<T?> {
 
-    private val mockWebServer: MockWebServer get() = mockWebServerSingleton
-    val service: DogService get() = DogService.getService(mockWebServer.url("/"))
-
-    @Before
-    fun `start mockWebServer`() {
-        mockWebServer.start()
-    }
+    override val codeToFile: Pair<Int, String?> get() = code to null
+    override val expected: T? = null
 
     @BeforeEach
-    fun `enqueue response`() {
-        mockWebServer.enqueue(mockResponse(code to null))
-    }
-
-    @After
-    fun `close mockWebServer`() {
-        mockWebServer.shutdown()
-    }
-
-    companion object {
-        private val mockWebServerSingleton = MockWebServer()
+    override fun `enqueue response`() {
+        mockWebServer.enqueue(mockResponse(codeToFile))
     }
 }

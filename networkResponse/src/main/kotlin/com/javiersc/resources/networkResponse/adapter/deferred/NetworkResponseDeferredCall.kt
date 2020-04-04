@@ -56,7 +56,8 @@ private fun <R, E> onEOFException(deferred: CompletableDeferred<NetworkResponse<
         """
            | # # # # # # # # # # # # # # WARNING # # # # # # # # # # # # # # # # # # #
            | # Every 2XX response should have a body except 204/205, as the response #
-           | # was empty, the NetworkResponse is transformed to NoContent (204)      #
+           | # was empty, the NetworkResponse is transformed to NoContent (204) and  #
+           | # the headers are lost                                                  #
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )

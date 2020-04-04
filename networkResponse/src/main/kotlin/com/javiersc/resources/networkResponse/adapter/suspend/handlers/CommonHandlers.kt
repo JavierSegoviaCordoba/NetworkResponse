@@ -67,50 +67,50 @@ import com.javiersc.resources.networkResponse.NetworkResponse.Success.ResetConte
 import com.javiersc.resources.networkResponse.StatusCode.ACCEPTED_202
 import com.javiersc.resources.networkResponse.StatusCode.ALREADY_REPORTED_208
 import com.javiersc.resources.networkResponse.StatusCode.BAD_GATEWAY
-import com.javiersc.resources.networkResponse.StatusCode.BAD_REQUEST
-import com.javiersc.resources.networkResponse.StatusCode.CONFLICT
+import com.javiersc.resources.networkResponse.StatusCode.BAD_REQUEST_400
+import com.javiersc.resources.networkResponse.StatusCode.CONFLICT_409
 import com.javiersc.resources.networkResponse.StatusCode.CONTINUE_100
 import com.javiersc.resources.networkResponse.StatusCode.CREATED_201
 import com.javiersc.resources.networkResponse.StatusCode.EARLY_HINTS_103
 import com.javiersc.resources.networkResponse.StatusCode.EXPECTATION_FAILED
 import com.javiersc.resources.networkResponse.StatusCode.FAILED_DEPENDENCY
-import com.javiersc.resources.networkResponse.StatusCode.FORBIDDEN
+import com.javiersc.resources.networkResponse.StatusCode.FORBIDDEN_403
 import com.javiersc.resources.networkResponse.StatusCode.FOUND_302
 import com.javiersc.resources.networkResponse.StatusCode.GATEWAY_TIMEOUT
-import com.javiersc.resources.networkResponse.StatusCode.GONE
+import com.javiersc.resources.networkResponse.StatusCode.GONE_410
 import com.javiersc.resources.networkResponse.StatusCode.HTTP_VERSION_NOT_SUPPORTED
 import com.javiersc.resources.networkResponse.StatusCode.IM_A_TEAPOT
 import com.javiersc.resources.networkResponse.StatusCode.IM_USED_226
 import com.javiersc.resources.networkResponse.StatusCode.INSUFFICIENT_STORAGE
 import com.javiersc.resources.networkResponse.StatusCode.INTERNAL_SERVER_ERROR
-import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED_411
 import com.javiersc.resources.networkResponse.StatusCode.LOCKED
 import com.javiersc.resources.networkResponse.StatusCode.LOOP_DETECTED
-import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED
+import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED_405
 import com.javiersc.resources.networkResponse.StatusCode.MISDIRECTED_REQUEST
 import com.javiersc.resources.networkResponse.StatusCode.MOVED_PERMANENTLY_301
 import com.javiersc.resources.networkResponse.StatusCode.MULTIPLE_CHOICE_300
 import com.javiersc.resources.networkResponse.StatusCode.MULTI_STATUS_207
 import com.javiersc.resources.networkResponse.StatusCode.NETWORK_AUTHENTICATION_REQUIRED
 import com.javiersc.resources.networkResponse.StatusCode.NON_AUTHORITATIVE_INFORMATION_203
-import com.javiersc.resources.networkResponse.StatusCode.NOT_ACCEPTABLE
+import com.javiersc.resources.networkResponse.StatusCode.NOT_ACCEPTABLE_406
 import com.javiersc.resources.networkResponse.StatusCode.NOT_EXTENDED
-import com.javiersc.resources.networkResponse.StatusCode.NOT_FOUND
+import com.javiersc.resources.networkResponse.StatusCode.NOT_FOUND_404
 import com.javiersc.resources.networkResponse.StatusCode.NOT_IMPLEMENTED
 import com.javiersc.resources.networkResponse.StatusCode.NOT_MODIFIED_304
 import com.javiersc.resources.networkResponse.StatusCode.NO_CONTENT_204
 import com.javiersc.resources.networkResponse.StatusCode.OK_200
 import com.javiersc.resources.networkResponse.StatusCode.PARTIAL_CONTENT_206
 import com.javiersc.resources.networkResponse.StatusCode.PAYLOAD_TOO_LARGE
-import com.javiersc.resources.networkResponse.StatusCode.PAYMENT_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.PAYMENT_REQUIRED_402
 import com.javiersc.resources.networkResponse.StatusCode.PERMANENT_REDIRECT_308
 import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_FAILED
 import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_REQUIRED
 import com.javiersc.resources.networkResponse.StatusCode.PROCESSING_102
-import com.javiersc.resources.networkResponse.StatusCode.PROXY_AUTHENTICATION_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.PROXY_AUTHENTICATION_REQUIRED_407
 import com.javiersc.resources.networkResponse.StatusCode.REQUESTED_RANGE_NOT_SATISFIABLE
 import com.javiersc.resources.networkResponse.StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE
-import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT
+import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT_408
 import com.javiersc.resources.networkResponse.StatusCode.RESET_CONTENT_205
 import com.javiersc.resources.networkResponse.StatusCode.SEE_OTHER_303
 import com.javiersc.resources.networkResponse.StatusCode.SERVICE_UNAVAILABLE
@@ -118,7 +118,7 @@ import com.javiersc.resources.networkResponse.StatusCode.SWITCHING_PROTOCOL_101
 import com.javiersc.resources.networkResponse.StatusCode.SWITCH_PROXY_306
 import com.javiersc.resources.networkResponse.StatusCode.TEMPORARY_REDIRECT_307
 import com.javiersc.resources.networkResponse.StatusCode.TOO_MANY_REQUEST
-import com.javiersc.resources.networkResponse.StatusCode.UNAUTHORIZED
+import com.javiersc.resources.networkResponse.StatusCode.UNAUTHORIZED_401
 import com.javiersc.resources.networkResponse.StatusCode.UNAVAILABLE_FOR_LEGAL_REASONS
 import com.javiersc.resources.networkResponse.StatusCode.UNPROCESSABLE_ENTITY
 import com.javiersc.resources.networkResponse.StatusCode.UNSUPPORTED_MEDIA_TYPE
@@ -127,6 +127,7 @@ import com.javiersc.resources.networkResponse.StatusCode.URI_TOO_LONG
 import com.javiersc.resources.networkResponse.StatusCode.USE_PROXY_305
 import com.javiersc.resources.networkResponse.StatusCode.VARIANT_ALSO_NEGOTIATES
 import com.javiersc.resources.networkResponse.adapter.suspend.NetworkResponseSuspendCall
+import com.javiersc.resources.networkResponse.statusCode
 import okhttp3.Headers
 import retrofit2.Callback
 import retrofit2.Response
@@ -153,7 +154,7 @@ internal fun <R : Any, E : Any> handle1xx(
     code: Int,
     headers: Headers?
 ) = with(callback) {
-    when (code) {
+    when (code.statusCode) {
         CONTINUE_100 -> onResponse(call, Response.success(Continue(headers)))
         SWITCHING_PROTOCOL_101 -> onResponse(call, Response.success(SwitchingProtocol(headers)))
         PROCESSING_102 -> onResponse(call, Response.success(Processing(headers)))
@@ -170,11 +171,11 @@ internal fun <R : Any, E : Any> handle2xx(
     body: R?,
     headers: Headers?
 ) = with(callback) {
-    if (body == null) when (code) {
+    if (body == null) when (code.statusCode) {
         NO_CONTENT_204 -> onResponse(call, Response.success(NoContent(headers)))
         RESET_CONTENT_205 -> onResponse(call, Response.success(ResetContent(headers)))
         else -> onResponse(call, Response.success(NoContent(headers)))
-    } else when (code) {
+    } else when (code.statusCode) {
         OK_200 -> onResponse(call, Response.success(OK(body, headers)))
         CREATED_201 -> onResponse(call, Response.success(Created(body, headers)))
         ACCEPTED_202 -> onResponse(call, Response.success(Accepted(body, headers)))
@@ -196,7 +197,7 @@ internal fun <R : Any, E : Any> handle3xx(
     code: Int,
     headers: Headers?
 ) = with(callback) {
-    when (code) {
+    when (code.statusCode) {
         MULTIPLE_CHOICE_300 -> onResponse(call, Response.success(MultipleChoices(headers)))
         MOVED_PERMANENTLY_301 -> onResponse(call, Response.success(MovedPermanently(headers)))
         FOUND_302 -> onResponse(call, Response.success(Found(headers)))
@@ -219,21 +220,24 @@ internal fun <R : Any, E : Any> handle4xx(
     errorBody: E?,
     headers: Headers?
 ) = with(callback) {
-    when (code) {
-        BAD_REQUEST -> onResponse(call, Response.success(BadRequest(errorBody, headers)))
-        UNAUTHORIZED -> onResponse(call, Response.success(Unauthorized(errorBody, headers)))
-        PAYMENT_REQUIRED -> onResponse(call, Response.success(PaymentRequired(errorBody, headers)))
-        FORBIDDEN -> onResponse(call, Response.success(Forbidden(errorBody, headers)))
-        NOT_FOUND -> onResponse(call, Response.success(NotFound(errorBody, headers)))
-        METHOD_NOT_ALLOWED ->
+    when (code.statusCode) {
+        BAD_REQUEST_400 -> onResponse(call, Response.success(BadRequest(errorBody, headers)))
+        UNAUTHORIZED_401 -> onResponse(call, Response.success(Unauthorized(errorBody, headers)))
+        PAYMENT_REQUIRED_402 ->
+            onResponse(call, Response.success(PaymentRequired(errorBody, headers)))
+        FORBIDDEN_403 -> onResponse(call, Response.success(Forbidden(errorBody, headers)))
+        NOT_FOUND_404 -> onResponse(call, Response.success(NotFound(errorBody, headers)))
+        METHOD_NOT_ALLOWED_405 ->
             onResponse(call, Response.success(MethodNotAllowed(errorBody, headers)))
-        NOT_ACCEPTABLE -> onResponse(call, Response.success(NotAcceptable(errorBody, headers)))
-        PROXY_AUTHENTICATION_REQUIRED ->
+        NOT_ACCEPTABLE_406 -> onResponse(call, Response.success(NotAcceptable(errorBody, headers)))
+        PROXY_AUTHENTICATION_REQUIRED_407 ->
             onResponse(call, Response.success(ProxyAuthenticationRequired(errorBody, headers)))
-        REQUEST_TIMEOUT -> onResponse(call, Response.success(RequestTimeout(errorBody, headers)))
-        CONFLICT -> onResponse(call, Response.success(Conflict(errorBody, headers)))
-        GONE -> onResponse(call, Response.success(Gone(errorBody, headers)))
-        LENGTH_REQUIRED -> onResponse(call, Response.success(LengthRequired(errorBody, headers)))
+        REQUEST_TIMEOUT_408 ->
+            onResponse(call, Response.success(RequestTimeout(errorBody, headers)))
+        CONFLICT_409 -> onResponse(call, Response.success(Conflict(errorBody, headers)))
+        GONE_410 -> onResponse(call, Response.success(Gone(errorBody, headers)))
+        LENGTH_REQUIRED_411 ->
+            onResponse(call, Response.success(LengthRequired(errorBody, headers)))
         PRECONDITION_FAILED ->
             onResponse(call, Response.success(PreconditionFailed(errorBody, headers)))
         PAYLOAD_TOO_LARGE -> onResponse(call, Response.success(PayloadTooLarge(errorBody, headers)))
@@ -274,7 +278,7 @@ internal fun <R : Any, E : Any> handle5xx(
     errorBody: E?,
     headers: Headers?
 ) = with(callback) {
-    when (code) {
+    when (code.statusCode) {
         INTERNAL_SERVER_ERROR ->
             onResponse(call, Response.success(InternalServerError(errorBody, headers)))
         NOT_IMPLEMENTED -> onResponse(call, Response.success(NotImplemented(errorBody, headers)))
