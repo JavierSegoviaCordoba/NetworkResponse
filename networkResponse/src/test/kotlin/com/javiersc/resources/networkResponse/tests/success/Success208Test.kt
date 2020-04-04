@@ -17,8 +17,8 @@ import org.junit.jupiter.api.Test
 internal class Success208Test : BaseTest<Dog> {
 
     override val codeToFile: Pair<Int, String?>
-        get() = StatusCode.ALREADY_REPORTED_208 to "208.json"
-    override val expected = Dog(0, "Roni", 4)
+        get() = StatusCode.ALREADY_REPORTED_208 to "2xx.json"
+    override val expected = Dog(1, "Auri", 7)
 
     @Test
     fun `suspend call`() = runBlocking {

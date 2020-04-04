@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 internal class SuccessNullBodyTest : BaseTest<Dog> {
 
     override val codeToFile: Pair<Int, String?> get() = StatusCode.OK_200 to null
-    override val expected = Dog(0, "Roni", 4)
+    override val expected = Dog(1, "Auri", 7)
 
     @Test
     fun `suspend call`() = runBlocking {

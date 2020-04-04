@@ -25,7 +25,6 @@ object Dependencies {
     object OkHttp {
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
-        const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
     }
 
     const val resource = "com.javiersc.resources:resource:${Versions.resource}"

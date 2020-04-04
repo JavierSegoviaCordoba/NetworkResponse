@@ -7,6 +7,12 @@ plugins {
 }
 
 subprojects {
+    tasks {
+        withType<Test> { maxParallelForks = Runtime.getRuntime().availableProcessors() }
+    }
+}
+
+allprojects {
     repositories {
         jcenter()
     }
@@ -21,16 +27,6 @@ subprojects {
         toolVersion = Versions.detekt
         ignoreFailures = true
         autoCorrect = true
-    }
-
-    tasks {
-        withType<Test> { maxParallelForks = Runtime.getRuntime().availableProcessors() }
-    }
-}
-
-allprojects {
-    repositories {
-        jcenter()
     }
 
     tasks {

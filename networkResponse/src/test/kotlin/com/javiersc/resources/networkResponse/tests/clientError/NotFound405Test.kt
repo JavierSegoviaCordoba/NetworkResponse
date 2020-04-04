@@ -1,7 +1,7 @@
 package com.javiersc.resources.networkResponse.tests.clientError
 
 import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.NotFound
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.MethodNotAllowed
 import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.Error
 import com.javiersc.resources.networkResponse.config.models.text
@@ -15,15 +15,15 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.Test
 
-internal class NotFound404Test : BaseTest<Error> {
+internal class MethodNotAllowed405Test : BaseTest<Error> {
 
-    override val codeToFile: Pair<Int, String?> = 404 to "4xx.json"
+    override val codeToFile: Pair<Int, String?> = 405 to "4xx.json"
     override val expected: Error = Error("Dog has some error")
 
     @Test
     fun `suspend call`() = runBlocking {
         val response: NetworkResponse<Dog, Error> = service.getDog()
-        val error: Error? = (response as NotFound).error
+        val error: Error? = (response as MethodNotAllowed).error
         error shouldBe expected
     }
 
@@ -31,7 +31,7 @@ internal class NotFound404Test : BaseTest<Error> {
     fun `async call`() = runBlocking {
         val deferredResponse: Deferred<NetworkResponse<Dog, Error>> = service.getDogAsync()
         val response: NetworkResponse<Dog, Error> = deferredResponse.await()
-        val error: Error? = (response as NotFound).error
+        val error: Error? = (response as MethodNotAllowed).error
         error shouldBe expected
     }
 
@@ -47,18 +47,18 @@ internal class NotFound404Test : BaseTest<Error> {
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val response: NetworkResponse<Dog, Error> = service.getDog()
         val resource: Resource<String, String> =
-            response.toResource(Dog::name, Error?::unused, mapNotFound = Error?::text)
+            response.toResource(Dog::name, Error?::unused, mapMethodNotAllowed = Error?::text)
         val name: String? = (resource as Resource.Error).error
         name shouldBe expected.message
     }
 }
 
-internal class NullNotFound404Test : BaseNullTest<Error>(404) {
+internal class NullMethodNotAllowed405Test : BaseNullTest<Error>(405) {
 
     @Test
     fun `suspend call with null error`() = runBlocking {
         val response: NetworkResponse<Dog, Error> = service.getDog()
-        val error: Error? = (response as NotFound).error
+        val error: Error? = (response as MethodNotAllowed).error
         error shouldBe null
     }
 }

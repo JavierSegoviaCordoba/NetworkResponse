@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 
 internal class Success201Test : BaseTest<Dog> {
 
-    override val codeToFile: Pair<Int, String?> get() = StatusCode.CREATED_201 to "201.json"
+    override val codeToFile: Pair<Int, String?> get() = StatusCode.CREATED_201 to "2xx.json"
     override val expected = Dog(1, "Auri", 7)
 
     @Test
