@@ -66,7 +66,7 @@ import com.javiersc.resources.networkResponse.NetworkResponse.Success.PartialCon
 import com.javiersc.resources.networkResponse.NetworkResponse.Success.ResetContent
 import com.javiersc.resources.networkResponse.StatusCode.ACCEPTED_202
 import com.javiersc.resources.networkResponse.StatusCode.ALREADY_REPORTED_208
-import com.javiersc.resources.networkResponse.StatusCode.BAD_GATEWAY
+import com.javiersc.resources.networkResponse.StatusCode.BAD_GATEWAY_502
 import com.javiersc.resources.networkResponse.StatusCode.BAD_REQUEST_400
 import com.javiersc.resources.networkResponse.StatusCode.CONFLICT_409
 import com.javiersc.resources.networkResponse.StatusCode.CONTINUE_100
@@ -76,27 +76,27 @@ import com.javiersc.resources.networkResponse.StatusCode.EXPECTATION_FAILED_417
 import com.javiersc.resources.networkResponse.StatusCode.FAILED_DEPENDENCY_424
 import com.javiersc.resources.networkResponse.StatusCode.FORBIDDEN_403
 import com.javiersc.resources.networkResponse.StatusCode.FOUND_302
-import com.javiersc.resources.networkResponse.StatusCode.GATEWAY_TIMEOUT
+import com.javiersc.resources.networkResponse.StatusCode.GATEWAY_TIMEOUT_504
 import com.javiersc.resources.networkResponse.StatusCode.GONE_410
-import com.javiersc.resources.networkResponse.StatusCode.HTTP_VERSION_NOT_SUPPORTED
+import com.javiersc.resources.networkResponse.StatusCode.HTTP_VERSION_NOT_SUPPORTED_505
 import com.javiersc.resources.networkResponse.StatusCode.IM_A_TEAPOT_418
 import com.javiersc.resources.networkResponse.StatusCode.IM_USED_226
-import com.javiersc.resources.networkResponse.StatusCode.INSUFFICIENT_STORAGE
-import com.javiersc.resources.networkResponse.StatusCode.INTERNAL_SERVER_ERROR
+import com.javiersc.resources.networkResponse.StatusCode.INSUFFICIENT_STORAGE_507
+import com.javiersc.resources.networkResponse.StatusCode.INTERNAL_SERVER_ERROR_500
 import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED_411
 import com.javiersc.resources.networkResponse.StatusCode.LOCKED_423
-import com.javiersc.resources.networkResponse.StatusCode.LOOP_DETECTED
+import com.javiersc.resources.networkResponse.StatusCode.LOOP_DETECTED_508
 import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED_405
 import com.javiersc.resources.networkResponse.StatusCode.MISDIRECTED_REQUEST_421
 import com.javiersc.resources.networkResponse.StatusCode.MOVED_PERMANENTLY_301
 import com.javiersc.resources.networkResponse.StatusCode.MULTIPLE_CHOICE_300
 import com.javiersc.resources.networkResponse.StatusCode.MULTI_STATUS_207
-import com.javiersc.resources.networkResponse.StatusCode.NETWORK_AUTHENTICATION_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.NETWORK_AUTHENTICATION_REQUIRED_511
 import com.javiersc.resources.networkResponse.StatusCode.NON_AUTHORITATIVE_INFORMATION_203
 import com.javiersc.resources.networkResponse.StatusCode.NOT_ACCEPTABLE_406
-import com.javiersc.resources.networkResponse.StatusCode.NOT_EXTENDED
+import com.javiersc.resources.networkResponse.StatusCode.NOT_EXTENDED_510
 import com.javiersc.resources.networkResponse.StatusCode.NOT_FOUND_404
-import com.javiersc.resources.networkResponse.StatusCode.NOT_IMPLEMENTED
+import com.javiersc.resources.networkResponse.StatusCode.NOT_IMPLEMENTED_501
 import com.javiersc.resources.networkResponse.StatusCode.NOT_MODIFIED_304
 import com.javiersc.resources.networkResponse.StatusCode.NO_CONTENT_204
 import com.javiersc.resources.networkResponse.StatusCode.OK_200
@@ -113,7 +113,7 @@ import com.javiersc.resources.networkResponse.StatusCode.REQUEST_HEADER_FIELDS_T
 import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT_408
 import com.javiersc.resources.networkResponse.StatusCode.RESET_CONTENT_205
 import com.javiersc.resources.networkResponse.StatusCode.SEE_OTHER_303
-import com.javiersc.resources.networkResponse.StatusCode.SERVICE_UNAVAILABLE
+import com.javiersc.resources.networkResponse.StatusCode.SERVICE_UNAVAILABLE_503
 import com.javiersc.resources.networkResponse.StatusCode.SWITCHING_PROTOCOL_101
 import com.javiersc.resources.networkResponse.StatusCode.SWITCH_PROXY_306
 import com.javiersc.resources.networkResponse.StatusCode.TEMPORARY_REDIRECT_307
@@ -125,7 +125,7 @@ import com.javiersc.resources.networkResponse.StatusCode.UNSUPPORTED_MEDIA_TYPE_
 import com.javiersc.resources.networkResponse.StatusCode.UPGRADE_REQUIRED_426
 import com.javiersc.resources.networkResponse.StatusCode.URI_TOO_LONG_414
 import com.javiersc.resources.networkResponse.StatusCode.USE_PROXY_305
-import com.javiersc.resources.networkResponse.StatusCode.VARIANT_ALSO_NEGOTIATES
+import com.javiersc.resources.networkResponse.StatusCode.VARIANT_ALSO_NEGOTIATES_506
 import com.javiersc.resources.networkResponse.statusCode
 import kotlinx.coroutines.CompletableDeferred
 import okhttp3.Headers
@@ -254,17 +254,17 @@ internal fun <R, E> handle5xx(
     headers: Headers?
 ) = with(deferred) {
     when (code.statusCode) {
-        INTERNAL_SERVER_ERROR -> complete(InternalServerError(errorBody, headers))
-        NOT_IMPLEMENTED -> complete(NotImplemented(errorBody, headers))
-        BAD_GATEWAY -> complete(BadGateway(errorBody, headers))
-        SERVICE_UNAVAILABLE -> complete(ServiceUnavailable(errorBody, headers))
-        GATEWAY_TIMEOUT -> complete(GatewayTimeout(errorBody, headers))
-        HTTP_VERSION_NOT_SUPPORTED -> complete(HttpVersionNotSupported(errorBody, headers))
-        VARIANT_ALSO_NEGOTIATES -> complete(VariantAlsoNegotiates(errorBody, headers))
-        INSUFFICIENT_STORAGE -> complete(InsufficientStorage(errorBody, headers))
-        LOOP_DETECTED -> complete(LoopDetected(errorBody, headers))
-        NOT_EXTENDED -> complete(NotExtended(errorBody, headers))
-        NETWORK_AUTHENTICATION_REQUIRED ->
+        INTERNAL_SERVER_ERROR_500 -> complete(InternalServerError(errorBody, headers))
+        NOT_IMPLEMENTED_501 -> complete(NotImplemented(errorBody, headers))
+        BAD_GATEWAY_502 -> complete(BadGateway(errorBody, headers))
+        SERVICE_UNAVAILABLE_503 -> complete(ServiceUnavailable(errorBody, headers))
+        GATEWAY_TIMEOUT_504 -> complete(GatewayTimeout(errorBody, headers))
+        HTTP_VERSION_NOT_SUPPORTED_505 -> complete(HttpVersionNotSupported(errorBody, headers))
+        VARIANT_ALSO_NEGOTIATES_506 -> complete(VariantAlsoNegotiates(errorBody, headers))
+        INSUFFICIENT_STORAGE_507 -> complete(InsufficientStorage(errorBody, headers))
+        LOOP_DETECTED_508 -> complete(LoopDetected(errorBody, headers))
+        NOT_EXTENDED_510 -> complete(NotExtended(errorBody, headers))
+        NETWORK_AUTHENTICATION_REQUIRED_511 ->
             complete(NetworkAuthenticationRequired(errorBody, headers))
         else -> deferred.complete(NetworkResponse.ServerError.Custom(errorBody, code, headers))
     }

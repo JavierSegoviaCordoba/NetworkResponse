@@ -2,7 +2,7 @@
 ![Build](https://github.com/JavierSegoviaCordoba/NetworkResponse/workflows/Build/badge.svg)
 ![coverage](https://img.shields.io/codecov/c/github/javiersegoviacordoba/networkResponse)
 
-# [NetworkResponse](/resource/src/main/kotlin/com/javiersc/resources/NetworkResponse/NetworkResponse.kt) sealed classes
+# [NetworkResponse](/resource/src/main/kotlin/com/javiersc/resources/NetworkResponse/NetworkResponse.kt) sealed class
 
 `NetworkResponse` has all standard status codes and let you use custom codes too. I recommend
 you check the class directly.
