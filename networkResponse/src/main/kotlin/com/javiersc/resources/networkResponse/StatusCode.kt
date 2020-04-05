@@ -56,17 +56,17 @@ enum class StatusCode(val code: Int) {
     REQUEST_HEADER_FIELDS_TOO_LARGE_431(code = 431),
     UNAVAILABLE_FOR_LEGAL_REASONS_451(code = 451),
 
-    INTERNAL_SERVER_ERROR(code = 500),
-    NOT_IMPLEMENTED(code = 501),
-    BAD_GATEWAY(code = 502),
-    SERVICE_UNAVAILABLE(code = 503),
-    GATEWAY_TIMEOUT(code = 504),
-    HTTP_VERSION_NOT_SUPPORTED(code = 505),
-    VARIANT_ALSO_NEGOTIATES(code = 506),
-    INSUFFICIENT_STORAGE(code = 507),
-    LOOP_DETECTED(code = 508),
-    NOT_EXTENDED(code = 510),
-    NETWORK_AUTHENTICATION_REQUIRED(code = 511),
+    INTERNAL_SERVER_ERROR_500(code = 500),
+    NOT_IMPLEMENTED_501(code = 501),
+    BAD_GATEWAY_502(code = 502),
+    SERVICE_UNAVAILABLE_503(code = 503),
+    GATEWAY_TIMEOUT_504(code = 504),
+    HTTP_VERSION_NOT_SUPPORTED_505(code = 505),
+    VARIANT_ALSO_NEGOTIATES_506(code = 506),
+    INSUFFICIENT_STORAGE_507(code = 507),
+    LOOP_DETECTED_508(code = 508),
+    NOT_EXTENDED_510(code = 510),
+    NETWORK_AUTHENTICATION_REQUIRED_511(code = 511),
 }
 
 internal val Int.statusCode: StatusCode? get() = StatusCode.values().find { it.code == this }
