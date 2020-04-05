@@ -23,7 +23,7 @@ internal class Success200Test : BaseTest<Dog> {
     fun `suspend call`() = runBlocking {
         with(service.getDog() as OK) {
             value shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -31,7 +31,7 @@ internal class Success200Test : BaseTest<Dog> {
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await() as OK) {
             value shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 

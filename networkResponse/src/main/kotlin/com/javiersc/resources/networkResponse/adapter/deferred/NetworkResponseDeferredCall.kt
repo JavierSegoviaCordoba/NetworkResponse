@@ -10,6 +10,7 @@ import com.javiersc.resources.networkResponse.adapter.utils.printlnWarning
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.serialization.json.JsonDecodingException
 import kotlinx.serialization.json.JsonException
+import okhttp3.Headers
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,7 +62,10 @@ private fun <R, E> onEOFException(deferred: CompletableDeferred<NetworkResponse<
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )
-    deferred.complete(NetworkResponse.Success.NoContent(headers = null))
+    deferred.complete(
+        NetworkResponse.Success
+            .NoContent(headers = Headers.of(mutableMapOf("Content-Length" to "0")))
+    )
 }
 
 private fun onIllegalStateException(throwable: Throwable) {

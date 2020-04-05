@@ -25,7 +25,7 @@ internal class Error411Test : BaseTest<Error> {
     fun `suspend call`() = runBlocking {
         with(service.getDog() as LengthRequired) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -33,7 +33,7 @@ internal class Error411Test : BaseTest<Error> {
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await() as LengthRequired) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 

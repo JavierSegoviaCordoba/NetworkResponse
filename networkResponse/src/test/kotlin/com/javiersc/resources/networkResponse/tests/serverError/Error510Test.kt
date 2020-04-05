@@ -25,7 +25,7 @@ internal class Error510Test : BaseTest<Error> {
     fun `suspend call`() = runBlocking {
         with(service.getDog() as NotExtended) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -33,7 +33,7 @@ internal class Error510Test : BaseTest<Error> {
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await() as NotExtended) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
