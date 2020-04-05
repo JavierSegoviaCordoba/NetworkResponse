@@ -1,11 +1,11 @@
 [![Download](https://api.bintray.com/packages/javiersegoviacordoba/Resources/NetworkResponse/images/download.svg)](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion)
-![Build](https://github.com/JavierSegoviaCordoba/NetworkResponse/workflows/Build/badge.svg)
-![coverage](https://img.shields.io/codecov/c/github/javiersegoviacordoba/networkResponse)
+[![Build](https://github.com/JavierSegoviaCordoba/NetworkResponse/workflows/Build/badge.svg)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions)
+[![coverage](https://img.shields.io/codecov/c/github/javiersegoviacordoba/networkResponse)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse)
 
-# [NetworkResponse](/resource/src/main/kotlin/com/javiersc/resources/NetworkResponse/NetworkResponse.kt) sealed class
+# [NetworkResponse](/networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
 
-`NetworkResponse` has all standard status codes and let you use custom codes too. I recommend
-you check the class directly.
+`NetworkResponse` is a sealed class which has all standard status codes and let you use custom 
+codes too. I recommend you check the class directly [here](networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt).
 
 This library works very good if you use it together 
 [`Resource`](https://github.com/JavierSegoviaCordoba/Resource) which is very similar
@@ -58,7 +58,7 @@ fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
 ## Mappers
 
 Map any NetworkResponse to Resource easily with this
-[extension function](/resource/src/main/kotlin/com/javiersc/resource/network/extensions/NetworkResponse.kt):
+[extension function](/networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/extensions/NetworkResponse.kt):
 ```kotlin
 val resource: Resource<UserDTO, Error> = networkResponse.toResource(
     success = { userDto: UserDTO -> userDTO.toUser() },
@@ -67,15 +67,11 @@ val resource: Resource<UserDTO, Error> = networkResponse.toResource(
 // UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
  
 // UserDTO.toUser() and ErrorDTO?.toError() mappers should be created by youself There are more 
-// maps, not only mapResponse and mapError for more customization.
-
-// For example, you can map all errors with mapError, but if you need a custom map for NotFound
-// you can use mapNotFound. This let you not only map an ErrorDTO object, you can use a custom
-// provide so you can send custom messages if your backend is not sending values which can be used.
+// maps, not only success and error, for more customization.
 ```
 Both, `success` and `error` are needed.
 
-This map is really huge, it lets you map every possibility:
+This map is really huge, it lets you map every possibility, for example a custom NotFound error:
 ```kotlin
 val resource: Resource<UserDTO, Error> = networkResponse.toResource(
     success = { userDto: UserDTO -> userDTO.toUser() },
@@ -84,6 +80,6 @@ val resource: Resource<UserDTO, Error> = networkResponse.toResource(
 )
 ```
 
-##Credits
+## Credits
 Based on [NetworkResponseAdapter](https://github.com/haroldadmin/NetworkResponseAdapter)
 by [Kshitij Chauhan](https://github.com/haroldadmin)
