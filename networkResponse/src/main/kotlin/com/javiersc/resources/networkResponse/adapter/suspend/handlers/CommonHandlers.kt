@@ -72,22 +72,22 @@ import com.javiersc.resources.networkResponse.StatusCode.CONFLICT_409
 import com.javiersc.resources.networkResponse.StatusCode.CONTINUE_100
 import com.javiersc.resources.networkResponse.StatusCode.CREATED_201
 import com.javiersc.resources.networkResponse.StatusCode.EARLY_HINTS_103
-import com.javiersc.resources.networkResponse.StatusCode.EXPECTATION_FAILED
-import com.javiersc.resources.networkResponse.StatusCode.FAILED_DEPENDENCY
+import com.javiersc.resources.networkResponse.StatusCode.EXPECTATION_FAILED_417
+import com.javiersc.resources.networkResponse.StatusCode.FAILED_DEPENDENCY_424
 import com.javiersc.resources.networkResponse.StatusCode.FORBIDDEN_403
 import com.javiersc.resources.networkResponse.StatusCode.FOUND_302
 import com.javiersc.resources.networkResponse.StatusCode.GATEWAY_TIMEOUT
 import com.javiersc.resources.networkResponse.StatusCode.GONE_410
 import com.javiersc.resources.networkResponse.StatusCode.HTTP_VERSION_NOT_SUPPORTED
-import com.javiersc.resources.networkResponse.StatusCode.IM_A_TEAPOT
+import com.javiersc.resources.networkResponse.StatusCode.IM_A_TEAPOT_418
 import com.javiersc.resources.networkResponse.StatusCode.IM_USED_226
 import com.javiersc.resources.networkResponse.StatusCode.INSUFFICIENT_STORAGE
 import com.javiersc.resources.networkResponse.StatusCode.INTERNAL_SERVER_ERROR
 import com.javiersc.resources.networkResponse.StatusCode.LENGTH_REQUIRED_411
-import com.javiersc.resources.networkResponse.StatusCode.LOCKED
+import com.javiersc.resources.networkResponse.StatusCode.LOCKED_423
 import com.javiersc.resources.networkResponse.StatusCode.LOOP_DETECTED
 import com.javiersc.resources.networkResponse.StatusCode.METHOD_NOT_ALLOWED_405
-import com.javiersc.resources.networkResponse.StatusCode.MISDIRECTED_REQUEST
+import com.javiersc.resources.networkResponse.StatusCode.MISDIRECTED_REQUEST_421
 import com.javiersc.resources.networkResponse.StatusCode.MOVED_PERMANENTLY_301
 import com.javiersc.resources.networkResponse.StatusCode.MULTIPLE_CHOICE_300
 import com.javiersc.resources.networkResponse.StatusCode.MULTI_STATUS_207
@@ -101,15 +101,15 @@ import com.javiersc.resources.networkResponse.StatusCode.NOT_MODIFIED_304
 import com.javiersc.resources.networkResponse.StatusCode.NO_CONTENT_204
 import com.javiersc.resources.networkResponse.StatusCode.OK_200
 import com.javiersc.resources.networkResponse.StatusCode.PARTIAL_CONTENT_206
-import com.javiersc.resources.networkResponse.StatusCode.PAYLOAD_TOO_LARGE
+import com.javiersc.resources.networkResponse.StatusCode.PAYLOAD_TOO_LARGE_413
 import com.javiersc.resources.networkResponse.StatusCode.PAYMENT_REQUIRED_402
 import com.javiersc.resources.networkResponse.StatusCode.PERMANENT_REDIRECT_308
-import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_FAILED
-import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_REQUIRED
+import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_FAILED_412
+import com.javiersc.resources.networkResponse.StatusCode.PRECONDITION_REQUIRED_428
 import com.javiersc.resources.networkResponse.StatusCode.PROCESSING_102
 import com.javiersc.resources.networkResponse.StatusCode.PROXY_AUTHENTICATION_REQUIRED_407
-import com.javiersc.resources.networkResponse.StatusCode.REQUESTED_RANGE_NOT_SATISFIABLE
-import com.javiersc.resources.networkResponse.StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE
+import com.javiersc.resources.networkResponse.StatusCode.REQUESTED_RANGE_NOT_SATISFIABLE_416
+import com.javiersc.resources.networkResponse.StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE_431
 import com.javiersc.resources.networkResponse.StatusCode.REQUEST_TIMEOUT_408
 import com.javiersc.resources.networkResponse.StatusCode.RESET_CONTENT_205
 import com.javiersc.resources.networkResponse.StatusCode.SEE_OTHER_303
@@ -117,13 +117,13 @@ import com.javiersc.resources.networkResponse.StatusCode.SERVICE_UNAVAILABLE
 import com.javiersc.resources.networkResponse.StatusCode.SWITCHING_PROTOCOL_101
 import com.javiersc.resources.networkResponse.StatusCode.SWITCH_PROXY_306
 import com.javiersc.resources.networkResponse.StatusCode.TEMPORARY_REDIRECT_307
-import com.javiersc.resources.networkResponse.StatusCode.TOO_MANY_REQUEST
+import com.javiersc.resources.networkResponse.StatusCode.TOO_MANY_REQUEST_429
 import com.javiersc.resources.networkResponse.StatusCode.UNAUTHORIZED_401
-import com.javiersc.resources.networkResponse.StatusCode.UNAVAILABLE_FOR_LEGAL_REASONS
-import com.javiersc.resources.networkResponse.StatusCode.UNPROCESSABLE_ENTITY
-import com.javiersc.resources.networkResponse.StatusCode.UNSUPPORTED_MEDIA_TYPE
-import com.javiersc.resources.networkResponse.StatusCode.UPGRADE_REQUIRED
-import com.javiersc.resources.networkResponse.StatusCode.URI_TOO_LONG
+import com.javiersc.resources.networkResponse.StatusCode.UNAVAILABLE_FOR_LEGAL_REASONS_451
+import com.javiersc.resources.networkResponse.StatusCode.UNPROCESSABLE_ENTITY_422
+import com.javiersc.resources.networkResponse.StatusCode.UNSUPPORTED_MEDIA_TYPE_415
+import com.javiersc.resources.networkResponse.StatusCode.UPGRADE_REQUIRED_426
+import com.javiersc.resources.networkResponse.StatusCode.URI_TOO_LONG_414
 import com.javiersc.resources.networkResponse.StatusCode.USE_PROXY_305
 import com.javiersc.resources.networkResponse.StatusCode.VARIANT_ALSO_NEGOTIATES
 import com.javiersc.resources.networkResponse.adapter.suspend.NetworkResponseSuspendCall
@@ -238,31 +238,31 @@ internal fun <R : Any, E : Any> handle4xx(
         GONE_410 -> onResponse(call, Response.success(Gone(errorBody, headers)))
         LENGTH_REQUIRED_411 ->
             onResponse(call, Response.success(LengthRequired(errorBody, headers)))
-        PRECONDITION_FAILED ->
+        PRECONDITION_FAILED_412 ->
             onResponse(call, Response.success(PreconditionFailed(errorBody, headers)))
-        PAYLOAD_TOO_LARGE -> onResponse(call, Response.success(PayloadTooLarge(errorBody, headers)))
-        URI_TOO_LONG -> onResponse(call, Response.success(UriTooLong(errorBody, headers)))
-        UNSUPPORTED_MEDIA_TYPE ->
+        PAYLOAD_TOO_LARGE_413 -> onResponse(call, Response.success(PayloadTooLarge(errorBody, headers)))
+        URI_TOO_LONG_414 -> onResponse(call, Response.success(UriTooLong(errorBody, headers)))
+        UNSUPPORTED_MEDIA_TYPE_415 ->
             onResponse(call, Response.success(UnsupportedMediaType(errorBody, headers)))
-        REQUESTED_RANGE_NOT_SATISFIABLE ->
+        REQUESTED_RANGE_NOT_SATISFIABLE_416 ->
             onResponse(call, Response.success(RequestedRangeNotSatisfiable(errorBody, headers)))
-        EXPECTATION_FAILED ->
+        EXPECTATION_FAILED_417 ->
             onResponse(call, Response.success(ExpectationFailed(errorBody, headers)))
-        IM_A_TEAPOT -> onResponse(call, Response.success(ImATeapot(errorBody, headers)))
-        MISDIRECTED_REQUEST ->
+        IM_A_TEAPOT_418 -> onResponse(call, Response.success(ImATeapot(errorBody, headers)))
+        MISDIRECTED_REQUEST_421 ->
             onResponse(call, Response.success(MisdirectedRequest(errorBody, headers)))
-        UNPROCESSABLE_ENTITY ->
+        UNPROCESSABLE_ENTITY_422 ->
             onResponse(call, Response.success(UnprocessableEntity(errorBody, headers)))
-        LOCKED -> onResponse(call, Response.success(Locked(errorBody, headers)))
-        FAILED_DEPENDENCY ->
+        LOCKED_423 -> onResponse(call, Response.success(Locked(errorBody, headers)))
+        FAILED_DEPENDENCY_424 ->
             onResponse(call, Response.success(FailedDependency(errorBody, headers)))
-        UPGRADE_REQUIRED -> onResponse(call, Response.success(UpgradeRequired(errorBody, headers)))
-        PRECONDITION_REQUIRED ->
+        UPGRADE_REQUIRED_426 -> onResponse(call, Response.success(UpgradeRequired(errorBody, headers)))
+        PRECONDITION_REQUIRED_428 ->
             onResponse(call, Response.success(PreconditionRequired(errorBody, headers)))
-        TOO_MANY_REQUEST -> onResponse(call, Response.success(TooManyRequest(errorBody, headers)))
-        REQUEST_HEADER_FIELDS_TOO_LARGE ->
+        TOO_MANY_REQUEST_429 -> onResponse(call, Response.success(TooManyRequest(errorBody, headers)))
+        REQUEST_HEADER_FIELDS_TOO_LARGE_431 ->
             onResponse(call, Response.success(RequestHeaderFieldsTooLarge(errorBody, headers)))
-        UNAVAILABLE_FOR_LEGAL_REASONS ->
+        UNAVAILABLE_FOR_LEGAL_REASONS_451 ->
             onResponse(call, Response.success(UnavailableForLegalReasons(errorBody, headers)))
         else -> onResponse(
             call, Response.success(NetworkResponse.ClientError.Custom(errorBody, code, headers))

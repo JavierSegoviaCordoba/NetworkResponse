@@ -41,7 +41,7 @@ internal class Error405Test : BaseTest<Error> {
     @Test
     fun `mapping NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::text)
+            service.getDog().toResource(Dog::unused, Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 
@@ -49,7 +49,7 @@ internal class Error405Test : BaseTest<Error> {
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
             service.getDog()
-                .toResource(Dog::name, Error?::unused, methodNotAllowed = Error?::text)
+                .toResource(Dog::unused, Error?::unused, methodNotAllowed = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }

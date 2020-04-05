@@ -51,7 +51,7 @@ internal class Error4xxTest : BaseTest<Error> {
     }
 }
 
-internal class NullNotFound4xxTest : BaseNullTest<Error?>(487) {
+internal class ErrorNull4xxTest : BaseNullTest<Error?>(487) {
 
     @Test
     fun `suspend call with null error`() = runBlocking {

@@ -40,19 +40,19 @@ internal class Error411Test : BaseTest<Error> {
     @Test
     fun `mapping NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::text)
+            service.getDog().toResource(Dog::unused, Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 
     @Test
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::unused, lengthRequired = Error?::text)
+            service.getDog().toResource(Dog::unused, Error?::unused, lengthRequired = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }
 
-internal class NullNotFound411Test : BaseNullTest<Error?>(StatusCode.LENGTH_REQUIRED_411.code) {
+internal class ErrorNull411Test : BaseNullTest<Error?>(StatusCode.LENGTH_REQUIRED_411.code) {
 
     @Test
     fun `suspend call with null error`() = runBlocking {

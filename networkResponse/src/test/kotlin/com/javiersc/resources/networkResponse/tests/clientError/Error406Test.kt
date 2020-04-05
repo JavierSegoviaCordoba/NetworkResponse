@@ -40,19 +40,19 @@ internal class Error406Test : BaseTest<Error> {
     @Test
     fun `mapping NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::text)
+            service.getDog().toResource(Dog::unused, Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 
     @Test
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::unused, notAcceptable = Error?::text)
+            service.getDog().toResource(Dog::unused, Error?::unused, notAcceptable = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }
 
-internal class NullNotFound406Test : BaseNullTest<Error?>(StatusCode.NOT_ACCEPTABLE_406.code) {
+internal class ErrorNull406Test : BaseNullTest<Error?>(StatusCode.NOT_ACCEPTABLE_406.code) {
 
     @Test
     fun `suspend call with null error`() = runBlocking {
