@@ -20,7 +20,7 @@ internal class Redirection300Test : BaseNullTest<Dog>(StatusCode.MULTIPLE_CHOICE
     fun `suspend call`() = runBlocking {
         with(service.getDog()) {
             this should beOfType<MultipleChoices>()
-            (this as MultipleChoices).headers!!.toHeaderList() shouldContain expectedHeader
+            (this as MultipleChoices).headers.toHeaderList() shouldContain expectedHeader
         }
     }
 

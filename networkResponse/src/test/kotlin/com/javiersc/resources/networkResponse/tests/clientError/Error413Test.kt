@@ -26,7 +26,7 @@ internal class Error413Test : BaseTest<Error> {
     fun `suspend call`() = runBlocking {
         with(service.getDog() as PayloadTooLarge) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -34,7 +34,7 @@ internal class Error413Test : BaseTest<Error> {
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await() as PayloadTooLarge) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 

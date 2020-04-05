@@ -24,7 +24,7 @@ internal class CustomErrorTest : BaseTest<Error> {
     fun `suspend call`() = runBlocking {
         with(service.getDog() as CustomError) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -32,7 +32,7 @@ internal class CustomErrorTest : BaseTest<Error> {
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await() as CustomError) {
             error shouldBe expected
-            headers!!.toHeaderList() shouldContain expectedHeader
+            headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
