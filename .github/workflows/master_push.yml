@@ -1,0 +1,29 @@
+name: Master Push
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: gradle build --build-cache
+
+      - name: Tests
+        run: gradle test
+
+      - name: Generate tests report
+        run: gradle jacocoTestReport
+
+      - uses: codecov/codecov-action@v1
+        with:
+          file: networkResponse/build/reports/jacoco/report.xml
+
+      - name: Upload to Bintray
+        run: gradle bintrayUpload
