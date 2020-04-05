@@ -40,7 +40,7 @@ internal class Error402Test : BaseTest<Error> {
     @Test
     fun `mapping NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::name, Error?::text)
+            service.getDog().toResource(Dog::unused, Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 
@@ -48,12 +48,12 @@ internal class Error402Test : BaseTest<Error> {
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<String, String> =
             service.getDog()
-                .toResource(Dog::name, Error?::unused, paymentRequired = Error?::text)
+                .toResource(Dog::unused, Error?::unused, paymentRequired = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }
 
-internal class NullNotFound402Test : BaseNullTest<Error?>(StatusCode.PAYMENT_REQUIRED_402.code) {
+internal class ErrorNull402Test : BaseNullTest<Error?>(StatusCode.PAYMENT_REQUIRED_402.code) {
 
     @Test
     fun `suspend call with null error`() = runBlocking {

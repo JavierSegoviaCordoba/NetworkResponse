@@ -1,6 +1,6 @@
 package com.javiersc.resources.networkResponse.tests.clientError
 
-import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Forbidden
+import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.RequestHeaderFieldsTooLarge
 import com.javiersc.resources.networkResponse.StatusCode
 import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.Error
@@ -16,14 +16,15 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.internal.toHeaderList
 import org.junit.jupiter.api.Test
 
-internal class Error403Test : BaseTest<Error> {
+internal class Error431Test : BaseTest<Error> {
 
-    override val codeToFile: Pair<Int, String?> = StatusCode.FORBIDDEN_403.code to "4xx.json"
+    override val codeToFile: Pair<Int, String?> =
+        StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE_431.code to "4xx.json"
     override val expected: Error = Error("Dog has some error")
 
     @Test
     fun `suspend call`() = runBlocking {
-        with(service.getDog() as Forbidden) {
+        with(service.getDog() as RequestHeaderFieldsTooLarge) {
             error shouldBe expected
             headers!!.toHeaderList() shouldContain expectedHeader
         }
@@ -31,7 +32,7 @@ internal class Error403Test : BaseTest<Error> {
 
     @Test
     fun `async call`() = runBlocking {
-        with(service.getDogAsync().await() as Forbidden) {
+        with(service.getDogAsync().await() as RequestHeaderFieldsTooLarge) {
             error shouldBe expected
             headers!!.toHeaderList() shouldContain expectedHeader
         }
@@ -46,16 +47,18 @@ internal class Error403Test : BaseTest<Error> {
 
     @Test
     fun `mapping concrete NetworkResponse to Resource`() = runBlocking {
-        val resource: Resource<String, String> =
-            service.getDog().toResource(Dog::unused, Error?::unused, forbidden = Error?::text)
+        val resource: Resource<String, String> = service.getDog()
+            .toResource(Dog::unused, Error?::unused, requestHeaderFieldsTooLarge = Error?::text)
         (resource as Resource.Error).error shouldBe expected.message
     }
 }
 
-internal class ErrorNull403Test : BaseNullTest<Error?>(StatusCode.FORBIDDEN_403.code) {
+internal class ErrorNull431Test : BaseNullTest<Error?>(
+    StatusCode.REQUEST_HEADER_FIELDS_TOO_LARGE_431.code
+) {
 
     @Test
     fun `suspend call with null error`() = runBlocking {
-        (service.getDog() as Forbidden).error shouldBe expected
+        (service.getDog() as RequestHeaderFieldsTooLarge).error shouldBe expected
     }
 }
