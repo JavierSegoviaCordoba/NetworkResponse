@@ -64,9 +64,11 @@ val resource: Resource<UserDTO, Error> = networkResponse.toResource(
     success = { userDto: UserDTO -> userDTO.toUser() },
     error = { errorDTO: ErrorDTO? -> errorDTO.toError() }
 )
-// UserDTO and ErrorDTO are your network objects, User and Error your domain objects UserDTO.toUser() 
-// and ErrorDTO?.toError() com.javiersc.resources.networkResponse.mappers should 
-// be created by youself There are more maps, not only mapResponse and mapError for more customization.
+// UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
+ 
+// UserDTO.toUser() and ErrorDTO?.toError() mappers should be created by youself There are more 
+// maps, not only mapResponse and mapError for more customization.
+
 // For example, you can map all errors with mapError, but if you need a custom map for NotFound
 // you can use mapNotFound. This let you not only map an ErrorDTO object, you can use a custom
 // provide so you can send custom messages if your backend is not sending values which can be used.
