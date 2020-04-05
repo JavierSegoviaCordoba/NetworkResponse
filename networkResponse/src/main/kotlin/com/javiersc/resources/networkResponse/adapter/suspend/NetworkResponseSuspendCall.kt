@@ -11,6 +11,7 @@ import com.javiersc.resources.networkResponse.adapter.utils.printlnError
 import com.javiersc.resources.networkResponse.adapter.utils.printlnWarning
 import kotlinx.serialization.json.JsonDecodingException
 import kotlinx.serialization.json.JsonException
+import okhttp3.Headers
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
@@ -83,7 +84,14 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )
-    callback.onResponse(this, Response.success(NetworkResponse.Success.NoContent(headers = null)))
+    callback.onResponse(
+        this,
+        Response.success(
+            NetworkResponse.Success.NoContent(
+                headers = Headers.of(mutableMapOf("Content-Length" to "0"))
+            )
+        )
+    )
 }
 
 private fun onIllegalStateException(throwable: Throwable) {

@@ -134,7 +134,7 @@ internal fun <R, E> handleAllNoSuccess(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     code: Int,
     errorBody: E?,
-    headers: Headers?
+    headers: Headers
 ) {
     @Suppress("MagicNumber")
     when (code) {
@@ -148,7 +148,7 @@ internal fun <R, E> handleAllNoSuccess(
 internal fun <R, E> handle1xx(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     code: Int,
-    headers: Headers?
+    headers: Headers
 ) = with(deferred) {
     when (code.statusCode) {
         CONTINUE_100 -> complete(Continue(headers))
@@ -164,7 +164,7 @@ internal fun <R, E> handle2xx(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     code: Int,
     body: R?,
-    headers: Headers?
+    headers: Headers
 ) = with(deferred) {
     if (body == null) when (code.statusCode) {
         NO_CONTENT_204 -> complete(NoContent(headers))
@@ -188,7 +188,7 @@ internal fun <R, E> handle2xx(
 internal fun <R, E> handle3xx(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     code: Int,
-    headers: Headers?
+    headers: Headers
 ) = with(deferred) {
     when (code.statusCode) {
         MULTIPLE_CHOICE_300 -> complete(MultipleChoices(headers))
@@ -209,7 +209,7 @@ internal fun <R, E> handle4xx(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     code: Int,
     errorBody: E?,
-    headers: Headers?
+    headers: Headers
 ) = with(deferred) {
     when (code.statusCode) {
         BAD_REQUEST_400 -> complete(BadRequest(errorBody, headers))
@@ -251,7 +251,7 @@ internal fun <R, E> handle5xx(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     code: Int,
     errorBody: E?,
-    headers: Headers?
+    headers: Headers
 ) = with(deferred) {
     when (code.statusCode) {
         INTERNAL_SERVER_ERROR_500 -> complete(InternalServerError(errorBody, headers))

@@ -9,9 +9,12 @@ import com.javiersc.resources.networkResponse.extensions.toResource
 import com.javiersc.resources.networkResponse.tests.BaseNullTest
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.beOfType
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
+import okhttp3.internal.http2.Header
+import okhttp3.internal.toHeaderList
 import org.junit.jupiter.api.Test
 
 internal class SuccessNullBodyTest : BaseNullTest<Dog>(StatusCode.OK_200.code) {
@@ -20,7 +23,7 @@ internal class SuccessNullBodyTest : BaseNullTest<Dog>(StatusCode.OK_200.code) {
     fun `suspend call`() = runBlocking {
         with(service.getDog()) {
             this should beOfType<NoContent<Dog>>()
-            (this as NoContent).headers shouldBe null
+            (this as NoContent).headers.toHeaderList() shouldContain Header("Content-Length", "0")
         }
     }
 
@@ -28,7 +31,7 @@ internal class SuccessNullBodyTest : BaseNullTest<Dog>(StatusCode.OK_200.code) {
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await()) {
             this should beOfType<NoContent<Dog>>()
-            (this as NoContent).headers shouldBe null
+            (this as NoContent).headers.toHeaderList() shouldContain Header("Content-Length", "0")
         }
     }
 

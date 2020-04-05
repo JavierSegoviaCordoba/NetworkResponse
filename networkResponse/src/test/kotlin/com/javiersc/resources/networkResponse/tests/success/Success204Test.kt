@@ -22,7 +22,7 @@ internal class Success204Test : BaseNullTest<Dog?>(StatusCode.NO_CONTENT_204.cod
     fun `suspend call`() = runBlocking {
         with(service.getDog()) {
             this should beOfType<NoContent<Dog>>()
-            (this as NoContent).headers!!.toHeaderList() shouldContain expectedHeader
+            (this as NoContent).headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -30,7 +30,7 @@ internal class Success204Test : BaseNullTest<Dog?>(StatusCode.NO_CONTENT_204.cod
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await()) {
             this should beOfType<NoContent<Dog>>()
-            (this as NoContent).headers!!.toHeaderList() shouldContain expectedHeader
+            (this as NoContent).headers.toHeaderList() shouldContain expectedHeader
         }
     }
 

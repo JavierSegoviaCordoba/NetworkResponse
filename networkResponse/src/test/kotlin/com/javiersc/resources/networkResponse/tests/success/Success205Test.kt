@@ -22,7 +22,7 @@ internal class Success205Test : BaseNullTest<Dog?>(StatusCode.RESET_CONTENT_205.
     fun `suspend call`() = runBlocking {
         with(service.getDog()) {
             this should beOfType<ResetContent<Dog>>()
-            (this as ResetContent).headers!!.toHeaderList() shouldContain expectedHeader
+            (this as ResetContent).headers.toHeaderList() shouldContain expectedHeader
         }
     }
 
@@ -30,7 +30,7 @@ internal class Success205Test : BaseNullTest<Dog?>(StatusCode.RESET_CONTENT_205.
     fun `async call`() = runBlocking {
         with(service.getDogAsync().await()) {
             this should beOfType<ResetContent<Dog>>()
-            (this as ResetContent).headers!!.toHeaderList() shouldContain expectedHeader
+            (this as ResetContent).headers.toHeaderList() shouldContain expectedHeader
         }
     }
 

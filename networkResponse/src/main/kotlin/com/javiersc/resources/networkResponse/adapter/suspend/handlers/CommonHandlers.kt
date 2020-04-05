@@ -137,7 +137,7 @@ internal fun <R : Any, E : Any> handleAllNoSuccess(
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
     errorBody: E?,
-    headers: Headers?
+    headers: Headers
 ) {
     @Suppress("MagicNumber")
     when (code) {
@@ -152,7 +152,7 @@ internal fun <R : Any, E : Any> handle1xx(
     call: NetworkResponseSuspendCall<R, E>,
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
-    headers: Headers?
+    headers: Headers
 ) = with(callback) {
     when (code.statusCode) {
         CONTINUE_100 -> onResponse(call, Response.success(Continue(headers)))
@@ -169,7 +169,7 @@ internal fun <R : Any, E : Any> handle2xx(
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
     body: R?,
-    headers: Headers?
+    headers: Headers
 ) = with(callback) {
     if (body == null) when (code.statusCode) {
         NO_CONTENT_204 -> onResponse(call, Response.success(NoContent(headers)))
@@ -195,7 +195,7 @@ internal fun <R : Any, E : Any> handle3xx(
     call: NetworkResponseSuspendCall<R, E>,
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
-    headers: Headers?
+    headers: Headers
 ) = with(callback) {
     when (code.statusCode) {
         MULTIPLE_CHOICE_300 -> onResponse(call, Response.success(MultipleChoices(headers)))
@@ -218,7 +218,7 @@ internal fun <R : Any, E : Any> handle4xx(
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
     errorBody: E?,
-    headers: Headers?
+    headers: Headers
 ) = with(callback) {
     when (code.statusCode) {
         BAD_REQUEST_400 -> onResponse(call, Response.success(BadRequest(errorBody, headers)))
@@ -276,7 +276,7 @@ internal fun <R : Any, E : Any> handle5xx(
     callback: Callback<NetworkResponse<R, E>>,
     code: Int,
     errorBody: E?,
-    headers: Headers?
+    headers: Headers
 ) = with(callback) {
     when (code.statusCode) {
         INTERNAL_SERVER_ERROR_500 ->
