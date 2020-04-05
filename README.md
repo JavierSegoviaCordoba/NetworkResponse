@@ -1,6 +1,8 @@
-[![Download](https://api.bintray.com/packages/javiersegoviacordoba/Resources/NetworkResponse/images/download.svg)](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion)
-[![Build](https://github.com/JavierSegoviaCordoba/NetworkResponse/workflows/Build/badge.svg)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions)
-[![coverage](https://img.shields.io/codecov/c/github/javiersegoviacordoba/networkResponse)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse)
+[![Download](https://img.shields.io/bintray/v/javiersegoviacordoba/Resources/NetworkResponse?label=Version)](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion)
+[![Master](https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Master/master?label=Master&logo=GitHub)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3AMaster)
+[![Coverage Master](https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/networkresponse/master?label=Master&logo=codecov&logoColor=white)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/master)
+[![Develop](https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Develop/develop?label=Develop&logo=GitHub)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3ADevelop)
+[![Coverage Develop](https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/networkresponse/develop?label=Develop&logo=codecov&logoColor=white&logoWidth=0)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/develop)
 
 # [NetworkResponse](/networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
 
