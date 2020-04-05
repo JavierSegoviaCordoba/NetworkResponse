@@ -31,6 +31,10 @@ import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.Unsupp
 import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UpgradeRequired
 import com.javiersc.resources.networkResponse.NetworkResponse.ClientError.UriTooLong
 import com.javiersc.resources.networkResponse.NetworkResponse.Info
+import com.javiersc.resources.networkResponse.NetworkResponse.Info.Continue
+import com.javiersc.resources.networkResponse.NetworkResponse.Info.EarlyHints
+import com.javiersc.resources.networkResponse.NetworkResponse.Info.Processing
+import com.javiersc.resources.networkResponse.NetworkResponse.Info.SwitchingProtocol
 import com.javiersc.resources.networkResponse.NetworkResponse.InternetNotAvailable
 import com.javiersc.resources.networkResponse.NetworkResponse.Redirection
 import com.javiersc.resources.networkResponse.NetworkResponse.Redirection.Found
@@ -345,10 +349,10 @@ inline fun <
             Resource.Error(customError?.invoke(this.error) ?: error(this.error))
         is InternetNotAvailable -> Resource.Error(internetNotAvailable?.invoke(this.error))
         is RemoteError -> Resource.Error(remoteError?.invoke(this.error))
-        is Info.Continue -> TODO()
-        is Info.SwitchingProtocol -> TODO()
-        is Info.Processing -> TODO()
-        is Info.EarlyHints -> TODO()
+        is Continue -> TODO()
+        is SwitchingProtocol -> TODO()
+        is Processing -> TODO()
+        is EarlyHints -> TODO()
         is Info.Custom -> TODO()
         is MultipleChoices -> TODO()
         is MovedPermanently -> TODO()
