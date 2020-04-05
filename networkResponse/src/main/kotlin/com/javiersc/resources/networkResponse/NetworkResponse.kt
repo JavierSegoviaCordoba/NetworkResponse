@@ -23,7 +23,7 @@ sealed class NetworkResponse<out NR, out E> {
         data class EarlyHints(val headers: @CS Headers) : Info()
 
         @Serializable
-        data class Custom(val code: Int?, val headers: @CS Headers) : Info()
+        data class Custom(val code: Int, val headers: @CS Headers) : Info()
     }
 
     @Serializable
@@ -74,7 +74,7 @@ sealed class NetworkResponse<out NR, out E> {
         @Serializable
         data class Custom<out NR>(
             val value: NR,
-            val code: Int? = null,
+            val code: Int,
             val headers: @CS Headers
         ) : Success<NR>()
     }
@@ -372,7 +372,7 @@ sealed class NetworkResponse<out NR, out E> {
     @Serializable
     data class CustomError<out E>(
         val error: E? = null,
-        val code: Int? = null,
+        val code: Int,
         val headers: @CS Headers
     ) : NetworkResponse<@CS Nothing, E>()
 
