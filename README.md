@@ -7,9 +7,10 @@
 `NetworkResponse` is a sealed class which has all standard status codes and let you use custom 
 codes too. I recommend you check the class directly [here](networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt).
 
-This library works very good if you use it together 
+This library works very well when used in conjunction with 
 [`Resource`](https://github.com/JavierSegoviaCordoba/Resource) which is very similar
 to `NetworkResponse` but thought to use with another architecture layer, for example domain objects.
+`NetworkResponse` has mappers to transform it to a `Resource`.
 
 ## Features
 - Retrofit
