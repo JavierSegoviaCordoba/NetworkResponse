@@ -13,3 +13,6 @@ internal val Project.localProperties: Properties?
             null
         }
     }
+
+val String.isNonStable: Boolean
+    get() = this.contains("alpha", true) || this.contains("beta", true)

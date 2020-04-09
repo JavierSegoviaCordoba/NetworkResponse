@@ -16,14 +16,12 @@ object Dependencies {
 
     object Retrofit2 {
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-        const val retrofitMock = "com.squareup.retrofit2:retrofit-mock:${Versions.retrofit}"
         const val converterGson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
         const val converterSerialization =
             "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0"
     }
 
     object OkHttp {
-        const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okHttp}"
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
     }
 
@@ -32,15 +30,10 @@ object Dependencies {
     const val jUnit = "org.junit.jupiter:junit-jupiter-api:${Versions.jUnit}"
     const val jUnitEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.jUnit}"
 
-    const val mockito = "org.mockito:mockito-core:${Versions.mockito}"
-
     object Kotest {
         const val junit = "io.kotest:kotest-runner-junit5-jvm:${Versions.kotest}"
         const val assertions = "io.kotest:kotest-assertions-core-jvm:${Versions.kotest}"
     }
-
-    const val truth = "com.google.truth:truth:${Versions.truth}"
-    const val guava = "com.google.guava:guava:${Versions.guava}"
 
     const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.detekt}"
 }
