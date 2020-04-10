@@ -1,5 +1,4 @@
 import plugins.extensions.bintray
-import plugins.extensions.localProperties
 import plugins.extensions.publishing
 
 apply(plugin = Plugins.bintray)
@@ -11,8 +10,10 @@ val sourcesJar by tasks.creating(Jar::class) {
 }
 
 bintray {
-    user = localProperties?.getProperty(Bintray.user)
-    key = localProperties?.getProperty(Bintray.key)
+    runCatching {
+        user = property("user") as String?
+        key = property("key") as String?
+    }
     publish = true
     pkg.apply {
         repo = Bintray.repo
@@ -23,7 +24,7 @@ bintray {
         setLicenses(Bintray.licenses)
         issueTrackerUrl = Bintray.issueTrackerUrl
         vcsUrl = Bintray.vscUrl
-        version.apply { name = Bintray.version }
+        version.apply { name = Build.version }
         setLabels(Bintray.label1, Bintray.label2, Bintray.label3, Bintray.label4)
     }
     setPublications(Bintray.name)
@@ -32,9 +33,9 @@ bintray {
 publishing {
     publications {
         create<MavenPublication>(Bintray.name) {
-            groupId = Bintray.groupId
-            artifactId = Bintray.artifactId
-            version = Bintray.version
+            groupId = Build.groupId
+            artifactId = Build.artifactId
+            version = Build.version
             artifact(sourcesJar)
             artifact(Bintray.artifactDir)
         }
