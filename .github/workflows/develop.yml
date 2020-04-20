@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: Build, tests and reports
     runs-on: macos-latest
 
     steps:
