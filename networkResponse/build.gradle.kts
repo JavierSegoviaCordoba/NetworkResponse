@@ -1,51 +1,79 @@
 plugins {
-    id(Plugins.Kotlin.jvm)
+    id(Plugins.Kotlin.multiplatform)
     id(Plugins.Kotlin.kotlinSerialization)
-    BintraySetup
-    jacoco
+    JaCoCo
+    Detekt
+    MavenPublish
+    Nexus
 }
 
 repositories {
+    maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    mavenCentral()
     jcenter()
 }
 
-tasks {
-    test {
-        useJUnit()
-        useJUnitPlatform()
-        testLogging {
-            setExceptionFormat("full")
-            events("skipped", "failed")
-        }
-    }
-    jacocoTestReport {
-        executionData(
-            fileTree(project.rootDir.absolutePath).include("**/build/jacoco/*.exec")
-        )
+group = "com.javiersc.resources"
+version = "0.1.0"
 
-        reports {
-            xml.isEnabled = true
-            xml.destination = file("$buildDir/reports/jacoco/report.xml")
-            html.isEnabled = false
-            csv.isEnabled = false
-        }
-    }
+val javaDocs by tasks.creating(Jar::class) {
+    dependsOn("javadocJar")
+    archiveClassifier.set("javadoc")
 }
 
-dependencies {
-    api(Dependencies.resource)
+kotlin {
+    jvm {
+        mavenPublication {
+            artifact(javaDocs)
+        }
+    }
 
-    implementation(Dependencies.Kotlin.stdlib)
-    implementation(Dependencies.KotlinX.Coroutines.core)
-    implementation(Dependencies.KotlinX.Coroutines.test)
-    implementation(Dependencies.Retrofit2.retrofit)
-    implementation(Dependencies.KotlinX.serialization)
+    sourceSets {
+        commonMain {
+            dependencies {
+                commonDependencies.apply {
+                    api(kotlinStdlib)
+                    api(kotlinSerialization)
+                    api(coroutinesCore)
+                    api(resource)
+                }
+            }
+        }
+        commonTest {
+            dependencies {
+                commonTestDependencies.apply {
+                    implementation(kotlinTest)
+                    implementation(kotlinTestAnnotation)
+                }
+            }
+        }
 
-    testImplementation(Dependencies.jUnit)
-    testRuntimeOnly(Dependencies.jUnitEngine)
-    testImplementation(Dependencies.Kotest.junit)
-    testImplementation(Dependencies.Kotest.assertions)
-    testImplementation(Dependencies.Retrofit2.retrofit)
-    testImplementation(Dependencies.Retrofit2.converterSerialization)
-    testImplementation(Dependencies.OkHttp.mockWebServer)
+        val jvmMain by getting {
+            dependencies {
+                jvmDependencies.apply {
+                    api(kotlinStdlib)
+                    api(kotlinSerialization)
+                    api(coroutinesCore)
+                    api(retrofit)
+                    api(okHttp)
+                    api(kotlinSerialization)
+                    api(converterSerialization)
+                }
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                jvmTestDependencies.apply {
+                    implementation(kotlinTest)
+                    implementation(kotlinTestJUnit)
+                    implementation(mockWebServer)
+                    implementation(kotestJunit)
+                    implementation(kotestAssertions)
+                }
+            }
+        }
+        all {
+            languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
+        }
+    }
 }

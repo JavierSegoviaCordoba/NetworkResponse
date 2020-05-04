@@ -1,15 +1,16 @@
-| ![Master](https://img.shields.io/badge/Master-blue)     | [![Master Download](https://img.shields.io/bintray/v/javiersegoviacordoba/Resources/NetworkResponse?label=Version)](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion)               | [![Coverage Master](https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/NetworkResponse/master?label=Coverage&logo=codecov&logoColor=white)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/master)    | [![Master Build](https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Master/master?label=Build&logo=GitHub)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3AMaster)     | [![Quality Master](https://img.shields.io/codacy/grade/cedb7663279a4526befcbe16be6bfd66/master?label=Code%20quality&logo=codacy&logoColor=white)](https://app.codacy.com/manual/JavierSegoviaCordoba/NetworkResponse/dashboard?bid=17394400)   |
-| :------------------------------------------------------ | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![Develop](https://img.shields.io/badge/Develop-orange) | [![Develop Download](https://img.shields.io/bintray/v/javiersegoviacordoba/Resources/NetworkResponse?label=Version&color=orange)](https://bintray.com/javiersegoviacordoba/Resources/NetworkResponse/_latestVersion) | [![Coverage Develop](https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/NetworkResponse/develop?label=Coverage&logo=codecov&logoColor=white)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/develop) | [![Develop Build](https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Develop/develop?label=Build&logo=GitHub)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3ADevelop) | [![Quality Develop](https://img.shields.io/codacy/grade/cedb7663279a4526befcbe16be6bfd66/develop?label=Code%20quality&logo=codacy&logoColor=white)](https://app.codacy.com/manual/JavierSegoviaCordoba/NetworkResponse/dashboard?bid=17394399) |
+| [![Master Download](https://img.shields.io/maven-central/v/com.javiersc.resources/network-response?label=Master)](https://repo1.maven.org/maven2/com/javiersc/resources/network-response/)                                                                          | [![Coverage Master](https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/NetworkResponse/master?label=Coverage&logo=codecov&logoColor=white)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/master)    | [![Master Build](https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Master/master?label=Build&logo=GitHub)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3AMaster/master)      | [![Quality Master](https://img.shields.io/codacy/grade/be9b2f773c72435a87809cc31bae3df9/master?label=Code%20quality&logo=codacy&logoColor=white)](https://app.codacy.com/manual/JavierSegoviaCordoba/NetworkResponse/dashboard?bid=17394400)   |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![Develop Download](https://img.shields.io/nexus/s/com.javiersc.resources/network-response?server=https%3A%2F%2Foss.sonatype.org%2F&label=Develop&color=orange)](https://oss.sonatype.org/content/repositories/snapshots/com/javiersc/resources/network-response/) | [![Coverage Develop](https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/NetworkResponse/develop?label=Coverage&logo=codecov&logoColor=white)](https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/develop) | [![Develop Build](https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Develop/develop?label=Build&logo=GitHub)](https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3ADevelop/develop) | [![Quality Develop](https://img.shields.io/codacy/grade/be9b2f773c72435a87809cc31bae3df9/develop?label=Code%20quality&logo=codacy&logoColor=white)](https://app.codacy.com/manual/JavierSegoviaCordoba/NetworkResponse/dashboard?bid=17394399) |
 
-# [NetworkResponse](/networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
+# [NetworkResponse](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
 
-`NetworkResponse` is a `sealed class` which has all standard status codes and let you use custom 
-codes too. I recommend you check the class directly [here](networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt).
-
-There are some custom errors that I have to mention:
-  -  `InternetNotAvailable` when the device has no internet.
-  -  `RemoteError` when the client can't connect to the server.
+`NetworkResponse` is a `sealed class` to wrap responses from network requests:
+  - `Info` [`code` and `headers`]
+  - `Success` [`data` (not null), `code` and `headers`]
+    - `Empty` [`code` and `headers`]
+  - `ClientError` [`error` (can be null), `code` and `headers`]
+  - `ServerError` [`error` (can be null), `code` and `headers`]
+  - `InternetNotAvailable` [`error`]
 
 This library works very well when used in conjunction with 
 [`Resource`](https://github.com/JavierSegoviaCordoba/Resource) which is very similar
@@ -17,15 +18,17 @@ to `NetworkResponse` but thought to use with another architecture layer, for exa
 `NetworkResponse` has mappers to transform it to a `Resource`.
 
 ## Features
-  -  Retrofit
+  -  Multiplatform (NetworkResponse and Resource support)
+  -  Retrofit support (jvm)
   -  Kotlin Serialization
-  -  Gson
+  
+## Roadmap
+  - Ktor support
 
 ## Download
-```groovy
-Groovy
-implementation "com.javiersc.resources:network-response:$version"
-```
+
+This library is Kotlin Multiplatform but at this moment jvm is the only artifact generated. It is 
+available at Maven Central.
 
 ```kotlin
 Kotlin DSL
@@ -63,27 +66,15 @@ fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
 ## Mappers
 
 Map any `NetworkResponse` to `Resource` easily with this
-[extension function](/networkResponse/src/main/kotlin/com/javiersc/resources/networkResponse/extensions/NetworkResponse.kt):
+[extension function](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/extensions/NetworkResponse.kt):
 ```kotlin
 val resource: Resource<UserDTO, Error> = networkResponse.toResource(
-    success = { userDto: UserDTO -> userDTO.toUser() },
-    error = { errorDTO: ErrorDTO? -> errorDTO.toError() }
+    success = { userDTO: UserDTO, code: Int, headers: Headers -> userDTO.toUser() },
+    error = { errorDTO: ErrorDTO?, code: Int, headers: Headers -> errorDTO.toError() },
+    internetNotAvailable = { errorMessage: String -> errorMessage.toError() }
 )
 // UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
- 
-// UserDTO.toUser() and ErrorDTO?.toError() mappers should be created by youself There are more 
-// maps, not only success and error, for more customization.
-```
-Both, `success` and `error` are needed.
-
-This `map` is really huge, it lets you map every possibility, for example a custom NotFound error:
-```kotlin
-val resource: Resource<UserDTO, Error> = networkResponse.toResource(
-    success = { userDto: UserDTO -> userDTO.toUser() },
-    error = { errorDTO: ErrorDTO? -> errorDTO.toError() },
-    notFound = { errorDTO: ErrorDTO? -> Error("Here I have a custom error") },
-    internetNotAvailable = { errorDTO: ErrorDTO? -> Error("Check your network settings") }
-)
+// UserDTO.toUser(), ErrorDTO?.toError() and String.toError() mappers should be created by yourself.
 ```
 
 ## Credits
