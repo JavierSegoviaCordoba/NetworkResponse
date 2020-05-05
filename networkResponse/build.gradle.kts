@@ -13,8 +13,13 @@ repositories {
     jcenter()
 }
 
+val networkResponseVersion: String by project
+val isNetworkResponseRelease: String by project
+
+val finalVersion = networkResponseVersion.generateVersion(isNetworkResponseRelease)
+
 group = "com.javiersc.resources"
-version = "0.1.0"
+version = finalVersion
 
 val javaDocs by tasks.creating(Jar::class) {
     dependsOn("javadocJar")
