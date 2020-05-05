@@ -13,13 +13,15 @@ signing {
     sign(publishing.publications)
 }
 
+val isNetworkResponseRelease: String by project
+
 publishing {
     publications.withType<MavenPublication> {
         repositories {
             val releasesRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             val snapshotsRepo = "https://oss.sonatype.org/content/repositories/snapshots"
 
-            maven(releasesRepo) {
+            maven(if (isNetworkResponseRelease.toBoolean()) releasesRepo else snapshotsRepo) {
                 credentials {
                     username = System.getenv("ossUser")
                     password = System.getenv("ossToken")
