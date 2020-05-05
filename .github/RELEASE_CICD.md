@@ -1,4 +1,4 @@
-# Release to MavenCentral from local machine
+# Release to MavenCentral from GitHub Actions
 
 ## Steps:
 
@@ -18,7 +18,7 @@ You can change the version and indicate if is release or snapshot in the next fi
 #### Releases
 
 Before create the pull request to sync develop with master, change the project version and set 
-isNetworkResponseRelease to true. Then create the pull request.
+`isNetworkResponseRelease` to true. Then create the pull request.
 
 #### Snapshots
 

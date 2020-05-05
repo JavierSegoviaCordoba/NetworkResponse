@@ -24,7 +24,7 @@ Change the project version and set `isNetworkResponseRelease` to true.
 
 Change the project version and set `isNetworkResponseRelease` to false.
 
-Automatically, the version generated include a timestamp and the suffix `-SNAPSHOT`.
+Automatically, the version generated includes a timestamp and the suffix `-SNAPSHOT`.
    
 ### Upload artifacts to Nexus Repository Manager
 
