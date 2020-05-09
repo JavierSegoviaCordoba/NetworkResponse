@@ -7,6 +7,7 @@ import com.javiersc.resources.networkResponse.retrofit.config.models.Dog
 import com.javiersc.resources.networkResponse.retrofit.config.models.DogDTO
 import com.javiersc.resources.networkResponse.retrofit.config.models.ErrorD
 import com.javiersc.resources.networkResponse.retrofit.config.models.ErrorDTO
+import com.javiersc.resources.networkResponse.retrofit.config.models.toDefaultDog
 import com.javiersc.resources.networkResponse.retrofit.config.models.toDog
 import com.javiersc.resources.networkResponse.retrofit.config.models.toErrorD
 import com.javiersc.resources.networkResponse.retrofit.config.service.DogService
@@ -45,9 +46,10 @@ internal class RemoteErrorTest : BaseTest<String>() {
     fun `mapping NetworkResponse to Resource`() = runBlocking {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
+            successEmpty = ::toDefaultDog,
             error = ErrorDTO?::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
-        (resource as Resource.Error).error?.message shouldBe expected
+        (resource as Resource.Error).error.message shouldBe expected
     }
 }

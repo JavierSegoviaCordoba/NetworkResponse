@@ -9,6 +9,7 @@ plugins {
 
 repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
     mavenCentral()
     jcenter()
 }
