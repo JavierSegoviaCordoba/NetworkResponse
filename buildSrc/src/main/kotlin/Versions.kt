@@ -7,7 +7,7 @@ object Versions {
     const val retrofit = "2.8.1"
     const val okHttp = "4.6.0"
 
-    const val resource = "1.0.0"
+    const val resource = "2.0.0"
 
     const val kotest = "4.0.5"
 }
