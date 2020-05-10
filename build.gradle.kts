@@ -1,41 +1,20 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import tasks.setup
+import tasks.baseKotlinOptions
 
 plugins {
-    id(Plugins.gradleVersions) version Versions.gradleVersions
-    id(Plugins.detekt) version Versions.detekt
-    jacoco
-}
-
-subprojects {
-    tasks {
-        withType<Test> {
-            // ToFix MockWebServer with gradle parallel tests execution
-            // maxParallelForks = Runtime.getRuntime().availableProcessors()
-            useJUnitPlatform()
-            useTestNG()
-        }
-    }
+    id(Plugins.gradleVersions)
 }
 
 allprojects {
-    repositories {
-        jcenter()
-    }
-
-    apply(plugin = Plugins.detekt)
-
-    dependencies {
-        detektPlugins(Dependencies.detektFormatting)
-    }
-
-    detekt {
-        toolVersion = Versions.detekt
-        ignoreFailures = true
-        autoCorrect = true
-    }
-
     tasks {
-        withType(KotlinCompile::setup)
+        withType<Delete> { delete(buildDir) }
+        baseKotlinOptions
+    }
+}
+
+tasks {
+    withType<Test> {
+        maxParallelForks = Runtime.getRuntime().availableProcessors()
+        useJUnitPlatform()
+        useTestNG()
     }
 }
