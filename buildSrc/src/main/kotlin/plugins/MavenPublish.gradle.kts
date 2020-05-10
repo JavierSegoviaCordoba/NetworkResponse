@@ -13,6 +13,7 @@ signing {
     sign(publishing.publications)
 }
 
+val isNetworkResponseReleaseEnv: Boolean? = System.getenv("isNetworkResponseReleaseEnv")?.toBoolean()
 val isNetworkResponseRelease: String by project
 
 publishing {
@@ -44,7 +45,9 @@ publishing {
             val releasesRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
             val snapshotsRepo = "https://oss.sonatype.org/content/repositories/snapshots"
 
-            maven(if (isNetworkResponseRelease.toBoolean()) releasesRepo else snapshotsRepo) {
+            val isRelease = isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean()
+
+            maven(if (isRelease) releasesRepo else snapshotsRepo) {
                 credentials {
                     username = System.getenv("ossUser")
                     password = System.getenv("ossToken")

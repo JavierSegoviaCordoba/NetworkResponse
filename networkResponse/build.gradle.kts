@@ -15,9 +15,12 @@ repositories {
 }
 
 val networkResponseVersion: String by project
+val isNetworkResponseReleaseEnv: Boolean? =
+    System.getenv("isNetworkResponseReleaseEnv")?.toBoolean()
 val isNetworkResponseRelease: String by project
 
-val finalVersion = networkResponseVersion.generateVersion(isNetworkResponseRelease)
+val finalVersion = networkResponseVersion
+    .generateVersion(isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean())
 
 group = "com.javiersc.resources"
 version = finalVersion

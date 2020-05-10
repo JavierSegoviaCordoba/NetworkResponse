@@ -11,21 +11,17 @@
 
 ### Versioning
 
-You can change the version and indicate if is release or snapshot in the next file:
+You can change the version in the next file:
 
 - networkResponse/[gradle.properties](/networkResponse/gradle.properties)
 
 #### Releases
 
-Before create the pull request to sync develop with master, change the project version and set 
-`isNetworkResponseRelease` to true. Then create the pull request.
+Push to master
 
 #### Snapshots
 
-Before create the pull request to develop, change the project version and set 
-`isNetworkResponseRelease` to false. 
-
-Automatically, the version generated include a timestamp and the suffix `-SNAPSHOT`.
+Push to develop
       
 ### Configure CI/CD (GitHub)
 
