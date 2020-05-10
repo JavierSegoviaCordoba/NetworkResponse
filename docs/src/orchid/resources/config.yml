@@ -1,0 +1,67 @@
+site:
+  theme: 'Editorial'
+  baseUrl: 'http://network-response.javiersc.com'
+  about:
+    siteName: NetworkResponse
+    siteDescription: NetworkResponse is a sealed class to wrap responses from network requests.
+
+theme:
+  primaryColor: '#bd6981'
+  legacySearch: false
+  social:
+    github: 'JavierSegoviaCordoba/NetworkResponse'
+  metaComponents:
+    - type: 'orchidSearch'
+  extraCss:
+    - 'assets/css/code.css'
+  menu:
+    - type: 'separator'
+      title: 'API Docs'
+
+    - type: 'sourcedocPages'
+      moduleType: 'kotlindoc'
+      moduleName: 'NetworkResponseCommon'
+      node: 'classes'
+      asSubmenu: true
+      submenuTitle: 'Classes'
+    - type: 'sourcedocPages'
+      moduleType: 'kotlindoc'
+      moduleName: 'NetworkResponseCommon'
+      node: 'packages'
+      asSubmenu: true
+      submenuTitle: 'Packages'
+    - type: 'sourcedocPages'
+      moduleType: 'kotlindoc'
+      moduleName: 'NetworkResponseJVM'
+      node: 'classes'
+      asSubmenu: true
+      submenuTitle: 'JVM Classes'
+    - type: 'sourcedocPages'
+      moduleType: 'kotlindoc'
+      moduleName: 'NetworkResponseJVM'
+      node: 'packages'
+      asSubmenu: true
+      submenuTitle: 'JVM Packages'
+
+kotlindoc:
+  modules:
+    - { name: 'NetworkResponseCommon',  sourceDirs: ['./../../../../networkResponse/src/commonMain/kotlin']}
+    - { name: 'NetworkResponseJVM',  sourceDirs: ['./../../../../networkResponse/src/jvmMain/kotlin']}
+  pages:
+    menu:
+      - type: 'sourcedocPageLinks'
+        moduleType: 'kotlindoc'
+        itemTitleType: 'SIGNATURE'
+        includeItems: true
+
+allPages:
+  metaComponents:
+    - type: 'kotlinPlayground'
+      selector: "pre code[class='language-run-kotlin']"
+
+services:
+  publications:
+    stages:
+      - type: 'githubPages'
+        username: 'JavierSegoviaCordoba'
+        repo: 'JavierSegoviaCordoba/NetworkResponse'

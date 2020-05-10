@@ -30,7 +30,7 @@ to `NetworkResponse` but thought to use with another architecture layer, for exa
 This library is Kotlin Multiplatform but at this moment jvm is the only artifact generated. It is 
 available at Maven Central.
 
-```kotlin
+```run-kotlin
 implementation("com.javiersc.resources:network-response:$version")
 ```
      
@@ -38,18 +38,18 @@ implementation("com.javiersc.resources:network-response:$version")
 
 This adapter for `Retrofit` wraps automatically the `Retrofit` responses with a `NetworkResponse`:
 
-```kotlin
+```run-kotlin
 @GET("users")
 suspend fun getUsers(): NetworkResponse<List<UserDTO>, ErrorDTO>
 // UserDTO and ErrorDTO should be your data classes
 ```
 If the server doesn't return an error body, or it is irrelevant you can mark it as `Unit`:
-```kotlin
+```run-kotlin
 @GET("users")
 suspend fun getUsers(): NetworkResponse<List<UserDTO>, Unit>
 ```
 Add the `NetworkResponseCallAdapterFactory` to the `Retrofit` builder:
-```kotlin
+```run-kotlin
 private val retrofit = Retrofit.Builder().apply {
     //...
     addCallAdapterFactory(NetworkResponseCallAdapterFactory())
@@ -57,7 +57,7 @@ private val retrofit = Retrofit.Builder().apply {
 }.build()
 ```
 It is possible to use `Deferred` too:
-```kotlin
+```run-kotlin
 @GET("users")
 fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
 ```
@@ -66,7 +66,7 @@ fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
 
 Map any `NetworkResponse` to `Resource` easily with this
 [extension function](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/extensions/NetworkResponse.kt):
-```kotlin
+```run-kotlin
 val resource: Resource<UserDTO, Error> = networkResponse.toResource(
     success = { userDTO: UserDTO, code: Int, headers: Headers -> userDTO.toUser() },
     error = { errorDTO: ErrorDTO?, code: Int, headers: Headers -> errorDTO.toError() },
