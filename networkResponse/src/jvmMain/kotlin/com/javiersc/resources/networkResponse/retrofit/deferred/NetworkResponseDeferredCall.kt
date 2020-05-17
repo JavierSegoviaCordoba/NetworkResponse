@@ -35,22 +35,13 @@ internal fun <R : Any, E : Any> deferredAdapt(
         override fun onFailure(call: Call<R>, throwable: Throwable) {
             when (throwable) {
                 is UnknownHostException, is ConnectException, is InterruptedIOException ->
-                    onCommonConnectionException(
-                        deferred,
-                        throwable)
-                is EOFException -> onEOFException(
-                    deferred)
-                is IllegalStateException -> onIllegalStateException(
-                    throwable)
-                is HttpException -> onHttpException(
-                    deferred,
-                    errorConverter,
-                    throwable)
+                    onCommonConnectionException(deferred, throwable)
+                is EOFException -> onEOFException(deferred)
+                is IllegalStateException -> onIllegalStateException(throwable)
+                is HttpException -> onHttpException(deferred, errorConverter, throwable)
                 is JsonDecodingException ->
-                    if (throwable.hasBody) onIllegalStateException(
-                        throwable)
-                    else onEOFException(
-                        deferred)
+                    if (throwable.hasBody) onIllegalStateException(throwable)
+                    else onEOFException(deferred)
                 else -> throw UnknownError("${throwable.message}")
             }
         }
@@ -67,12 +58,20 @@ private fun <R, E> onEOFException(deferred: CompletableDeferred<NetworkResponse<
         """
            | # # # # # # # # # # # # # # WARNING # # # # # # # # # # # # # # # # # # #
            | # Every 2XX response should have a body except 204/205, as the response #
-           | # was empty, the NetworkResponse is transformed to NoContent (204) and  #
-           | # the headers are lost                                                  #
+           | # was empty, the response is transformed to Success with code 204 and   #
+           | # the headers are lost. The type should be Unit.                        #
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )
-    deferred.complete(NetworkResponse.Success.Empty(Constants.NO_CONTENT, emptyHeader))
+
+    @Suppress("UNCHECKED_CAST")
+    try {
+        deferred.complete(NetworkResponse.Success(Unit as R, Constants.NO_CONTENT, emptyHeader))
+    } catch (e: ClassCastException) {
+        throw ClassCastException(
+            "NetworkResponse should use Unit as Success type when there isn't body"
+        )
+    }
 }
 
 private fun onIllegalStateException(throwable: Throwable) {

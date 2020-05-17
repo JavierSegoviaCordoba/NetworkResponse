@@ -21,11 +21,5 @@ internal fun <R : Any, E : Any> Response<R>.responseSuspendHandler(
                 null
             }
 
-    handleSuspend(
-        call,
-        callback,
-        code(),
-        body(),
-        errorBody,
-        headers())
+    handleSuspend(call, callback, code(), body(), errorBody, headers())
 }

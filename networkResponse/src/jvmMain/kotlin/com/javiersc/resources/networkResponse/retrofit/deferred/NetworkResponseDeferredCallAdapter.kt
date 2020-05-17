@@ -16,8 +16,6 @@ internal class NetworkResponseDeferredCallAdapter<R : Any, E : Any>(
     override fun responseType(): Type = successBodyType
 
     override fun adapt(call: Call<R>): CompletableDeferred<NetworkResponse<R, E>> {
-        return deferredAdapt(
-            call,
-            errorConverter)
+        return deferredAdapt(call, errorConverter)
     }
 }

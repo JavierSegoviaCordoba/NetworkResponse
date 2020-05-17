@@ -1,7 +1,7 @@
 package com.javiersc.resources.networkResponse
 
+import kotlinx.serialization.ContextualSerialization
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.ContextualSerialization as CS
 
 @Serializable
 sealed class NetworkResponse<out NR, out E> {
@@ -10,42 +10,39 @@ sealed class NetworkResponse<out NR, out E> {
     data class Info(
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<@CS Nothing, @CS Nothing>()
+    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
 
     @Serializable
     data class Success<out NR>(
         val data: NR,
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<NR, @CS Nothing>() {
-        data class Empty(
-            val code: Int,
-            val headers: Headers,
-        ) : NetworkResponse<@CS Nothing, @CS Nothing>()
-    }
+    ) : NetworkResponse<NR, @ContextualSerialization Nothing>()
 
     @Serializable
     data class Redirection(
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<@CS Nothing, @CS Nothing>()
+    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
 
     @Serializable
     data class ClientError<out E>(
         val error: E? = null,
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<@CS Nothing, E>()
+    ) : NetworkResponse<@ContextualSerialization Nothing, E>()
 
     @Serializable
     data class ServerError<out E>(
         val error: E? = null,
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<@CS Nothing, E>()
+    ) : NetworkResponse<@ContextualSerialization Nothing, E>()
 
     @Serializable
-    data class InternetNotAvailable(val error: String) : NetworkResponse<@CS Nothing, @CS Nothing>()
+    data class InternetNotAvailable(
+        val error: String
+    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
 }
 
 typealias Headers = Map<String, List<String>>

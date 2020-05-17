@@ -23,6 +23,12 @@ internal interface DogService {
     @GET("dog")
     suspend fun getDog(): NetworkResponse<DogDTO, ErrorDTO>
 
+    @GET("dog")
+    fun getDogWithoutBodyAsync(): Deferred<NetworkResponse<Unit, ErrorDTO>>
+
+    @GET("dog")
+    suspend fun getDogWithoutBody(): NetworkResponse<Unit, ErrorDTO>
+
     companion object {
         fun getService(httpUrl: HttpUrl, timeoutMillis: Long = 200): DogService {
             val converter = Json(
