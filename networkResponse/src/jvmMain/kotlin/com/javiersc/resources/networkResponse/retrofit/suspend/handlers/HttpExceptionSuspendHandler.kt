@@ -18,11 +18,5 @@ internal fun <R : Any, E : Any> HttpException.httpExceptionSuspendHandler(
     val headers: Headers = response()?.headers()
         ?: mutableMapOf("Content-Length" to "0").toHeaders()
 
-    handleSuspend(
-        call,
-        callback,
-        code(),
-        null,
-        errorBody,
-        headers)
+    handleSuspend(call, callback, code(), null, errorBody, headers)
 }

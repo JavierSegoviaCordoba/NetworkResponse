@@ -16,10 +16,5 @@ internal fun <R : Any, E : Any> HttpException.httpExceptionDeferredHandler(
     val headers: Headers = this.response()?.headers()
         ?: mutableMapOf("Content-Length" to "0").toHeaders()
 
-    handleDeferred(
-        deferred,
-        code(),
-        null,
-        errorBody,
-        headers)
+    handleDeferred(deferred, code(), null, errorBody, headers)
 }

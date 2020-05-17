@@ -7,9 +7,8 @@ import com.javiersc.resources.networkResponse.retrofit.config.models.Dog
 import com.javiersc.resources.networkResponse.retrofit.config.models.DogDTO
 import com.javiersc.resources.networkResponse.retrofit.config.models.ErrorD
 import com.javiersc.resources.networkResponse.retrofit.config.models.ErrorDTO
-import com.javiersc.resources.networkResponse.retrofit.config.models.toDefaultDog
-import com.javiersc.resources.networkResponse.retrofit.config.models.toDog
 import com.javiersc.resources.networkResponse.retrofit.config.models.toErrorD
+import com.javiersc.resources.networkResponse.retrofit.config.models.toNullDog
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseNullTest
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.beOfType
@@ -23,28 +22,27 @@ internal class Success204Test : BaseNullTest<DogDTO?>(StatusCode.NO_CONTENT_204)
 
     @Test
     fun `suspend call`() = runBlocking {
-        with(service.getDog()) {
-            this should beOfType<NetworkResponse.Success.Empty>()
-            (this as NetworkResponse.Success.Empty).headers shouldContain expectedHeader
+        with(service.getDogWithoutBody()) {
+            this should beOfType<NetworkResponse.Success<Unit>>()
+            (this as NetworkResponse.Success).headers shouldContain expectedHeader
         }
     }
 
     @Test
     fun `async call`() = runBlocking {
-        with(service.getDogAsync().await()) {
-            this should beOfType<NetworkResponse.Success.Empty>()
-            (this as NetworkResponse.Success.Empty).headers shouldContain expectedHeader
+        with(service.getDogWithoutBodyAsync().await()) {
+            this should beOfType<NetworkResponse.Success<Unit>>()
+            (this as NetworkResponse.Success<Unit>).headers shouldContain expectedHeader
         }
     }
 
     @Test
     fun `mapping NetworkResponse to Resource`() = runBlocking {
-        val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
-            success = DogDTO::toDog,
-            successEmpty = ::toDefaultDog,
+        val resource: Resource<Dog, ErrorD> = service.getDogWithoutBody().toResource(
+            success = ::toNullDog,
             error = ErrorDTO?::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
-        (resource as Resource.Success).data.name shouldBe "Auri"
+        (resource as Resource.Success).data.name shouldBe "kotlin.Unit"
     }
 }

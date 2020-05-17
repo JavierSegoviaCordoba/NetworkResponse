@@ -15,8 +15,6 @@ internal class NetworkResponseSuspendCallAdapter<R : Any, E : Any>(
     override fun responseType(): Type = successType
 
     override fun adapt(call: Call<R>): Call<NetworkResponse<R, E>> {
-        return NetworkResponseSuspendCall(
-            call,
-            errorBodyConverter)
+        return NetworkResponseSuspendCall(call, errorBodyConverter)
     }
 }

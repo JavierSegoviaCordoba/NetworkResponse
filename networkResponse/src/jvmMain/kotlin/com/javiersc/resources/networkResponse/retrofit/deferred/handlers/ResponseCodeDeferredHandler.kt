@@ -19,10 +19,5 @@ internal fun <R : Any, E : Any> Response<R>.responseDeferredHandler(
                 null
             }
 
-    handleDeferred(
-        deferred,
-        code(),
-        body(),
-        errorBody,
-        headers())
+    handleDeferred(deferred, code(), body(), errorBody, headers())
 }

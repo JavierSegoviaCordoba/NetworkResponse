@@ -47,11 +47,11 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
                         onCommonConnectionExceptions(callback, throwable)
                     is EOFException -> onEOFException(callback)
                     is IllegalStateException -> onIllegalStateException(
-                        throwable)
+                        throwable
+                    )
                     is HttpException -> onHttpException(callback, errorConverter, throwable)
                     is JsonDecodingException ->
-                        if (throwable.hasBody) onIllegalStateException(
-                            throwable)
+                        if (throwable.hasBody) onIllegalStateException(throwable)
                         else onEOFException(callback)
                     else -> throw UnknownError("${throwable.message}")
                 }
@@ -62,9 +62,7 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
     override fun isExecuted(): Boolean = synchronized(this) { backingCall.isExecuted }
 
     override fun clone(): Call<NetworkResponse<R, E>> =
-        NetworkResponseSuspendCall(
-            backingCall.clone(),
-            errorConverter)
+        NetworkResponseSuspendCall(backingCall.clone(), errorConverter)
 
     override fun isCanceled(): Boolean = synchronized(this) { backingCall.isCanceled }
 
@@ -83,14 +81,23 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
         """
            | # # # # # # # # # # # # # # WARNING # # # # # # # # # # # # # # # # # # #
            | # Every 2XX response should have a body except 204/205, as the response #
-           | # was empty, the NetworkResponse is transformed to NoContent (204) and  #
-           | # the headers are lost                                                  #
+           | # was empty, the response is transformed to Success with code 204 and   #
+           | # the headers are lost. The type should be Unit.                        #
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )
-    callback.onResponse(this,
-        Response.success(NetworkResponse.Success.Empty(Constants.NO_CONTENT, headers = emptyHeader))
-    )
+
+    @Suppress("UNCHECKED_CAST")
+    try {
+        callback.onResponse(
+            this,
+            Response.success(NetworkResponse.Success(Unit as R, Constants.NO_CONTENT, emptyHeader))
+        )
+    } catch (e: ClassCastException) {
+        throw ClassCastException(
+            "NetworkResponse should use Unit as Success type when there isn't body"
+        )
+    }
 }
 
 private fun onIllegalStateException(throwable: Throwable) {
