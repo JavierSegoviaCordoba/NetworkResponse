@@ -1,6 +1,5 @@
 plugins {
-    id(Plugins.Kotlin.multiplatform)
-    id(Plugins.Kotlin.kotlinSerialization)
+    KotlinMultiplatform
     JaCoCo
     Detekt
     MavenPublish
