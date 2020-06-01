@@ -120,7 +120,7 @@ private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnecti
         callback.onResponse(
             this,
             Response.success(
-                NetworkResponse.ServerError(
+                NetworkResponse.Error(
                     code = Constants.REMOTE_UNAVAILABLE,
                     headers = emptyHeader
                 )

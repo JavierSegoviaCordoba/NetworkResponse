@@ -14,14 +14,11 @@ internal fun <R, E> handleDeferred(
     val headersMap = headers.toMultimap()
     @Suppress("MagicNumber")
     when (code) {
-        in 100..199 -> deferred.complete(NetworkResponse.Info(code, headersMap))
         in 200..299 -> {
             if (body != null) deferred.complete(NetworkResponse.Success(body, code, headersMap))
             else handleNullBody(deferred, code, headersMap)
         }
-        in 300..399 -> deferred.complete(NetworkResponse.Redirection(code, headersMap))
-        in 400..499 -> deferred.complete(NetworkResponse.ClientError(errorBody, code, headersMap))
-        in 500..599 -> deferred.complete(NetworkResponse.ServerError(errorBody, code, headersMap))
+        in 400..599 -> deferred.complete(NetworkResponse.Error(errorBody, code, headersMap))
     }
 }
 
