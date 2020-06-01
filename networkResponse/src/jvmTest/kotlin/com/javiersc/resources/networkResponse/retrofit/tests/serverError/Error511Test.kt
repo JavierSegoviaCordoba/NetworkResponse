@@ -25,7 +25,7 @@ internal class Error511Test : BaseTest<ErrorDTO>() {
 
     @Test
     fun `suspend call`() = runBlocking {
-        with(service.getDog() as NetworkResponse.ServerError) {
+        with(service.getDog() as NetworkResponse.Error) {
             error shouldBe expected
             code shouldBe codeToFile.first
             headers shouldContain expectedHeader
@@ -34,7 +34,7 @@ internal class Error511Test : BaseTest<ErrorDTO>() {
 
     @Test
     fun `async call`() = runBlocking {
-        with(service.getDogAsync().await() as NetworkResponse.ServerError) {
+        with(service.getDogAsync().await() as NetworkResponse.Error) {
             error shouldBe expected
             code shouldBe codeToFile.first
             headers shouldContain expectedHeader
@@ -57,6 +57,6 @@ internal class ErrorNull511Test :
 
     @Test
     fun `suspend call with null error`() = runBlocking {
-        (service.getDog() as NetworkResponse.ServerError).error shouldBe null
+        (service.getDog() as NetworkResponse.Error).error shouldBe null
     }
 }

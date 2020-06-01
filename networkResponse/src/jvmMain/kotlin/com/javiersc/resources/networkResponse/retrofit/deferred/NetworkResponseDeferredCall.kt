@@ -92,7 +92,7 @@ private fun <R, E> onCommonConnectionException(
     val message = "${throwable.message}"
     if (isInternetAvailable) {
         deferred.complete(
-            NetworkResponse.ServerError(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader)
+            NetworkResponse.Error(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader)
         )
     } else deferred.complete(NetworkResponse.InternetNotAvailable(message))
 }
