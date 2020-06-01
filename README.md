@@ -5,10 +5,8 @@
 # [NetworkResponse](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
 
 `NetworkResponse` is a `sealed class` to wrap responses from network requests:
-  - `Info` [`code` and `headers`]
   - `Success` [`data` (not null), `code` and `headers`]
-  - `ClientError` [`error` (can be null), `code` and `headers`]
-  - `ServerError` [`error` (can be null), `code` and `headers`]
+  - `Error` [`error` (can be null), `code` and `headers`]
   - `InternetNotAvailable` [`error`]
 
 This library works very well when used in conjunction with 
