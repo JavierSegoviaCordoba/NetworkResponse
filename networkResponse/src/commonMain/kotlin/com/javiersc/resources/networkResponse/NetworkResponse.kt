@@ -7,12 +7,6 @@ import kotlinx.serialization.Serializable
 sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
-    data class Info(
-        val code: Int,
-        val headers: Headers,
-    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
-
-    @Serializable
     data class Success<out NR>(
         val data: NR,
         val code: Int,
@@ -20,20 +14,7 @@ sealed class NetworkResponse<out NR, out E> {
     ) : NetworkResponse<NR, @ContextualSerialization Nothing>()
 
     @Serializable
-    data class Redirection(
-        val code: Int,
-        val headers: Headers,
-    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
-
-    @Serializable
-    data class ClientError<out E>(
-        val error: E? = null,
-        val code: Int,
-        val headers: Headers,
-    ) : NetworkResponse<@ContextualSerialization Nothing, E>()
-
-    @Serializable
-    data class ServerError<out E>(
+    data class Error<out E>(
         val error: E? = null,
         val code: Int,
         val headers: Headers,

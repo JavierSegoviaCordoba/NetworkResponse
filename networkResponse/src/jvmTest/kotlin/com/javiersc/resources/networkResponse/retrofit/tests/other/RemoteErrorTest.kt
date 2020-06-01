@@ -31,14 +31,14 @@ internal class RemoteErrorTest : BaseTest<String>() {
     @Test
     fun `suspend call`() = runBlocking {
         val response: NetworkResponse<DogDTO, ErrorDTO> = service.getDog()
-        response should beOfType<NetworkResponse.ServerError<ErrorDTO>>()
+        response should beOfType<NetworkResponse.Error<ErrorDTO>>()
     }
 
     @Test
     fun `async call`() = runBlocking {
         val deferredResponse: Deferred<NetworkResponse<DogDTO, ErrorDTO>> = service.getDogAsync()
         val response: NetworkResponse<DogDTO, ErrorDTO> = deferredResponse.await()
-        response should beOfType<NetworkResponse.ServerError<ErrorDTO>>()
+        response should beOfType<NetworkResponse.Error<ErrorDTO>>()
     }
 
     @Test

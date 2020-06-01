@@ -9,10 +9,7 @@ inline fun <reified NR, reified R, reified NE, reified E> NetworkResponse<NR, NE
     crossinline error: (NE?, Int, Headers) -> E,
     noinline internetNotAvailable: ((String) -> E),
 ): Resource<R, E> = when (this) {
-    is NetworkResponse.Info -> TODO()
     is NetworkResponse.Success -> Resource.Success(success(data, code, headers))
-    is NetworkResponse.Redirection -> TODO()
-    is NetworkResponse.ClientError -> Resource.Error(error(this.error, code, headers))
-    is NetworkResponse.ServerError -> Resource.Error(error(this.error, code, headers))
+    is NetworkResponse.Error -> Resource.Error(error(this.error, code, headers))
     is NetworkResponse.InternetNotAvailable -> Resource.Error(internetNotAvailable.invoke(this.error))
 }
