@@ -1,8 +1,8 @@
 plugins {
-    id("com.eden.orchidPlugin") version "0.20.0"
+    id("com.eden.orchidPlugin") version "0.21.0"
 }
 
-val orchidVersion = "0.20.0"
+val orchidVersion = "0.21.0"
 
 repositories {
     jcenter()

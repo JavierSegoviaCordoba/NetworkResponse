@@ -45,6 +45,7 @@ internal class Error401Test : BaseTest<ErrorDTO>() {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
             error = ErrorDTO?::toErrorD,
+            unknownError = Throwable::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
         (resource as Resource.Error).error.message shouldBe expected.message

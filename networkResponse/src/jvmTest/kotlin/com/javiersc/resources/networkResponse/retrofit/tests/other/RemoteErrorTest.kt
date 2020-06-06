@@ -23,8 +23,7 @@ import kotlin.test.Test
 internal class RemoteErrorTest : BaseTest<String>() {
 
     override val mockWebServer: MockWebServer get() = MockWebServer()
-    override val service: DogService
-        get() = DogService.getService(mockWebServer.url("/"), 1L)
+    override val service: DogService get() = DogService.getService(mockWebServer.url("/"), 1L)
     override val codeToFile: Pair<Int, String?> get() = StatusCode.OK_200 to null
     override val expected: String = ""
 
@@ -46,6 +45,7 @@ internal class RemoteErrorTest : BaseTest<String>() {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
             error = ErrorDTO?::toErrorD,
+            unknownError = Throwable::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
         (resource as Resource.Error).error.message shouldBe expected

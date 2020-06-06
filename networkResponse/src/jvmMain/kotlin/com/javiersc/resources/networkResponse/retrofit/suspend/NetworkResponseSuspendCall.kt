@@ -11,7 +11,6 @@ import com.javiersc.resources.networkResponse.retrofit.utils.isInternetAvailable
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnError
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnWarning
 import kotlinx.serialization.json.JsonDecodingException
-import kotlinx.serialization.json.JsonException
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
@@ -46,14 +45,12 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
                     is UnknownHostException, is ConnectException, is InterruptedIOException ->
                         onCommonConnectionExceptions(callback, throwable)
                     is EOFException -> onEOFException(callback)
-                    is IllegalStateException -> onIllegalStateException(
-                        throwable
-                    )
+                    is IllegalStateException -> onIllegalStateException(callback, throwable)
                     is HttpException -> onHttpException(callback, errorConverter, throwable)
                     is JsonDecodingException ->
-                        if (throwable.hasBody) onIllegalStateException(throwable)
+                        if (throwable.hasBody) onIllegalStateException(callback, throwable)
                         else onEOFException(callback)
-                    else -> throw UnknownError("${throwable.message}")
+                    else -> Response.success(NetworkResponse.UnknownError(throwable))
                 }
             }
         })
@@ -94,21 +91,22 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
             Response.success(NetworkResponse.Success(Unit as R, Constants.NO_CONTENT, emptyHeader))
         )
     } catch (e: ClassCastException) {
-        throw ClassCastException(
-            "NetworkResponse should use Unit as Success type when there isn't body"
-        )
+        throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
     }
 }
 
-private fun onIllegalStateException(throwable: Throwable) {
+private fun <R, E> Call<NetworkResponse<R, E>>.onIllegalStateException(
+    callback: Callback<NetworkResponse<R, E>>,
+    throwable: Throwable
+) {
     printlnError(
         """
            | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # #
-           | # Response body can't be serialized with the object provided" #
+           | # Response body can't be serialized with the object provided  #
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )
-    throw JsonException(throwable.localizedMessage)
+    callback.onResponse(this, Response.success(NetworkResponse.UnknownError(throwable)))
 }
 
 private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnectionExceptions(
@@ -119,12 +117,7 @@ private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnecti
     if (isInternetAvailable) {
         callback.onResponse(
             this,
-            Response.success(
-                NetworkResponse.Error(
-                    code = Constants.REMOTE_UNAVAILABLE,
-                    headers = emptyHeader
-                )
-            ),
+            Response.success(NetworkResponse.Error(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader)),
         )
     } else callback.onResponse(this, Response.success(InternetNotAvailable(message)))
 }

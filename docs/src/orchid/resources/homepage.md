@@ -5,10 +5,9 @@
 # [NetworkResponse](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
 
 `NetworkResponse` is a `sealed class` to wrap responses from network requests:
-  - `Info` [`code` and `headers`]
-  - `Success` [`data` (not null), `code` and `headers`]
-  - `ClientError` [`error` (can be null), `code` and `headers`]
-  - `ServerError` [`error` (can be null), `code` and `headers`]
+  - `Success` [`data`, `code` and `headers`]
+  - `Error` [`error` (can be null), `code` and `headers`]
+  - `UnknownError` [`throwable`]
   - `InternetNotAvailable` [`error`]
 
 This library works very well when used in conjunction with 
@@ -31,7 +30,8 @@ available at Maven Central.
 
 ```run-kotlin
 implementation("com.javiersc.resources:network-response:$version")
-```
+``` 
+{theme="darcula" lines="true" data-autocomplete="true" data-highlight-only="nocursor"}
      
 ## NetworkResponseCallAdapterFactory
 
@@ -41,39 +41,53 @@ This adapter for `Retrofit` wraps automatically the `Retrofit` responses with a 
 @GET("users")
 suspend fun getUsers(): NetworkResponse<List<UserDTO>, ErrorDTO>
 // UserDTO and ErrorDTO should be your data classes
-```
+``` 
+{theme="darcula" lines="true" data-autocomplete="true" data-highlight-only="nocursor"}
+
 If the server doesn't return an error body, or it is irrelevant you can mark it as `Unit`:
+
 ```run-kotlin
 @GET("users")
 suspend fun getUsers(): NetworkResponse<List<UserDTO>, Unit>
-```
+``` 
+{theme="darcula" lines="true" data-autocomplete="true" data-highlight-only="nocursor"}
+
 Add the `NetworkResponseCallAdapterFactory` to the `Retrofit` builder:
+
 ```run-kotlin
 private val retrofit = Retrofit.Builder().apply {
     //...
     addCallAdapterFactory(NetworkResponseCallAdapterFactory())
     //...
 }.build()
-```
+``` 
+{theme="darcula" lines="true" data-autocomplete="true" data-highlight-only="nocursor"}
+
 It is possible to use `Deferred` too:
+
 ```run-kotlin
 @GET("users")
 fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
-```
+``` 
+{theme="darcula" lines="true" data-autocomplete="true" data-highlight-only="nocursor"}
 
 ## Mappers
 
 Map any `NetworkResponse` to `Resource` easily with this
 [extension function](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/extensions/NetworkResponse.kt):
+
 ```run-kotlin
 val resource: Resource<UserDTO, Error> = networkResponse.toResource(
     success = { userDTO: UserDTO, code: Int, headers: Headers -> userDTO.toUser() },
     error = { errorDTO: ErrorDTO?, code: Int, headers: Headers -> errorDTO.toError() },
+    unknownError = { throwable: Throwable -> throwable.toError() },
     internetNotAvailable = { errorMessage: String -> errorMessage.toError() }
 )
 // UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
-// UserDTO.toUser(), ErrorDTO?.toError() and String.toError() mappers should be created by yourself.
-```
+// UserDTO.toUser(), ErrorDTO?.toError(), String.toError() and Throwable.toError() mappers should 
+// be created by yourself.
+``` 
+{theme="darcula" lines="true" data-autocomplete="true" data-highlight-only="nocursor"}
 
 ## Credits
 Based on [NetworkResponseAdapter](https://github.com/haroldadmin/NetworkResponseAdapter)
