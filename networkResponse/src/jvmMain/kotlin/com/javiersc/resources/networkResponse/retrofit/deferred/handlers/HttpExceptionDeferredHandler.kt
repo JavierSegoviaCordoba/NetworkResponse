@@ -13,8 +13,7 @@ internal fun <R : Any, E : Any> HttpException.httpExceptionDeferredHandler(
     deferred: CompletableDeferred<NetworkResponse<R, E>>
 ) {
     val errorBody: E? = response()?.errorBody()?.let(errorConverter::convert)
-    val headers: Headers = this.response()?.headers()
-        ?: mutableMapOf("Content-Length" to "0").toHeaders()
+    val headers: Headers = this.response()?.headers() ?: mutableMapOf("Content-Length" to "0").toHeaders()
 
     handleDeferred(deferred, code(), null, errorBody, headers)
 }

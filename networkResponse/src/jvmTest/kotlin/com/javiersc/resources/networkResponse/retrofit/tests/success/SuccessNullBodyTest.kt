@@ -43,6 +43,7 @@ internal class SuccessNullBodyTest : BaseNullTest<DogDTO?>(StatusCode.OK_200) {
         val resource: Resource<Dog, ErrorD> = service.getDogWithoutBody().toResource(
             success = ::toNullDog,
             error = ErrorDTO?::toErrorD,
+            unknownError = Throwable::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
         (resource as Resource.Success).data.name shouldBe "kotlin.Unit"

@@ -43,6 +43,7 @@ internal class Success2xxTest : BaseTest<DogDTO>() {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
             error = ErrorDTO?::toErrorD,
+            unknownError = Throwable::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
         (resource as Resource.Success).data.name shouldBe expected.name
