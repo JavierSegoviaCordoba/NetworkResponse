@@ -11,7 +11,6 @@ import com.javiersc.resources.networkResponse.retrofit.utils.printlnError
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnWarning
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.serialization.json.JsonDecodingException
-import kotlinx.serialization.json.JsonException
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,12 +36,12 @@ internal fun <R : Any, E : Any> deferredAdapt(
                 is UnknownHostException, is ConnectException, is InterruptedIOException ->
                     onCommonConnectionException(deferred, throwable)
                 is EOFException -> onEOFException(deferred)
-                is IllegalStateException -> onIllegalStateException(throwable)
+                is IllegalStateException -> onIllegalStateException(deferred, throwable)
                 is HttpException -> onHttpException(deferred, errorConverter, throwable)
                 is JsonDecodingException ->
-                    if (throwable.hasBody) onIllegalStateException(throwable)
+                    if (throwable.hasBody) onIllegalStateException(deferred, throwable)
                     else onEOFException(deferred)
-                else -> throw UnknownError("${throwable.message}")
+                else -> deferred.complete(NetworkResponse.UnknownError(throwable))
             }
         }
 
@@ -68,21 +67,19 @@ private fun <R, E> onEOFException(deferred: CompletableDeferred<NetworkResponse<
     try {
         deferred.complete(NetworkResponse.Success(Unit as R, Constants.NO_CONTENT, emptyHeader))
     } catch (e: ClassCastException) {
-        throw ClassCastException(
-            "NetworkResponse should use Unit as Success type when there isn't body"
-        )
+        throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
     }
 }
 
-private fun onIllegalStateException(throwable: Throwable) {
+private fun <R, E> onIllegalStateException(deferred: CompletableDeferred<NetworkResponse<R, E>>, throwable: Throwable) {
     printlnError(
         """
            | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # #
-           | # Response body can't be serialized with the object provided" #
+           | # Response body can't be serialized with the object provided  #
            | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         """.trimMargin()
     )
-    throw JsonException(throwable.localizedMessage)
+    deferred.complete(NetworkResponse.UnknownError(throwable))
 }
 
 private fun <R, E> onCommonConnectionException(
@@ -91,9 +88,7 @@ private fun <R, E> onCommonConnectionException(
 ) {
     val message = "${throwable.message}"
     if (isInternetAvailable) {
-        deferred.complete(
-            NetworkResponse.Error(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader)
-        )
+        deferred.complete(NetworkResponse.Error(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader))
     } else deferred.complete(NetworkResponse.InternetNotAvailable(message))
 }
 

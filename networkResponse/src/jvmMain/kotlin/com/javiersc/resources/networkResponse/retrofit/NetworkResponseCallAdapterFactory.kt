@@ -17,28 +17,21 @@ class NetworkResponseCallAdapterFactory : CallAdapter.Factory() {
         annotations: Array<Annotation>,
         retrofit: Retrofit
     ): CallAdapter<*, *>? {
-        check(returnType is ParameterizedType) {
-            "$returnType must be parameterized. Raw types are not supported"
-        }
+        check(returnType is ParameterizedType) { "$returnType must be parameterized. Raw types are not supported" }
 
         val containerType = getParameterUpperBound(0, returnType)
-        if (getRawType(containerType) != NetworkResponse::class.java) {
-            return null
-        }
+        if (getRawType(containerType) != NetworkResponse::class.java) return null
 
         check(containerType is ParameterizedType) {
             "$containerType must be parameterized. Raw types are not supported"
         }
 
         val (successBodyType, errorBodyType) = containerType.getBodyTypes()
-        val errorBodyConverter =
-            retrofit.nextResponseBodyConverter<Any>(null, errorBodyType, annotations)
+        val errorBodyConverter = retrofit.nextResponseBodyConverter<Any>(null, errorBodyType, annotations)
 
         return when (getRawType(returnType)) {
-            Deferred::class.java ->
-                NetworkResponseDeferredCallAdapter<Any, Any>(successBodyType, errorBodyConverter)
-            Call::class.java ->
-                NetworkResponseSuspendCallAdapter<Any, Any>(successBodyType, errorBodyConverter)
+            Deferred::class.java -> NetworkResponseDeferredCallAdapter<Any, Any>(successBodyType, errorBodyConverter)
+            Call::class.java -> NetworkResponseSuspendCallAdapter<Any, Any>(successBodyType, errorBodyConverter)
             else -> null
         }
     }

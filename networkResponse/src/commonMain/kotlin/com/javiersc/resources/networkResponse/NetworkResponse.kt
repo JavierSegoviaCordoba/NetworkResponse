@@ -21,6 +21,11 @@ sealed class NetworkResponse<out NR, out E> {
     ) : NetworkResponse<@ContextualSerialization Nothing, E>()
 
     @Serializable
+    data class UnknownError(
+        @ContextualSerialization val throwable: Throwable
+    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
+
+    @Serializable
     data class InternetNotAvailable(
         val error: String
     ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()

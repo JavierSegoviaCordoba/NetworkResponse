@@ -4,6 +4,7 @@ plugins {
     Detekt
     MavenPublish
     Nexus
+    Dokka
 }
 
 repositories {
@@ -14,25 +15,25 @@ repositories {
 }
 
 val networkResponseVersion: String by project
-val isNetworkResponseReleaseEnv: Boolean? =
-    System.getenv("isNetworkResponseReleaseEnv")?.toBoolean()
+val isNetworkResponseReleaseEnv: Boolean? = System.getenv("isNetworkResponseReleaseEnv")?.toBoolean()
 val isNetworkResponseRelease: String by project
 
-val finalVersion = networkResponseVersion
-    .generateVersion(isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean())
+val finalVersion =
+    networkResponseVersion.generateVersion(isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean())
 
 group = "com.javiersc.resources"
 version = finalVersion
 
-val javaDocs by tasks.creating(Jar::class) {
-    dependsOn("javadocJar")
+val dokkaJar by tasks.creating(Jar::class) {
     archiveClassifier.set("javadoc")
+    from(tasks.dokka)
+    dependsOn(tasks.dokka)
 }
 
 kotlin {
     jvm {
         mavenPublication {
-            artifact(javaDocs)
+            artifact(dokkaJar)
         }
     }
 
