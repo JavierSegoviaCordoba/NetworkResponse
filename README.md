@@ -72,7 +72,7 @@ Map any `NetworkResponse` to `Resource` easily with this
 [extension function](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/extensions/NetworkResponse.kt):
 
 ```kotlin
-val resource: Resource<UserDTO, Error> = networkResponse.toResource(
+val resource: Resource<User, Error> = networkResponse.toResource(
     success = { userDTO: UserDTO, code: Int, headers: Headers -> userDTO.toUser() },
     error = { errorDTO: ErrorDTO?, code: Int, headers: Headers -> errorDTO.toError() },
     unknownError = { throwable: Throwable -> throwable.toError() },
