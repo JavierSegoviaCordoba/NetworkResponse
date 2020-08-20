@@ -10,7 +10,7 @@ import com.javiersc.resources.networkResponse.retrofit.utils.hasBody
 import com.javiersc.resources.networkResponse.retrofit.utils.isInternetAvailable
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnError
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnWarning
-import kotlinx.serialization.json.JsonDecodingException
+import kotlinx.serialization.SerializationException
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
@@ -47,7 +47,7 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
                     is EOFException -> onEOFException(callback)
                     is IllegalStateException -> onIllegalStateException(callback, throwable)
                     is HttpException -> onHttpException(callback, errorConverter, throwable)
-                    is JsonDecodingException ->
+                    is SerializationException ->
                         if (throwable.hasBody) onIllegalStateException(callback, throwable)
                         else onEOFException(callback)
                     else -> Response.success(NetworkResponse.UnknownError(throwable))

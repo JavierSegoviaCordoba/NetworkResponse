@@ -1,6 +1,6 @@
 package com.javiersc.resources.networkResponse
 
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,24 +11,24 @@ sealed class NetworkResponse<out NR, out E> {
         val data: NR,
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<NR, @ContextualSerialization Nothing>()
+    ) : NetworkResponse<NR, @Contextual Nothing>()
 
     @Serializable
     data class Error<out E>(
         val error: E? = null,
         val code: Int,
         val headers: Headers,
-    ) : NetworkResponse<@ContextualSerialization Nothing, E>()
+    ) : NetworkResponse<@Contextual Nothing, E>()
 
     @Serializable
     data class UnknownError(
-        @ContextualSerialization val throwable: Throwable
-    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
+        @Contextual val throwable: Throwable
+    ) : NetworkResponse<@Contextual Nothing, @Contextual Nothing>()
 
     @Serializable
     data class InternetNotAvailable(
         val error: String
-    ) : NetworkResponse<@ContextualSerialization Nothing, @ContextualSerialization Nothing>()
+    ) : NetworkResponse<@Contextual Nothing, @Contextual Nothing>()
 }
 
 typealias Headers = Map<String, List<String>>

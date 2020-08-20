@@ -11,9 +11,9 @@ import com.javiersc.resources.networkResponse.retrofit.config.models.toDog
 import com.javiersc.resources.networkResponse.retrofit.config.models.toErrorD
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseTest
 import com.javiersc.resources.resource.Resource
-import io.kotest.matchers.beOfType
 import io.kotest.matchers.should
 import io.kotest.matchers.string.shouldContain
+import io.kotest.matchers.types.beOfType
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test

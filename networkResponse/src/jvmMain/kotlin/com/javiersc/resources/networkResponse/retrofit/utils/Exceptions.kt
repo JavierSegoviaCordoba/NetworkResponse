@@ -1,6 +1,6 @@
 package com.javiersc.resources.networkResponse.retrofit.utils
 
-import kotlinx.serialization.json.JsonDecodingException
+import kotlinx.serialization.SerializationException
 
-internal val JsonDecodingException.hasBody: Boolean
+internal val SerializationException.hasBody: Boolean
     get() = !this.message?.substringAfter("JSON input:").isNullOrBlank()

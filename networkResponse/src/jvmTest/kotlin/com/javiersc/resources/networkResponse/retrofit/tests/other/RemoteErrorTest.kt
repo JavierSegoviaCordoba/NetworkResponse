@@ -12,9 +12,9 @@ import com.javiersc.resources.networkResponse.retrofit.config.models.toErrorD
 import com.javiersc.resources.networkResponse.retrofit.config.service.DogService
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseTest
 import com.javiersc.resources.resource.Resource
-import io.kotest.matchers.beOfType
 import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.beOfType
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockWebServer

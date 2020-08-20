@@ -10,7 +10,7 @@ import com.javiersc.resources.networkResponse.retrofit.utils.isInternetAvailable
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnError
 import com.javiersc.resources.networkResponse.retrofit.utils.printlnWarning
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.serialization.json.JsonDecodingException
+import kotlinx.serialization.SerializationException
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,7 +38,7 @@ internal fun <R : Any, E : Any> deferredAdapt(
                 is EOFException -> onEOFException(deferred)
                 is IllegalStateException -> onIllegalStateException(deferred, throwable)
                 is HttpException -> onHttpException(deferred, errorConverter, throwable)
-                is JsonDecodingException ->
+                is SerializationException ->
                     if (throwable.hasBody) onIllegalStateException(deferred, throwable)
                     else onEOFException(deferred)
                 else -> deferred.complete(NetworkResponse.UnknownError(throwable))

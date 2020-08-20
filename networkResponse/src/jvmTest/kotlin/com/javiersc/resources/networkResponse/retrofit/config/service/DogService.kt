@@ -31,12 +31,10 @@ internal interface DogService {
 
     companion object {
         fun getService(httpUrl: HttpUrl, timeoutMillis: Long = 200): DogService {
-            val converter = Json(
-                block = {
-                    ignoreUnknownKeys = true
-                    isLenient = true
-                }
-            ).asConverterFactory("application/json".toMediaType())
+            val converter = Json {
+                ignoreUnknownKeys = true
+                isLenient = true
+            }.asConverterFactory("application/json".toMediaType())
 
             val okHttpClient = OkHttpClient.Builder().apply {
                 callTimeout(timeoutMillis, TimeUnit.MILLISECONDS)

@@ -9,6 +9,7 @@ plugins {
 
 repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     mavenCentral()
     jcenter()
@@ -25,9 +26,9 @@ group = "com.javiersc.resources"
 version = finalVersion
 
 val dokkaJar by tasks.creating(Jar::class) {
-    archiveClassifier.set("javadoc")
-    from(tasks.dokka)
-    dependsOn(tasks.dokka)
+    archiveClassifier.set("dokka")
+    from(tasks.dokkaHtml)
+    dependsOn(tasks.dokkaHtml)
 }
 
 kotlin {
@@ -41,10 +42,9 @@ kotlin {
         commonMain {
             dependencies {
                 commonDependencies.apply {
-                    api(kotlinStdlib)
-                    api(kotlinSerialization)
-                    api(coroutinesCore)
-                    api(resource)
+                    implementation(kotlinSerialization)
+                    implementation(coroutinesCore)
+                    implementation(resource)
                 }
             }
         }
@@ -60,13 +60,9 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 jvmDependencies.apply {
-                    api(kotlinStdlib)
-                    api(kotlinSerialization)
-                    api(coroutinesCore)
-                    api(retrofit)
-                    api(okHttp)
-                    api(kotlinSerialization)
-                    api(converterSerialization)
+                    implementation(retrofit)
+                    implementation(okHttp)
+                    implementation(converterSerialization)
                 }
             }
         }

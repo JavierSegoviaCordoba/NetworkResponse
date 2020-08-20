@@ -6,10 +6,9 @@ val jvmTestDependencies get() = Dependencies.JvmTest
 object Dependencies {
 
     object Common {
-        val kotlinStdlib = kotlin("stdlib-common")
-        val coroutinesCore = kotlinx("coroutines-core-common:${Versions.coroutines}")
-        val kotlinSerialization = kotlinx("serialization-runtime:${Versions.serialization}")
-        const val resource = "com.javiersc.resources:resource:${Versions.resource}"
+        val coroutinesCore = kotlinx("coroutines-core:${versions.coroutines}")
+        val kotlinSerialization = kotlinx("serialization-core:${versions.serialization}")
+        const val resource = "com.javiersc.resources:resource:${versions.resource}"
     }
 
     object CommonTest {
@@ -18,24 +17,21 @@ object Dependencies {
     }
 
     object Jvm {
-        val kotlinStdlib = kotlin("stdlib-jdk8")
-        val coroutinesCore = kotlinx("coroutines-core:${Versions.coroutines}")
-        val kotlinSerialization = kotlinx("serialization-runtime:${Versions.serialization}")
-        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-        const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.okHttp}"
+        const val retrofit = "com.squareup.retrofit2:retrofit:${versions.retrofit}"
+        const val okHttp = "com.squareup.okhttp3:okhttp:${versions.okHttp}"
         const val converterSerialization =
-            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0"
+            "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${versions.retrofitConverter}"
     }
 
     object JvmTest {
         val kotlinTest = kotlin("test")
         val kotlinTestJUnit = kotlin("test-junit")
-        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.okHttp}"
-        const val kotestJunit = "io.kotest:kotest-runner-junit5-jvm:${Versions.kotest}"
-        const val kotestAssertions = "io.kotest:kotest-assertions-core-jvm:${Versions.kotest}"
+        const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${versions.okHttp}"
+        const val kotestJunit = "io.kotest:kotest-runner-junit5-jvm:${versions.kotest}"
+        const val kotestAssertions = "io.kotest:kotest-assertions-core-jvm:${versions.kotest}"
     }
 
-    const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.detekt}"
+    const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"
 }
 
 private fun kotlin(dependency: String) = "org.jetbrains.kotlin:kotlin-$dependency"
