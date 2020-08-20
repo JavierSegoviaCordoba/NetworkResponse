@@ -6,6 +6,4 @@ nexusStaging {
     username = System.getenv("ossUser")
     password = System.getenv("ossToken")
     packageGroup = "com.javiersc"
-    numberOfRetries = 100
-    delayBetweenRetriesInMillis = 6000
 }
