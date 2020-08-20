@@ -4,7 +4,7 @@ import com.javiersc.resources.networkResponse.Headers
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.resource.Resource
 
-inline fun <reified NR, reified R, reified NE, reified E> NetworkResponse<NR, NE>.toResource(
+public inline fun <reified NR, reified R, reified NE, reified E> NetworkResponse<NR, NE>.toResource(
     crossinline success: (NR, Int, Headers) -> R,
     crossinline error: (NE?, Int, Headers) -> E,
     crossinline unknownError: (Throwable) -> E,

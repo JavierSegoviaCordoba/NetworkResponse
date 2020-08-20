@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 
-class NetworkResponseCallAdapterFactory : CallAdapter.Factory() {
+public class NetworkResponseCallAdapterFactory : CallAdapter.Factory() {
 
     override fun get(
         returnType: Type,

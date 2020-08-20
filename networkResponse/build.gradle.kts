@@ -32,6 +32,8 @@ val dokkaJar by tasks.creating(Jar::class) {
 }
 
 kotlin {
+    explicitApi()
+
     jvm {
         mavenPublication {
             artifact(dokkaJar)
