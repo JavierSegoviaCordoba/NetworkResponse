@@ -26,9 +26,9 @@ group = "com.javiersc.resources"
 version = finalVersion
 
 val dokkaJar by tasks.creating(Jar::class) {
-    archiveClassifier.set("dokka")
-    from(tasks.dokkaHtml)
+    archiveClassifier.set("javadoc")
     dependsOn(tasks.dokkaHtml)
+    dependsOn(tasks.dokkaJavadoc)
 }
 
 kotlin {
