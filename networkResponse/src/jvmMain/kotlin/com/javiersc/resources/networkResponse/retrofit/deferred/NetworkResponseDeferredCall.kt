@@ -30,25 +30,27 @@ internal fun <R : Any, E : Any> deferredAdapt(
 
     deferred.invokeOnCompletion { if (deferred.isCancelled) call.cancel() }
 
-    call.enqueue(object : Callback<R> {
-        override fun onFailure(call: Call<R>, throwable: Throwable) {
-            when (throwable) {
-                is UnknownHostException, is ConnectException, is InterruptedIOException ->
-                    onCommonConnectionException(deferred, throwable)
-                is EOFException -> onEOFException(deferred)
-                is IllegalStateException -> onIllegalStateException(deferred, throwable)
-                is HttpException -> onHttpException(deferred, errorConverter, throwable)
-                is SerializationException ->
-                    if (throwable.hasBody) onIllegalStateException(deferred, throwable)
-                    else onEOFException(deferred)
-                else -> deferred.complete(NetworkResponse.UnknownError(throwable))
+    call.enqueue(
+        object : Callback<R> {
+            override fun onResponse(call: Call<R>, response: Response<R>) {
+                response.responseDeferredHandler(errorConverter, deferred)
+            }
+
+            override fun onFailure(call: Call<R>, throwable: Throwable) {
+                when (throwable) {
+                    is UnknownHostException, is ConnectException, is InterruptedIOException ->
+                        onCommonConnectionException(deferred, throwable)
+                    is EOFException -> onEOFException(deferred)
+                    is IllegalStateException -> onIllegalStateException(deferred, throwable)
+                    is HttpException -> onHttpException(deferred, errorConverter, throwable)
+                    is SerializationException ->
+                        if (throwable.hasBody) onIllegalStateException(deferred, throwable)
+                        else onEOFException(deferred)
+                    else -> deferred.complete(NetworkResponse.UnknownError(throwable))
+                }
             }
         }
-
-        override fun onResponse(call: Call<R>, response: Response<R>) {
-            response.responseDeferredHandler(errorConverter, deferred)
-        }
-    })
+    )
     return deferred
 }
 

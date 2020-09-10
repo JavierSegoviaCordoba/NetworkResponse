@@ -30,30 +30,31 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
 ) : Call<NetworkResponse<R, E>> {
 
     override fun enqueue(callback: Callback<NetworkResponse<R, E>>) = synchronized(this) {
-        backingCall.enqueue(object : Callback<R> {
+        backingCall.enqueue(
+            object : Callback<R> {
+                override fun onResponse(call: Call<R>, response: Response<R>) {
+                    response.responseSuspendHandler(
+                        errorConverter,
+                        this@NetworkResponseSuspendCall,
+                        callback
+                    )
+                }
 
-            override fun onResponse(call: Call<R>, response: Response<R>) {
-                response.responseSuspendHandler(
-                    errorConverter,
-                    this@NetworkResponseSuspendCall,
-                    callback
-                )
-            }
-
-            override fun onFailure(call: Call<R>, throwable: Throwable) {
-                when (throwable) {
-                    is UnknownHostException, is ConnectException, is InterruptedIOException ->
-                        onCommonConnectionExceptions(callback, throwable)
-                    is EOFException -> onEOFException(callback)
-                    is IllegalStateException -> onIllegalStateException(callback, throwable)
-                    is HttpException -> onHttpException(callback, errorConverter, throwable)
-                    is SerializationException ->
-                        if (throwable.hasBody) onIllegalStateException(callback, throwable)
-                        else onEOFException(callback)
-                    else -> Response.success(NetworkResponse.UnknownError(throwable))
+                override fun onFailure(call: Call<R>, throwable: Throwable) {
+                    when (throwable) {
+                        is UnknownHostException, is ConnectException, is InterruptedIOException ->
+                            onCommonConnectionExceptions(callback, throwable)
+                        is EOFException -> onEOFException(callback)
+                        is IllegalStateException -> onIllegalStateException(callback, throwable)
+                        is HttpException -> onHttpException(callback, errorConverter, throwable)
+                        is SerializationException ->
+                            if (throwable.hasBody) onIllegalStateException(callback, throwable)
+                            else onEOFException(callback)
+                        else -> Response.success(NetworkResponse.UnknownError(throwable))
+                    }
                 }
             }
-        })
+        )
     }
 
     override fun isExecuted(): Boolean = synchronized(this) { backingCall.isExecuted }

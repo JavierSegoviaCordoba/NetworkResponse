@@ -12,6 +12,7 @@ object Dependencies {
     }
 
     object CommonTest {
+        val coroutinesTest = kotlinx("coroutines-test:${versions.coroutines}")
         val kotlinTest = kotlin("test-common")
         val kotlinTestAnnotation = kotlin("test-annotations-common")
     }
@@ -27,8 +28,8 @@ object Dependencies {
         val kotlinTest = kotlin("test")
         val kotlinTestJUnit = kotlin("test-junit")
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${versions.okHttp}"
-        const val kotestJunit = "io.kotest:kotest-runner-junit5-jvm:${versions.kotest}"
-        const val kotestAssertions = "io.kotest:kotest-assertions-core-jvm:${versions.kotest}"
+        const val kotestJunit = "io.kotest:kotest-runner-junit5:${versions.kotest}"
+        const val kotestAssertions = "io.kotest:kotest-assertions-core:${versions.kotest}"
     }
 
     const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"

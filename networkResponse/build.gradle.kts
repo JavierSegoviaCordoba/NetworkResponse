@@ -44,8 +44,8 @@ kotlin {
         commonMain {
             dependencies {
                 commonDependencies.apply {
-                    implementation(kotlinSerialization)
                     implementation(coroutinesCore)
+                    implementation(kotlinSerialization)
                     implementation(resource)
                 }
             }
@@ -53,6 +53,7 @@ kotlin {
         commonTest {
             dependencies {
                 commonTestDependencies.apply {
+                    implementation(coroutinesTest)
                     implementation(kotlinTest)
                     implementation(kotlinTestAnnotation)
                 }
