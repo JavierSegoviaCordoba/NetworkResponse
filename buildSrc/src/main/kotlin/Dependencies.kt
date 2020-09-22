@@ -13,6 +13,7 @@ object Dependencies {
 
     object CommonTest {
         val coroutinesTest = kotlinx("coroutines-test:${versions.coroutines}")
+        val kotlinSerializationJson = kotlinx("serialization-json:${versions.serialization}")
         val kotlinTest = kotlin("test-common")
         val kotlinTestAnnotation = kotlin("test-annotations-common")
     }

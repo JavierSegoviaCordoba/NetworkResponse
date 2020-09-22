@@ -54,6 +54,7 @@ kotlin {
             dependencies {
                 commonTestDependencies.apply {
                     implementation(coroutinesTest)
+                    implementation(kotlinSerializationJson)
                     implementation(kotlinTest)
                     implementation(kotlinTestAnnotation)
                 }
