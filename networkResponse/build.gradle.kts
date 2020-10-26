@@ -57,6 +57,7 @@ kotlin {
                     implementation(kotlinSerializationJson)
                     implementation(kotlinTest)
                     implementation(kotlinTestAnnotation)
+                    implementation(kotestAssertions)
                 }
             }
         }
@@ -73,11 +74,8 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 jvmTestDependencies.apply {
-                    implementation(kotlinTest)
                     implementation(kotlinTestJUnit)
                     implementation(mockWebServer)
-                    implementation(kotestJunit)
-                    implementation(kotestAssertions)
                 }
             }
         }

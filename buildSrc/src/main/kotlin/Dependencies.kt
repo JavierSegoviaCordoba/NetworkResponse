@@ -16,6 +16,7 @@ object Dependencies {
         val kotlinSerializationJson = kotlinx("serialization-json:${versions.serialization}")
         val kotlinTest = kotlin("test-common")
         val kotlinTestAnnotation = kotlin("test-annotations-common")
+        const val kotestAssertions = "io.kotest:kotest-assertions-core:${versions.kotest}"
     }
 
     object Jvm {
@@ -29,8 +30,6 @@ object Dependencies {
         val kotlinTest = kotlin("test")
         val kotlinTestJUnit = kotlin("test-junit")
         const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${versions.okHttp}"
-        const val kotestJunit = "io.kotest:kotest-runner-junit5:${versions.kotest}"
-        const val kotestAssertions = "io.kotest:kotest-assertions-core:${versions.kotest}"
     }
 
     const val detektFormatting = "io.gitlab.arturbosch.detekt:detekt-formatting:${versions.detekt}"

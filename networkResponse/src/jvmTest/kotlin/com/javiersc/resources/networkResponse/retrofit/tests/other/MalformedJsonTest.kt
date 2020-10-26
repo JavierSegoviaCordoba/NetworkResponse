@@ -14,6 +14,7 @@ import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.should
 import io.kotest.matchers.string.shouldContain
 import io.kotest.matchers.types.beOfType
+import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
@@ -37,13 +38,14 @@ internal class MalformedJsonTest : BaseTest<String>() {
     }
 
     @Test
-    fun `mapping NetworkResponse to Resource`() = runBlocking {
+    fun `mapping NetworkResponse to Resource`(): Unit = runBlocking {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
             error = ErrorDTO?::toErrorD,
             unknownError = Throwable::toErrorD,
             internetNotAvailable = String::toErrorD,
         )
-        (resource as Resource.Error).error.message shouldContain expected
+        resource.shouldBeTypeOf<Resource.Error<ErrorD>>()
+        resource.error.message shouldContain expected
     }
 }
