@@ -18,10 +18,8 @@ to `NetworkResponse` but thought to use with another architecture layer, for exa
 ## Features
   -  Multiplatform (NetworkResponse and Resource support)
   -  Retrofit support (jvm)
+  -  Ktor support
   -  Kotlin Serialization
-  
-## Roadmap
-  - Ktor support
 
 ## Download
 
@@ -32,7 +30,7 @@ available at Maven Central.
 implementation("com.javiersc.resources:network-response:$version")
 ```
      
-## NetworkResponseCallAdapterFactory
+## Retrofit
 
 This adapter for `Retrofit` wraps automatically the `Retrofit` responses with a `NetworkResponse`:
 
@@ -65,6 +63,17 @@ It is possible to use `Deferred` too:
 @GET("users")
 fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
 ```
+
+## Ktor
+
+You only need to wrap the request and do not indicate the type in the client method because it is 
+inferred automatically
+
+```kotlin
+@GET("users")
+val usersNetworkResponse = NetworkResponse<List<UsersDTO>, ErrorDTO> { client.get("https://example.com/users") }
+```
+
 
 ## Mappers
 

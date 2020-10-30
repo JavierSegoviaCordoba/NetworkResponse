@@ -2,8 +2,8 @@ package com.javiersc.resources.networkResponse.retrofit.suspend.handlers
 
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.retrofit.suspend.NetworkResponseSuspendCall
-import okhttp3.Headers
-import okhttp3.Headers.Companion.toHeaders
+import com.javiersc.resources.networkResponse.retrofit.utils.headers
+import com.javiersc.resources.networkResponse.retrofit.utils.httpStatusCode
 import okhttp3.ResponseBody
 import retrofit2.Callback
 import retrofit2.Converter
@@ -15,7 +15,6 @@ internal fun <R : Any, E : Any> HttpException.httpExceptionSuspendHandler(
     callback: Callback<NetworkResponse<R, E>>,
 ) {
     val errorBody: E? = response()?.errorBody()?.let(errorConverter::convert)
-    val headers: Headers = response()?.headers() ?: mutableMapOf("Content-Length" to "0").toHeaders()
 
-    handleSuspend(call, callback, code(), null, errorBody, headers)
+    handleSuspend(call, callback, httpStatusCode, null, errorBody, headers = headers)
 }

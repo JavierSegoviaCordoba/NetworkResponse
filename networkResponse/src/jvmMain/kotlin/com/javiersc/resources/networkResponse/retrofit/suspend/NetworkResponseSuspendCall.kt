@@ -2,14 +2,14 @@ package com.javiersc.resources.networkResponse.retrofit.suspend
 
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.NetworkResponse.InternetNotAvailable
+import com.javiersc.resources.networkResponse.ktor.emptyHeader
 import com.javiersc.resources.networkResponse.retrofit.suspend.handlers.httpExceptionSuspendHandler
 import com.javiersc.resources.networkResponse.retrofit.suspend.handlers.responseSuspendHandler
-import com.javiersc.resources.networkResponse.retrofit.utils.Constants
-import com.javiersc.resources.networkResponse.retrofit.utils.emptyHeader
-import com.javiersc.resources.networkResponse.retrofit.utils.hasBody
-import com.javiersc.resources.networkResponse.retrofit.utils.isInternetAvailable
-import com.javiersc.resources.networkResponse.retrofit.utils.printlnError
-import com.javiersc.resources.networkResponse.retrofit.utils.printlnWarning
+import com.javiersc.resources.networkResponse.utils.Constants.HttpStatusCodeRemoteUnavailable
+import com.javiersc.resources.networkResponse.utils.hasBody
+import com.javiersc.resources.networkResponse.utils.isInternetAvailable
+import com.javiersc.resources.networkResponse.utils.printlnError
+import com.javiersc.resources.networkResponse.utils.printlnWarning
 import kotlinx.serialization.SerializationException
 import okhttp3.Request
 import okhttp3.ResponseBody
@@ -89,7 +89,7 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
     try {
         callback.onResponse(
             this,
-            Response.success(NetworkResponse.Success(Unit as R, Constants.NO_CONTENT, emptyHeader))
+            Response.success(NetworkResponse.Success(Unit as R, HttpStatusCodeRemoteUnavailable, emptyHeader))
         )
     } catch (e: ClassCastException) {
         throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
@@ -115,12 +115,13 @@ private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnecti
     throwable: Throwable,
 ) {
     val message = "${throwable.message}"
-    if (isInternetAvailable) {
-        callback.onResponse(
-            this,
-            Response.success(NetworkResponse.Error(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader)),
-        )
-    } else callback.onResponse(this, Response.success(InternetNotAvailable(message)))
+
+    callback.onResponse(
+        this,
+        if (isInternetAvailable) {
+            Response.success(NetworkResponse.Error(null, HttpStatusCodeRemoteUnavailable, emptyHeader))
+        } else Response.success(InternetNotAvailable(message))
+    )
 }
 
 private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onHttpException(

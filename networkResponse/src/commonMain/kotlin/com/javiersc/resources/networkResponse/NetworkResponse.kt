@@ -1,22 +1,29 @@
 package com.javiersc.resources.networkResponse
 
+import io.ktor.http.Headers
+import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 
+/**
+ * Sealed class which cover usual use cases related which network responses
+ */
 @Serializable
 public sealed class NetworkResponse<out NR, out E> {
 
     @Serializable
     public data class Success<out NR>(
         val data: NR,
-        val code: Int,
+        @Contextual
+        val status: HttpStatusCode,
         val headers: Headers,
     ) : NetworkResponse<NR, @Contextual Nothing>()
 
     @Serializable
     public data class Error<out E>(
-        val error: E? = null,
-        val code: Int,
+        val error: E?,
+        @Contextual
+        val status: HttpStatusCode,
         val headers: Headers,
     ) : NetworkResponse<@Contextual Nothing, E>()
 
@@ -30,5 +37,3 @@ public sealed class NetworkResponse<out NR, out E> {
         val error: String
     ) : NetworkResponse<@Contextual Nothing, @Contextual Nothing>()
 }
-
-public typealias Headers = Map<String, List<String>>

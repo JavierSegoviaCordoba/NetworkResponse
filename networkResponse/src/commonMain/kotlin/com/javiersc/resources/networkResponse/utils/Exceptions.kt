@@ -1,4 +1,4 @@
-package com.javiersc.resources.networkResponse.retrofit.utils
+package com.javiersc.resources.networkResponse.utils
 
 import kotlinx.serialization.SerializationException
 

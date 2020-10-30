@@ -1,4 +1,4 @@
-package com.javiersc.resources.networkResponse.retrofit.utils
+package com.javiersc.resources.networkResponse.utils
 
 private const val BRIGHT_YELLOW = "\u001B[93m"
 private const val BRIGHT_RED = "\u001B[91m"

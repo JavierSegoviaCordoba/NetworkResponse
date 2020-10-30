@@ -1,38 +1,35 @@
 package com.javiersc.resources.networkResponse.retrofit.tests.success
 
 import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.StatusCode
+import com.javiersc.resources.networkResponse.config.models.Dog
+import com.javiersc.resources.networkResponse.config.models.DogDTO
+import com.javiersc.resources.networkResponse.config.models.ErrorD
+import com.javiersc.resources.networkResponse.config.models.ErrorDTO
+import com.javiersc.resources.networkResponse.config.models.toErrorD
+import com.javiersc.resources.networkResponse.config.models.toNullDog
 import com.javiersc.resources.networkResponse.extensions.toResource
-import com.javiersc.resources.networkResponse.retrofit.config.models.Dog
-import com.javiersc.resources.networkResponse.retrofit.config.models.DogDTO
-import com.javiersc.resources.networkResponse.retrofit.config.models.ErrorD
-import com.javiersc.resources.networkResponse.retrofit.config.models.ErrorDTO
-import com.javiersc.resources.networkResponse.retrofit.config.models.toErrorD
-import com.javiersc.resources.networkResponse.retrofit.config.models.toNullDog
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseNullTest
 import com.javiersc.resources.resource.Resource
-import io.kotest.matchers.maps.shouldContain
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.beOfType
+import io.kotest.matchers.types.shouldBeTypeOf
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
-internal class Success205Test : BaseNullTest<DogDTO?>(StatusCode.RESET_CONTENT_205) {
+internal class Success205Test : BaseNullTest<DogDTO?>(205) {
 
     @Test
     fun `suspend call`() = runBlocking {
         with(service.getDogWithoutBody()) {
-            this should beOfType<NetworkResponse.Success<Unit>>()
-            (this as NetworkResponse.Success<Unit>).headers shouldContain expectedHeader
+            shouldBeTypeOf<NetworkResponse.Success<Unit>>()
+            headers shouldBe expectedHeaders
         }
     }
 
     @Test
     fun `async call`() = runBlocking {
         with(service.getDogWithoutBodyAsync().await()) {
-            this should beOfType<NetworkResponse.Success<Unit>>()
-            (this as NetworkResponse.Success<Unit>).headers shouldContain expectedHeader
+            shouldBeTypeOf<NetworkResponse.Success<Unit>>()
+            headers shouldBe expectedHeaders
         }
     }
 

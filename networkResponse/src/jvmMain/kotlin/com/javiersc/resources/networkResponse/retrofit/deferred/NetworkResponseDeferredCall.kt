@@ -1,14 +1,15 @@
 package com.javiersc.resources.networkResponse.retrofit.deferred
 
 import com.javiersc.resources.networkResponse.NetworkResponse
+import com.javiersc.resources.networkResponse.ktor.emptyHeader
 import com.javiersc.resources.networkResponse.retrofit.deferred.handlers.httpExceptionDeferredHandler
 import com.javiersc.resources.networkResponse.retrofit.deferred.handlers.responseDeferredHandler
-import com.javiersc.resources.networkResponse.retrofit.utils.Constants
-import com.javiersc.resources.networkResponse.retrofit.utils.emptyHeader
-import com.javiersc.resources.networkResponse.retrofit.utils.hasBody
-import com.javiersc.resources.networkResponse.retrofit.utils.isInternetAvailable
-import com.javiersc.resources.networkResponse.retrofit.utils.printlnError
-import com.javiersc.resources.networkResponse.retrofit.utils.printlnWarning
+import com.javiersc.resources.networkResponse.utils.Constants.HttpStatusCodeRemoteUnavailable
+import com.javiersc.resources.networkResponse.utils.hasBody
+import com.javiersc.resources.networkResponse.utils.isInternetAvailable
+import com.javiersc.resources.networkResponse.utils.printlnError
+import com.javiersc.resources.networkResponse.utils.printlnWarning
+import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.serialization.SerializationException
 import okhttp3.ResponseBody
@@ -67,7 +68,7 @@ private fun <R, E> onEOFException(deferred: CompletableDeferred<NetworkResponse<
 
     @Suppress("UNCHECKED_CAST")
     try {
-        deferred.complete(NetworkResponse.Success(Unit as R, Constants.NO_CONTENT, emptyHeader))
+        deferred.complete(NetworkResponse.Success(Unit as R, HttpStatusCode.NoContent, emptyHeader))
     } catch (e: ClassCastException) {
         throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
     }
@@ -89,9 +90,11 @@ private fun <R, E> onCommonConnectionException(
     throwable: Throwable,
 ) {
     val message = "${throwable.message}"
-    if (isInternetAvailable) {
-        deferred.complete(NetworkResponse.Error(code = Constants.REMOTE_UNAVAILABLE, headers = emptyHeader))
-    } else deferred.complete(NetworkResponse.InternetNotAvailable(message))
+
+    deferred.complete(
+        if (isInternetAvailable) NetworkResponse.Error(null, HttpStatusCodeRemoteUnavailable, emptyHeader)
+        else NetworkResponse.InternetNotAvailable(message)
+    )
 }
 
 private fun <R : Any, E : Any> onHttpException(

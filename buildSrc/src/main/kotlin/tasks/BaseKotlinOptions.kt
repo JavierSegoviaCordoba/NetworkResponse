@@ -15,7 +15,8 @@ val TaskContainerScope.baseKotlinOptions: Unit
                     "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                     "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
                     "-Xopt-in=kotlinx.coroutines.FlowPreview",
-                    "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+                    "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi",
+                    "-Xopt-in=io.ktor.util.KtorExperimentalAPI"
                 )
             }
         }
