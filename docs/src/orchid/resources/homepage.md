@@ -70,7 +70,6 @@ You only need to wrap the request and do not indicate the type in the client met
 inferred automatically
 
 ```kotlin
-@GET("users")
 val usersNetworkResponse = NetworkResponse<List<UsersDTO>, ErrorDTO> { client.get("https://example.com/users") }
 ```
 
