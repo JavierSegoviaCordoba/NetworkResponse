@@ -28,5 +28,5 @@ rootProject.name = "NetworkResponse"
 
 enableFeaturePreview("GRADLE_METADATA")
 
-include(":networkResponse").also { project(":networkResponse").name = "network-response" }
+include(":network-response")
 include(":docs")

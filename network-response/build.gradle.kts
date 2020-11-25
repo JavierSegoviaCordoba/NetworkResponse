@@ -53,6 +53,7 @@ kotlin {
                 }
             }
         }
+
         commonTest {
             dependencies {
                 commonTestDependencies.apply {
@@ -66,7 +67,7 @@ kotlin {
             }
         }
 
-        val jvmMain by getting {
+        named("jvmMain") {
             dependencies {
                 jvmDependencies.apply {
                     implementation(retrofit)
@@ -75,7 +76,8 @@ kotlin {
                 }
             }
         }
-        val jvmTest by getting {
+
+        named("jvmTest") {
             dependencies {
                 jvmTestDependencies.apply {
                     implementation(kotlinTestJUnit)
@@ -83,6 +85,7 @@ kotlin {
                 }
             }
         }
+
         all {
             languageSettings.useExperimentalAnnotation("kotlin.RequiresOptIn")
         }

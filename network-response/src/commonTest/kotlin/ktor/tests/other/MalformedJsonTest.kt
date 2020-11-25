@@ -19,7 +19,7 @@ import kotlin.test.Test
 
 internal class MalformedJsonTest : BaseTest<DogDTO, ErrorDTO>() {
 
-    override val codeToFile = 200 to "malformed.json"
+    override val codeToFile = 200 to "malformedjson"
     override val expected = NetworkResponse.UnknownError(SerializationException(message))
 
     @Test

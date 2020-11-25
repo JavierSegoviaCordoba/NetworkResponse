@@ -20,7 +20,7 @@ import kotlin.test.Test
 
 internal class MalformedJsonTest : BaseTest<String>() {
 
-    override val codeToFile: Pair<Int, String?> = 200 to "malformed.json"
+    override val codeToFile: Pair<Int, String?> = 200 to "malformedjson"
     override val expected = "JsonDecodingException"
 
     @Test
