@@ -15,7 +15,7 @@ public sealed class NetworkResponse<out NR, out E> {
     ) : NetworkResponse<NR, Nothing>()
 
     public data class Error<out E>(
-        val error: E?,
+        val error: E,
         val status: HttpStatusCode,
         val headers: Headers,
     ) : NetworkResponse<Nothing, E>()

@@ -12,9 +12,10 @@ import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.extensions.toResource
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseNullTest
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseTest
+import com.javiersc.resources.networkResponse.runTestBlocking
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.runBlocking
+import io.kotest.matchers.types.shouldBeTypeOf
 import kotlin.test.Test
 
 internal class Error507Test : BaseTest<ErrorDTO>() {
@@ -23,8 +24,8 @@ internal class Error507Test : BaseTest<ErrorDTO>() {
     override val expected: ErrorDTO = ErrorDTO("Dog has some error")
 
     @Test
-    fun `suspend call`() = runBlocking {
-        with(service.getDog() as NetworkResponse.Error) {
+    fun `suspend call`() = runTestBlocking {
+        with(service.getDog().shouldBeTypeOf<NetworkResponse.Error<ErrorDTO>>()) {
             error shouldBe expected
             status.value shouldBe codeToFile.first
             headers["token"] shouldBe expectedTokenHeader
@@ -32,8 +33,8 @@ internal class Error507Test : BaseTest<ErrorDTO>() {
     }
 
     @Test
-    fun `async call`() = runBlocking {
-        with(service.getDogAsync().await() as NetworkResponse.Error) {
+    fun `async call`() = runTestBlocking {
+        with(service.getDogAsync().await().shouldBeTypeOf<NetworkResponse.Error<ErrorDTO>>()) {
             error shouldBe expected
             status.value shouldBe codeToFile.first
             headers["token"] shouldBe expectedTokenHeader
@@ -41,10 +42,10 @@ internal class Error507Test : BaseTest<ErrorDTO>() {
     }
 
     @Test
-    fun `mapping NetworkResponse to Resource`() = runBlocking {
+    fun `mapping NetworkResponse to Resource`() = runTestBlocking {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
-            error = ErrorDTO?::toErrorD,
+            error = ErrorDTO::toErrorD,
             unknownError = Throwable::toErrorD,
             remoteNotAvailable = ::remoteNotAvailableToErrorD,
             internetNotAvailable = ::internetNotAvailableToErrorD,
@@ -56,7 +57,8 @@ internal class Error507Test : BaseTest<ErrorDTO>() {
 internal class ErrorNull507Test : BaseNullTest<ErrorDTO?>(507) {
 
     @Test
-    fun `suspend call with null error`() = runBlocking {
-        (service.getDog() as NetworkResponse.Error).error shouldBe null
+    fun `suspend call with null error`() = runTestBlocking {
+        service.getDog().shouldBeTypeOf<NetworkResponse.UnknownError>()
+            .throwable.shouldBeTypeOf<ClassCastException>()
     }
 }

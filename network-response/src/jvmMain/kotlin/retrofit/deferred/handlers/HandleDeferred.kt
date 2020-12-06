@@ -1,10 +1,12 @@
 package com.javiersc.resources.networkResponse.retrofit.deferred.handlers
 
 import com.javiersc.resources.networkResponse.NetworkResponse
+import com.javiersc.resources.networkResponse.utils.printlnError
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CompletableDeferred
 
+@Suppress("UNCHECKED_CAST")
 internal fun <R, E> handleDeferred(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     status: HttpStatusCode,
@@ -18,7 +20,10 @@ internal fun <R, E> handleDeferred(
             if (body != null) deferred.complete(NetworkResponse.Success(body, status, headers))
             else handleNullBody(deferred, status, headers)
         }
-        in 400..599 -> deferred.complete(NetworkResponse.Error(errorBody, status, headers))
+        in 400..599 -> {
+            if (errorBody != null) deferred.complete(NetworkResponse.Error(errorBody, status, headers))
+            else handleNullErrorBody(deferred, status, headers)
+        }
     }
 }
 
@@ -26,11 +31,38 @@ internal fun <R, E> handleDeferred(
 private fun <E, R> handleNullBody(
     deferred: CompletableDeferred<NetworkResponse<R, E>>,
     status: HttpStatusCode,
-    headers: Headers
+    headers: Headers,
 ) {
     try {
         deferred.complete(NetworkResponse.Success(Unit as R, status, headers))
     } catch (e: ClassCastException) {
-        throw ClassCastException("NetworkResponse should use Unit as Success type when body is null")
+        printlnError(
+            """
+               | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # # # # #
+               | # NetworkResponse should use Unit as Success type when body is null #
+               | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            """.trimMargin()
+        )
+        deferred.complete(NetworkResponse.UnknownError(e))
+    }
+}
+
+@Suppress("UNCHECKED_CAST")
+private fun <E, R> handleNullErrorBody(
+    deferred: CompletableDeferred<NetworkResponse<R, E>>,
+    status: HttpStatusCode,
+    headers: Headers,
+) {
+    try {
+        deferred.complete(NetworkResponse.Error(Unit as E, status, headers))
+    } catch (e: ClassCastException) {
+        printlnError(
+            """
+               | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # # # #
+               | # NetworkResponse should use Unit as Error type when body is null #
+               | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            """.trimMargin()
+        )
+        deferred.complete(NetworkResponse.UnknownError(e))
     }
 }

@@ -69,7 +69,14 @@ private fun <R, E> onEOFException(deferred: CompletableDeferred<NetworkResponse<
     try {
         deferred.complete(NetworkResponse.Success(Unit as R, HttpStatusCode.NoContent, emptyHeader))
     } catch (e: ClassCastException) {
-        throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
+        printlnError(
+            """
+               | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # # # # #
+               | # NetworkResponse should use Unit as Success type when body is null #
+               | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            """.trimMargin()
+        )
+        deferred.complete(NetworkResponse.UnknownError(e))
     }
 }
 

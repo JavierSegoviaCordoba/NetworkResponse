@@ -31,7 +31,7 @@ internal suspend inline fun <reified NR, reified E> HttpResponse.asNetworkRespon
 @PublishedApi
 internal suspend inline fun <reified NR, reified E> ResponseException.serializeAsError(): NetworkResponse<NR, E> =
     try {
-        with(response) { NetworkResponse.Error<E>(decode(), status, headers) }
+        with(response) { NetworkResponse.Error(decode(), status, headers) }
     } catch (throwable: Throwable) {
         NetworkResponse.UnknownError(throwable)
     }

@@ -16,7 +16,7 @@ import kotlin.jvm.JvmName
  */
 public fun <NR, R, NE, E> NetworkResponse<NR, NE>.toResource(
     success: (NR, HttpStatusCode, Headers) -> R,
-    error: (NE?, HttpStatusCode, Headers) -> E,
+    error: (NE, HttpStatusCode, Headers) -> E,
     unknownError: (Throwable) -> E,
     remoteNotAvailable: () -> E,
     internetNotAvailable: () -> E,
@@ -39,7 +39,7 @@ public fun <NR, R, NE, E> NetworkResponse<NR, NE>.toResource(
 @JvmName("toResource2")
 public fun <NR, R, NE, E> NetworkResponse<NR, NE>.toResource(
     success: (NR) -> R,
-    error: (NE?) -> E,
+    error: (NE) -> E,
     unknownError: (Throwable) -> E,
     remoteNotAvailable: () -> E,
     internetNotAvailable: () -> E,

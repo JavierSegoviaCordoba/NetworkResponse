@@ -11,9 +11,10 @@ import com.javiersc.resources.networkResponse.config.models.toDog
 import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.extensions.toResource
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseTest
+import com.javiersc.resources.networkResponse.runTestBlocking
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.runBlocking
+import io.kotest.matchers.types.shouldBeTypeOf
 import kotlin.test.Test
 
 internal class Success208Test : BaseTest<DogDTO>() {
@@ -22,8 +23,8 @@ internal class Success208Test : BaseTest<DogDTO>() {
     override val expected = DogDTO(id = 1, name = "Auri", age = 7)
 
     @Test
-    fun `suspend call`() = runBlocking {
-        with(service.getDog() as NetworkResponse.Success) {
+    fun `suspend call`() = runTestBlocking {
+        with(service.getDog().shouldBeTypeOf<NetworkResponse.Success<DogDTO>>()) {
             data shouldBe expected
             status.value shouldBe codeToFile.first
             headers["token"] shouldBe expectedTokenHeader
@@ -31,8 +32,8 @@ internal class Success208Test : BaseTest<DogDTO>() {
     }
 
     @Test
-    fun `async call`() = runBlocking {
-        with(service.getDogAsync().await() as NetworkResponse.Success) {
+    fun `async call`() = runTestBlocking {
+        with(service.getDogAsync().await().shouldBeTypeOf<NetworkResponse.Success<DogDTO>>()) {
             data shouldBe expected
             status.value shouldBe codeToFile.first
             headers["token"] shouldBe expectedTokenHeader
@@ -40,10 +41,10 @@ internal class Success208Test : BaseTest<DogDTO>() {
     }
 
     @Test
-    fun `mapping NetworkResponse to Resource`() = runBlocking {
+    fun `mapping NetworkResponse to Resource`() = runTestBlocking {
         val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
             success = DogDTO::toDog,
-            error = ErrorDTO?::toErrorD,
+            error = ErrorDTO::toErrorD,
             unknownError = Throwable::toErrorD,
             remoteNotAvailable = ::remoteNotAvailableToErrorD,
             internetNotAvailable = ::internetNotAvailableToErrorD,

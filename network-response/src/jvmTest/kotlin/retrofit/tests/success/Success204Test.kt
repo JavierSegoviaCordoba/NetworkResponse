@@ -11,16 +11,16 @@ import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.config.models.toNullDog
 import com.javiersc.resources.networkResponse.extensions.toResource
 import com.javiersc.resources.networkResponse.retrofit.tests.BaseNullTest
+import com.javiersc.resources.networkResponse.runTestBlocking
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
-import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 
 internal class Success204Test : BaseNullTest<DogDTO?>(204) {
 
     @Test
-    fun `suspend call`() = runBlocking {
+    fun `suspend call`() = runTestBlocking {
         with(service.getDogWithoutBody()) {
             shouldBeTypeOf<NetworkResponse.Success<Unit>>()
             headers shouldBe expectedHeaders
@@ -28,7 +28,7 @@ internal class Success204Test : BaseNullTest<DogDTO?>(204) {
     }
 
     @Test
-    fun `async call`() = runBlocking {
+    fun `async call`() = runTestBlocking {
         with(service.getDogWithoutBodyAsync().await()) {
             shouldBeTypeOf<NetworkResponse.Success<Unit>>()
             headers shouldBe expectedHeaders
@@ -36,10 +36,10 @@ internal class Success204Test : BaseNullTest<DogDTO?>(204) {
     }
 
     @Test
-    fun `mapping NetworkResponse to Resource`() = runBlocking {
+    fun `mapping NetworkResponse to Resource`() = runTestBlocking {
         val resource: Resource<Dog, ErrorD> = service.getDogWithoutBody().toResource(
             success = ::toNullDog,
-            error = ErrorDTO?::toErrorD,
+            error = ErrorDTO::toErrorD,
             unknownError = Throwable::toErrorD,
             remoteNotAvailable = ::remoteNotAvailableToErrorD,
             internetNotAvailable = ::internetNotAvailableToErrorD,

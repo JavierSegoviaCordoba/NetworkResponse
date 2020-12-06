@@ -91,7 +91,14 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
             Response.success(NetworkResponse.Success(Unit as R, HttpStatusCode.NoContent, emptyHeader))
         )
     } catch (e: ClassCastException) {
-        throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
+        printlnError(
+            """
+               | # # # # # # # # # # # # # # ERROR # # # # # # # # # # # # # # # # # #
+               | # NetworkResponse should use Unit as Success type when body is null #
+               | # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+            """.trimMargin()
+        )
+        callback.onResponse(this, Response.success(NetworkResponse.UnknownError(e)))
     }
 }
 
@@ -110,7 +117,7 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onIllegalStateException(
 }
 
 private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnectionExceptions(
-    callback: Callback<NetworkResponse<R, E>>
+    callback: Callback<NetworkResponse<R, E>>,
 ) {
     callback.onResponse(
         this,

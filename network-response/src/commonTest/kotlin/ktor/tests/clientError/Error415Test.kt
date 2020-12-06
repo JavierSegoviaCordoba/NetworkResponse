@@ -11,7 +11,7 @@ import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.extensions.toResource
 import com.javiersc.resources.networkResponse.ktor.NetworkResponse
 import com.javiersc.resources.networkResponse.ktor.tests.BaseTest
-import com.javiersc.resources.networkResponse.runBlocking
+import com.javiersc.resources.networkResponse.runTestBlocking
 import com.javiersc.resources.resource.Resource
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
@@ -30,17 +30,17 @@ internal class Error415Test : BaseTest<DogDTO, ErrorDTO>() {
     )
 
     @Test
-    fun `Get 415 and map to Resource`() = runBlocking {
+    fun `Get 415 and map to Resource`() = runTestBlocking {
         with(NetworkResponse<DogDTO, ErrorDTO> { client.get("path") }) {
             this shouldBe expected
 
             toResource(
                 success = DogDTO::toDog,
-                error = ErrorDTO?::toErrorD,
+                error = ErrorDTO::toErrorD,
                 unknownError = Throwable::toErrorD,
                 remoteNotAvailable = ::remoteNotAvailableToErrorD,
                 internetNotAvailable = ::internetNotAvailableToErrorD,
-            ).shouldBeTypeOf<Resource.Error<ErrorD>>().error.message shouldBe expected.error?.message
+            ).shouldBeTypeOf<Resource.Error<ErrorD>>().error.message shouldBe expected.error.message
         }
     }
 }
