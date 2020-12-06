@@ -44,11 +44,11 @@ kotlin {
         commonMain {
             dependencies {
                 commonDependencies.apply {
-                    implementation(coroutinesCore)
-                    implementation(ktorCore)
-                    implementation(ktorJson)
-                    implementation(ktorSerialization)
-                    implementation(resource)
+                    api(coroutinesCore)
+                    api(ktorCore)
+                    api(ktorJson)
+                    api(ktorSerialization)
+                    api(resource)
                 }
             }
         }
@@ -69,9 +69,9 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 jvmDependencies.apply {
-                    implementation(retrofit)
-                    implementation(okHttp)
-                    implementation(converterSerialization)
+                    api(retrofit)
+                    api(okHttp)
+                    api(converterSerialization)
                 }
             }
         }
