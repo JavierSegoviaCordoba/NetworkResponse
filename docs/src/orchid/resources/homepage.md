@@ -6,7 +6,7 @@
 
 `NetworkResponse` is a `sealed class` to wrap responses from network requests:
 - `Success` [`data`, `code` and `headers`]
-- `Error` [`error` (can be null), `code` and `headers`]
+- `Error` [`error`, `code` and `headers`]
 - `UnknownError` [`throwable`]
 - `RemoteNotAvailable`
 - `InternetNotAvailable`
@@ -20,7 +20,6 @@ to `NetworkResponse` but thought to use with another architecture layer, for exa
 -  Multiplatform (NetworkResponse and Resource support)
 -  Retrofit support (jvm)
 -  Ktor support
--  Kotlin Serialization
 
 ## Download
 
@@ -83,13 +82,13 @@ Map any `NetworkResponse` to `Resource` easily with this
 ```kotlin
 val resource: Resource<User, Error> = networkResponse.toResource(
     success = { userDTO: UserDTO, code: HttpStatusCode, headers: Headers -> userDTO.toUser() },
-    error = { errorDTO: ErrorDTO?, code: HttpStatusCode, headers: Headers -> errorDTO.toError() },
+    error = { errorDTO: ErrorDTO, code: HttpStatusCode, headers: Headers -> errorDTO.toError() },
     unknownError = { throwable: Throwable -> throwable.toError() },
     remoteNotAvailable = { errorMessage: String -> errorMessage.toError() },
     internetNotAvailable = { errorMessage: String -> errorMessage.toError() },
 )
 // UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
-// UserDTO.toUser(), ErrorDTO?.toError(), String.toError() and Throwable.toError() mappers should 
+// UserDTO.toUser(), ErrorDTO.toError(), String.toError() and Throwable.toError() mappers should 
 // be created by yourself.
 ```
 
