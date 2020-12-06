@@ -4,6 +4,8 @@ import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.config.models.DogDTO
 import com.javiersc.resources.networkResponse.config.models.ErrorD
 import com.javiersc.resources.networkResponse.config.models.ErrorDTO
+import com.javiersc.resources.networkResponse.config.models.internetNotAvailableToErrorD
+import com.javiersc.resources.networkResponse.config.models.remoteNotAvailableToErrorD
 import com.javiersc.resources.networkResponse.config.models.toDog
 import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.extensions.toResource
@@ -36,7 +38,8 @@ internal class Error405Test : BaseTest<DogDTO, ErrorDTO>() {
                 success = DogDTO::toDog,
                 error = ErrorDTO?::toErrorD,
                 unknownError = Throwable::toErrorD,
-                internetNotAvailable = String::toErrorD,
+                remoteNotAvailable = ::remoteNotAvailableToErrorD,
+                internetNotAvailable = ::internetNotAvailableToErrorD,
             ).shouldBeTypeOf<Resource.Error<ErrorD>>().error.message shouldBe expected.error?.message
         }
     }

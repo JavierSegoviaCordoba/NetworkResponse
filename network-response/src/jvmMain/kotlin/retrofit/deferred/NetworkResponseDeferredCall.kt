@@ -5,7 +5,6 @@ import com.javiersc.resources.networkResponse.isInternetAvailable
 import com.javiersc.resources.networkResponse.ktor.emptyHeader
 import com.javiersc.resources.networkResponse.retrofit.deferred.handlers.httpExceptionDeferredHandler
 import com.javiersc.resources.networkResponse.retrofit.deferred.handlers.responseDeferredHandler
-import com.javiersc.resources.networkResponse.utils.Constants.HttpStatusCodeRemoteUnavailable
 import com.javiersc.resources.networkResponse.utils.hasBody
 import com.javiersc.resources.networkResponse.utils.printlnError
 import com.javiersc.resources.networkResponse.utils.printlnWarning
@@ -40,7 +39,7 @@ internal fun <R : Any, E : Any> deferredAdapt(
             override fun onFailure(call: Call<R>, throwable: Throwable) {
                 when (throwable) {
                     is UnknownHostException, is ConnectException, is InterruptedIOException ->
-                        onCommonConnectionException(deferred, throwable)
+                        onCommonConnectionException(deferred)
                     is EOFException -> onEOFException(deferred)
                     is IllegalStateException -> onIllegalStateException(deferred, throwable)
                     is HttpException -> onHttpException(deferred, errorConverter, throwable)
@@ -85,16 +84,9 @@ private fun <R, E> onIllegalStateException(deferred: CompletableDeferred<Network
     deferred.complete(NetworkResponse.UnknownError(throwable))
 }
 
-private fun <R, E> onCommonConnectionException(
-    deferred: CompletableDeferred<NetworkResponse<R, E>>,
-    throwable: Throwable,
-) {
-    val message = "${throwable.message}"
-
-    deferred.complete(
-        if (isInternetAvailable) NetworkResponse.Error(null, HttpStatusCodeRemoteUnavailable, emptyHeader)
-        else NetworkResponse.InternetNotAvailable(message)
-    )
+private fun <R, E> onCommonConnectionException(deferred: CompletableDeferred<NetworkResponse<R, E>>) {
+    deferred
+        .complete(if (isInternetAvailable) NetworkResponse.RemoteNotAvailable else NetworkResponse.InternetNotAvailable)
 }
 
 private fun <R : Any, E : Any> onHttpException(

@@ -5,31 +5,32 @@
 # [NetworkResponse](/networkResponse/src/commonMain/kotlin/com/javiersc/resources/networkResponse/NetworkResponse.kt)
 
 `NetworkResponse` is a `sealed class` to wrap responses from network requests:
-  - `Success` [`data`, `code` and `headers`]
-  - `Error` [`error` (can be null), `code` and `headers`]
-  - `UnknownError` [`throwable`]
-  - `InternetNotAvailable` [`error`]
+- `Success` [`data`, `code` and `headers`]
+- `Error` [`error` (can be null), `code` and `headers`]
+- `UnknownError` [`throwable`]
+- `RemoteNotAvailable`
+- `InternetNotAvailable`
 
-This library works very well when used in conjunction with 
+This library works very well when used in conjunction with
 [`Resource`](https://github.com/JavierSegoviaCordoba/Resource) which is very similar
 to `NetworkResponse` but thought to use with another architecture layer, for example domain objects.
 `NetworkResponse` has mappers to transform it to a `Resource`.
 
 ## Features
-  -  Multiplatform (NetworkResponse and Resource support)
-  -  Retrofit support (jvm)
-  -  Ktor support
-  -  Kotlin Serialization
+-  Multiplatform (NetworkResponse and Resource support)
+-  Retrofit support (jvm)
+-  Ktor support
+-  Kotlin Serialization
 
 ## Download
 
-This library is Kotlin Multiplatform but at this moment jvm is the only artifact generated. It is 
+This library is Kotlin Multiplatform but at this moment jvm is the only artifact generated. It is
 available at Maven Central.
 
 ```kotlin
 implementation("com.javiersc.resources:network-response:$version")
 ```
-     
+
 ## Retrofit
 
 This adapter for `Retrofit` wraps automatically the `Retrofit` responses with a `NetworkResponse`:
@@ -66,7 +67,7 @@ fun getUsers(): Deferred<NetworkResponse<List<UserDTO>, ErrorDTO>>
 
 ## Ktor
 
-You only need to wrap the request and do not indicate the type in the client method because it is 
+You only need to wrap the request and do not indicate the type in the client method because it is
 inferred automatically
 
 ```kotlin
@@ -81,10 +82,11 @@ Map any `NetworkResponse` to `Resource` easily with this
 
 ```kotlin
 val resource: Resource<User, Error> = networkResponse.toResource(
-    success = { userDTO: UserDTO, code: Int, headers: Headers -> userDTO.toUser() },
-    error = { errorDTO: ErrorDTO?, code: Int, headers: Headers -> errorDTO.toError() },
+    success = { userDTO: UserDTO, code: HttpStatusCode, headers: Headers -> userDTO.toUser() },
+    error = { errorDTO: ErrorDTO?, code: HttpStatusCode, headers: Headers -> errorDTO.toError() },
     unknownError = { throwable: Throwable -> throwable.toError() },
-    internetNotAvailable = { errorMessage: String -> errorMessage.toError() }
+    remoteNotAvailable = { errorMessage: String -> errorMessage.toError() },
+    internetNotAvailable = { errorMessage: String -> errorMessage.toError() },
 )
 // UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
 // UserDTO.toUser(), ErrorDTO?.toError(), String.toError() and Throwable.toError() mappers should 

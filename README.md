@@ -8,7 +8,8 @@
   - `Success` [`data`, `code` and `headers`]
   - `Error` [`error` (can be null), `code` and `headers`]
   - `UnknownError` [`throwable`]
-  - `InternetNotAvailable` [`error`]
+  - `RemoteNotAvailable`
+  - `InternetNotAvailable`
 
 This library works very well when used in conjunction with 
 [`Resource`](https://github.com/JavierSegoviaCordoba/Resource) which is very similar
@@ -81,10 +82,11 @@ Map any `NetworkResponse` to `Resource` easily with this
 
 ```kotlin
 val resource: Resource<User, Error> = networkResponse.toResource(
-    success = { userDTO: UserDTO, code: Int, headers: Headers -> userDTO.toUser() },
-    error = { errorDTO: ErrorDTO?, code: Int, headers: Headers -> errorDTO.toError() },
+    success = { userDTO: UserDTO, code: HttpStatusCode, headers: Headers -> userDTO.toUser() },
+    error = { errorDTO: ErrorDTO?, code: HttpStatusCode, headers: Headers -> errorDTO.toError() },
     unknownError = { throwable: Throwable -> throwable.toError() },
-    internetNotAvailable = { errorMessage: String -> errorMessage.toError() }
+    remoteNotAvailable = { errorMessage: String -> errorMessage.toError() },
+    internetNotAvailable = { errorMessage: String -> errorMessage.toError() },
 )
 // UserDTO and ErrorDTO are your network objects, User and Error are your domain objects.
 // UserDTO.toUser(), ErrorDTO?.toError(), String.toError() and Throwable.toError() mappers should 

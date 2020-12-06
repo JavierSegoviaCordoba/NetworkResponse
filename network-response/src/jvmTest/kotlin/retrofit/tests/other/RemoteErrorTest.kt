@@ -5,6 +5,8 @@ import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.DogDTO
 import com.javiersc.resources.networkResponse.config.models.ErrorD
 import com.javiersc.resources.networkResponse.config.models.ErrorDTO
+import com.javiersc.resources.networkResponse.config.models.internetNotAvailableToErrorD
+import com.javiersc.resources.networkResponse.config.models.remoteNotAvailableToErrorD
 import com.javiersc.resources.networkResponse.config.models.toDog
 import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.extensions.toResource
@@ -29,14 +31,14 @@ internal class RemoteErrorTest : BaseTest<String>() {
     @Test
     fun `suspend call`() = runBlocking {
         val response: NetworkResponse<DogDTO, ErrorDTO> = service.getDog()
-        response should beOfType<NetworkResponse.Error<ErrorDTO>>()
+        response should beOfType<NetworkResponse.RemoteNotAvailable>()
     }
 
     @Test
     fun `async call`() = runBlocking {
         val deferredResponse: Deferred<NetworkResponse<DogDTO, ErrorDTO>> = service.getDogAsync()
         val response: NetworkResponse<DogDTO, ErrorDTO> = deferredResponse.await()
-        response should beOfType<NetworkResponse.Error<ErrorDTO>>()
+        response should beOfType<NetworkResponse.RemoteNotAvailable>()
     }
 
     @Test
@@ -45,8 +47,9 @@ internal class RemoteErrorTest : BaseTest<String>() {
             success = DogDTO::toDog,
             error = ErrorDTO?::toErrorD,
             unknownError = Throwable::toErrorD,
-            internetNotAvailable = String::toErrorD,
+            remoteNotAvailable = ::remoteNotAvailableToErrorD,
+            internetNotAvailable = ::internetNotAvailableToErrorD,
         )
-        (resource as Resource.Error).error.message shouldBe expected
+        (resource as Resource.Error).error.message shouldBe "No remote"
     }
 }

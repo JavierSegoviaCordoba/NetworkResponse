@@ -8,7 +8,7 @@ import okhttp3.mockwebserver.MockWebServer
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 
-abstract class BaseTest<T> {
+internal abstract class BaseTest<T> {
 
     internal open val mockWebServer = MockWebServer()
     internal open val service: DogService get() = DogService.getService(mockWebServer.url("/"))
@@ -32,7 +32,7 @@ abstract class BaseTest<T> {
     }
 }
 
-open class BaseNullTest<T>(private val code: Int) {
+internal open class BaseNullTest<T>(private val code: Int) {
 
     private val mockWebServer = MockWebServer()
     internal val service: DogService get() = DogService.getService(mockWebServer.url("/"))

@@ -1,15 +1,14 @@
 package com.javiersc.resources.networkResponse.retrofit.suspend
 
 import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.NetworkResponse.InternetNotAvailable
 import com.javiersc.resources.networkResponse.isInternetAvailable
 import com.javiersc.resources.networkResponse.ktor.emptyHeader
 import com.javiersc.resources.networkResponse.retrofit.suspend.handlers.httpExceptionSuspendHandler
 import com.javiersc.resources.networkResponse.retrofit.suspend.handlers.responseSuspendHandler
-import com.javiersc.resources.networkResponse.utils.Constants.HttpStatusCodeRemoteUnavailable
 import com.javiersc.resources.networkResponse.utils.hasBody
 import com.javiersc.resources.networkResponse.utils.printlnError
 import com.javiersc.resources.networkResponse.utils.printlnWarning
+import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerializationException
 import okhttp3.Request
 import okhttp3.ResponseBody
@@ -43,7 +42,7 @@ internal class NetworkResponseSuspendCall<R : Any, E : Any>(
                 override fun onFailure(call: Call<R>, throwable: Throwable) {
                     when (throwable) {
                         is UnknownHostException, is ConnectException, is InterruptedIOException ->
-                            onCommonConnectionExceptions(callback, throwable)
+                            onCommonConnectionExceptions(callback)
                         is EOFException -> onEOFException(callback)
                         is IllegalStateException -> onIllegalStateException(callback, throwable)
                         is HttpException -> onHttpException(callback, errorConverter, throwable)
@@ -89,7 +88,7 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
     try {
         callback.onResponse(
             this,
-            Response.success(NetworkResponse.Success(Unit as R, HttpStatusCodeRemoteUnavailable, emptyHeader))
+            Response.success(NetworkResponse.Success(Unit as R, HttpStatusCode.NoContent, emptyHeader))
         )
     } catch (e: ClassCastException) {
         throw ClassCastException("NetworkResponse should use Unit as Success type when there isn't body")
@@ -98,7 +97,7 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onEOFException(callback: Callback
 
 private fun <R, E> Call<NetworkResponse<R, E>>.onIllegalStateException(
     callback: Callback<NetworkResponse<R, E>>,
-    throwable: Throwable
+    throwable: Throwable,
 ) {
     printlnError(
         """
@@ -111,16 +110,12 @@ private fun <R, E> Call<NetworkResponse<R, E>>.onIllegalStateException(
 }
 
 private fun <R : Any, E : Any> NetworkResponseSuspendCall<R, E>.onCommonConnectionExceptions(
-    callback: Callback<NetworkResponse<R, E>>,
-    throwable: Throwable,
+    callback: Callback<NetworkResponse<R, E>>
 ) {
-    val message = "${throwable.message}"
-
     callback.onResponse(
         this,
-        if (isInternetAvailable) {
-            Response.success(NetworkResponse.Error(null, HttpStatusCodeRemoteUnavailable, emptyHeader))
-        } else Response.success(InternetNotAvailable(message))
+        if (isInternetAvailable) Response.success(NetworkResponse.RemoteNotAvailable)
+        else Response.success(NetworkResponse.InternetNotAvailable)
     )
 }
 

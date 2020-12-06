@@ -5,6 +5,8 @@ import com.javiersc.resources.networkResponse.config.models.Dog
 import com.javiersc.resources.networkResponse.config.models.DogDTO
 import com.javiersc.resources.networkResponse.config.models.ErrorD
 import com.javiersc.resources.networkResponse.config.models.ErrorDTO
+import com.javiersc.resources.networkResponse.config.models.internetNotAvailableToErrorD
+import com.javiersc.resources.networkResponse.config.models.remoteNotAvailableToErrorD
 import com.javiersc.resources.networkResponse.config.models.toDog
 import com.javiersc.resources.networkResponse.config.models.toErrorD
 import com.javiersc.resources.networkResponse.extensions.toResource
@@ -43,7 +45,8 @@ internal class Success226Test : BaseTest<DogDTO>() {
             success = DogDTO::toDog,
             error = ErrorDTO?::toErrorD,
             unknownError = Throwable::toErrorD,
-            internetNotAvailable = String::toErrorD,
+            remoteNotAvailable = ::remoteNotAvailableToErrorD,
+            internetNotAvailable = ::internetNotAvailableToErrorD,
         )
         (resource as Resource.Success).data.name shouldBe expected.name
     }

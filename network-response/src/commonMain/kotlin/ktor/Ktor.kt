@@ -4,7 +4,6 @@ package com.javiersc.resources.networkResponse.ktor
 
 import com.javiersc.resources.networkResponse.NetworkResponse
 import com.javiersc.resources.networkResponse.isInternetAvailable
-import com.javiersc.resources.networkResponse.utils.Constants
 import io.ktor.client.features.ResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.readText
@@ -16,20 +15,9 @@ import kotlinx.serialization.json.Json
 /**
  * Transform a request made by a Ktor client to NetworkResponse
  */
-public suspend inline operator fun <reified NR, reified E> NetworkResponse.Companion.invoke(
-    request: () -> HttpResponse
-): NetworkResponse<NR, E> = try {
-    request().asNetworkResponse()
-} catch (throwable: Throwable) {
-    throwable.asNetworkResponse()
-}
-
-/**
- * Transform a request made by a Ktor client to NetworkResponse
- */
 @Suppress("FunctionNaming", "FunctionName")
 public suspend inline fun <reified NR, reified E> NetworkResponse(
-    request: () -> HttpResponse
+    request: () -> HttpResponse,
 ): NetworkResponse<NR, E> = try {
     request().asNetworkResponse()
 } catch (throwable: Throwable) {
@@ -61,6 +49,5 @@ internal suspend inline fun <reified NR, reified E> Throwable.asNetworkResponse(
     }
 
 @PublishedApi
-internal fun <NR, E> Exception.remoteOrInternetNotAvailable(): NetworkResponse<NR, E> =
-    if (isInternetAvailable) NetworkResponse.Error(null, Constants.HttpStatusCodeRemoteUnavailable, emptyHeader)
-    else NetworkResponse.InternetNotAvailable(message ?: "Internet not available")
+internal fun <NR, E> remoteOrInternetNotAvailable(): NetworkResponse<NR, E> =
+    if (isInternetAvailable) NetworkResponse.RemoteNotAvailable else NetworkResponse.InternetNotAvailable

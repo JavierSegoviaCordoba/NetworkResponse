@@ -45,7 +45,6 @@ kotlin {
             dependencies {
                 commonDependencies.apply {
                     implementation(coroutinesCore)
-                    implementation(kotlinSerialization)
                     implementation(ktorCore)
                     implementation(ktorJson)
                     implementation(ktorSerialization)
