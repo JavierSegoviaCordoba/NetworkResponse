@@ -9,12 +9,14 @@
    3. Upload to server: `gpg --keyserver hkps://keys.openpgp.org --send-keys [keyId]`
    4. Add Nexus user environment variable: `ossUser`
    5. Add Nexus token environment variable: `ossToken`
-   
+
+> You can use GPG Suite and its GUI to do the previous steps
+
 ### Versioning
 
 You can change the version and indicate if is release or snapshot in the next file:
 
-- networkResponse/[gradle.properties](/networkResponse/gradle.properties)
+- network-response/[gradle.properties](/network-response/gradle.properties)
 
 #### Releases
 
