@@ -1,7 +1,7 @@
-package com.javiersc.resources.networkResponse.retrofit.tests
+package com.javiersc.networkResponse.retrofit.tests
 
-import com.javiersc.resources.networkResponse.retrofit.config.mockResponse
-import com.javiersc.resources.networkResponse.retrofit.config.service.DogService
+import com.javiersc.networkResponse.retrofit.config.mockResponse
+import com.javiersc.networkResponse.retrofit.config.service.DogService
 import io.ktor.http.Headers
 import io.ktor.http.headersOf
 import okhttp3.mockwebserver.MockWebServer

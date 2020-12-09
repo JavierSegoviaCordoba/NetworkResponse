@@ -7,7 +7,6 @@ object Dependencies {
 
     object Common {
         val coroutinesCore = kotlinx("coroutines-core:${versions.coroutines}")
-        val kotlinSerialization = kotlinx("serialization-core:${versions.serialization}")
         val ktorCore = ktor("client-core:${versions.ktor}")
         val ktorJson = ktor("client-json:${versions.ktor}")
         val ktorSerialization = ktor("client-serialization:${versions.ktor}")

@@ -1,4 +1,4 @@
-package com.javiersc.resources.networkResponse
+package com.javiersc.networkResponse
 
 internal expect fun Any.readResource(file: String): String
 

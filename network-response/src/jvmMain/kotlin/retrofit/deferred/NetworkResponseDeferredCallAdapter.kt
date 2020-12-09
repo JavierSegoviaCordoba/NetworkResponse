@@ -1,6 +1,6 @@
-package com.javiersc.resources.networkResponse.retrofit.deferred
+package com.javiersc.networkResponse.retrofit.deferred
 
-import com.javiersc.resources.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.NetworkResponse
 import kotlinx.coroutines.CompletableDeferred
 import okhttp3.ResponseBody
 import retrofit2.Call

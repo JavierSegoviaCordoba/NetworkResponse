@@ -1,4 +1,4 @@
-package com.javiersc.resources.networkResponse
+package com.javiersc.networkResponse
 
 import kotlinx.coroutines.runBlocking
 

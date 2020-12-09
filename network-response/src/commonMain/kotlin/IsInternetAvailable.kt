@@ -1,3 +1,3 @@
-package com.javiersc.resources.networkResponse
+package com.javiersc.networkResponse
 
 public expect val isInternetAvailable: Boolean

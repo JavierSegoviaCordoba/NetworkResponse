@@ -1,9 +1,9 @@
-package com.javiersc.resources.networkResponse.retrofit.deferred.handlers
+package com.javiersc.networkResponse.retrofit.deferred.handlers
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.retrofit.utils.headers
-import com.javiersc.resources.networkResponse.retrofit.utils.httpStatusCode
-import com.javiersc.resources.networkResponse.utils.printlnError
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.retrofit.utils.headers
+import com.javiersc.networkResponse.retrofit.utils.httpStatusCode
+import com.javiersc.networkResponse.utils.printlnError
 import kotlinx.coroutines.CompletableDeferred
 import okhttp3.ResponseBody
 import retrofit2.Converter

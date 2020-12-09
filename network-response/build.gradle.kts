@@ -22,7 +22,7 @@ val isNetworkResponseRelease: String by project
 val finalVersion =
     networkResponseVersion.generateVersion(isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean())
 
-group = "com.javiersc.resources"
+group = "com.javiersc.network-response"
 version = finalVersion
 
 val dokkaJar by tasks.creating(Jar::class) {
@@ -48,7 +48,6 @@ kotlin {
                     api(ktorCore)
                     api(ktorJson)
                     api(ktorSerialization)
-                    api(resource)
                 }
             }
         }

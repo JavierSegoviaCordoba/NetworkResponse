@@ -1,7 +1,7 @@
-package com.javiersc.resources.networkResponse.retrofit.deferred.handlers
+package com.javiersc.networkResponse.retrofit.deferred.handlers
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.utils.printlnError
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.utils.printlnError
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CompletableDeferred

@@ -1,6 +1,6 @@
-package com.javiersc.resources.networkResponse.extensions
+package com.javiersc.networkResponse.extensions
 
-import com.javiersc.resources.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.NetworkResponse
 import com.javiersc.resources.resource.Resource
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode

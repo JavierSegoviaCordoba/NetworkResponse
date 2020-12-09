@@ -1,11 +1,6 @@
 plugins {
     id("maven-publish")
-    `java-library`
     signing
-}
-
-java {
-    withJavadocJar()
 }
 
 signing {

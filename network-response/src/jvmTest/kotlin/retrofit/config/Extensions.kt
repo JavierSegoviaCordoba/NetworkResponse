@@ -1,6 +1,6 @@
-package com.javiersc.resources.networkResponse.retrofit.config
+package com.javiersc.networkResponse.retrofit.config
 
-import com.javiersc.resources.networkResponse.readResource
+import com.javiersc.networkResponse.readResource
 import okhttp3.mockwebserver.MockResponse
 
 internal fun mockResponse(codeToFile: Pair<Int, String?>): MockResponse {

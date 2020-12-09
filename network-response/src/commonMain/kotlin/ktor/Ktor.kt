@@ -1,9 +1,9 @@
 @file:Suppress("TooGenericExceptionCaught")
 
-package com.javiersc.resources.networkResponse.ktor
+package com.javiersc.networkResponse.ktor
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.isInternetAvailable
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.isInternetAvailable
 import io.ktor.client.features.ResponseException
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.readText

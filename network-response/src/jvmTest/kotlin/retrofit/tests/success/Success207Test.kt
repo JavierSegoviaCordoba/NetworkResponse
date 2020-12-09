@@ -1,18 +1,10 @@
-package com.javiersc.resources.networkResponse.retrofit.tests.success
+package com.javiersc.networkResponse.retrofit.tests.success
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.config.models.Dog
-import com.javiersc.resources.networkResponse.config.models.DogDTO
-import com.javiersc.resources.networkResponse.config.models.ErrorD
-import com.javiersc.resources.networkResponse.config.models.ErrorDTO
-import com.javiersc.resources.networkResponse.config.models.internetNotAvailableToErrorD
-import com.javiersc.resources.networkResponse.config.models.remoteNotAvailableToErrorD
-import com.javiersc.resources.networkResponse.config.models.toDog
-import com.javiersc.resources.networkResponse.config.models.toErrorD
-import com.javiersc.resources.networkResponse.extensions.toResource
-import com.javiersc.resources.networkResponse.retrofit.tests.BaseTest
-import com.javiersc.resources.networkResponse.runTestBlocking
-import com.javiersc.resources.resource.Resource
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.config.models.DogDTO
+
+import com.javiersc.networkResponse.retrofit.tests.BaseTest
+import com.javiersc.networkResponse.runTestBlocking
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import kotlin.test.Test
@@ -38,17 +30,5 @@ internal class Success207Test : BaseTest<DogDTO>() {
             status.value shouldBe codeToFile.first
             headers["token"] shouldBe expectedTokenHeader
         }
-    }
-
-    @Test
-    fun `mapping NetworkResponse to Resource`() = runTestBlocking {
-        val resource: Resource<Dog, ErrorD> = service.getDog().toResource(
-            success = DogDTO::toDog,
-            error = ErrorDTO::toErrorD,
-            unknownError = Throwable::toErrorD,
-            remoteNotAvailable = ::remoteNotAvailableToErrorD,
-            internetNotAvailable = ::internetNotAvailableToErrorD,
-        )
-        (resource as Resource.Success).data.name shouldBe expected.name
     }
 }

@@ -1,10 +1,10 @@
-package com.javiersc.resources.networkResponse.retrofit.suspend.handlers
+package com.javiersc.networkResponse.retrofit.suspend.handlers
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.NetworkResponse.Error
-import com.javiersc.resources.networkResponse.NetworkResponse.Success
-import com.javiersc.resources.networkResponse.retrofit.suspend.NetworkResponseSuspendCall
-import com.javiersc.resources.networkResponse.utils.printlnError
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.NetworkResponse.Error
+import com.javiersc.networkResponse.NetworkResponse.Success
+import com.javiersc.networkResponse.retrofit.suspend.NetworkResponseSuspendCall
+import com.javiersc.networkResponse.utils.printlnError
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
 import retrofit2.Callback

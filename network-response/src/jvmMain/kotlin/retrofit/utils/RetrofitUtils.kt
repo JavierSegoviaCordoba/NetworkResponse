@@ -1,8 +1,8 @@
 @file:Suppress("SpreadOperator")
 
-package com.javiersc.resources.networkResponse.retrofit.utils
+package com.javiersc.networkResponse.retrofit.utils
 
-import com.javiersc.resources.networkResponse.ktor.toHttpStatusCode
+import com.javiersc.networkResponse.ktor.toHttpStatusCode
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf

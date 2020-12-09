@@ -1,10 +1,10 @@
-package com.javiersc.resources.networkResponse.retrofit.suspend.handlers
+package com.javiersc.networkResponse.retrofit.suspend.handlers
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.retrofit.suspend.NetworkResponseSuspendCall
-import com.javiersc.resources.networkResponse.retrofit.utils.headers
-import com.javiersc.resources.networkResponse.retrofit.utils.httpStatusCode
-import com.javiersc.resources.networkResponse.utils.printlnError
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.retrofit.suspend.NetworkResponseSuspendCall
+import com.javiersc.networkResponse.retrofit.utils.headers
+import com.javiersc.networkResponse.retrofit.utils.httpStatusCode
+import com.javiersc.networkResponse.utils.printlnError
 import okhttp3.ResponseBody
 import retrofit2.Callback
 import retrofit2.Converter

@@ -1,10 +1,10 @@
-package com.javiersc.resources.networkResponse.retrofit.config.service
+package com.javiersc.networkResponse.retrofit.config.service
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.config.models.DogDTO
-import com.javiersc.resources.networkResponse.config.models.ErrorDTO
-import com.javiersc.resources.networkResponse.retrofit.NetworkResponseCallAdapterFactory
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.config.models.DogDTO
+import com.javiersc.networkResponse.config.models.ErrorDTO
+import com.javiersc.networkResponse.retrofit.NetworkResponseCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import kotlinx.serialization.json.Json
 import okhttp3.HttpUrl

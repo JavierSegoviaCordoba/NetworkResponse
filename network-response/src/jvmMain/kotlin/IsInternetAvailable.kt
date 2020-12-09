@@ -1,6 +1,6 @@
-package com.javiersc.resources.networkResponse
+package com.javiersc.networkResponse
 
-import com.javiersc.resources.networkResponse.utils.Constants
+import com.javiersc.networkResponse.utils.Constants
 import java.net.InetSocketAddress
 import java.net.Socket
 

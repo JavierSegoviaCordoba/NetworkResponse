@@ -1,8 +1,8 @@
-package com.javiersc.resources.networkResponse.ktor.tests
+package com.javiersc.networkResponse.ktor.tests
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.ktor.toHttpStatusCode
-import com.javiersc.resources.networkResponse.readResource
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.ktor.toHttpStatusCode
+import com.javiersc.networkResponse.readResource
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond

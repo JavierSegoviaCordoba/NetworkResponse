@@ -1,4 +1,4 @@
-package com.javiersc.resources.networkResponse.ktor
+package com.javiersc.networkResponse.ktor
 
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode

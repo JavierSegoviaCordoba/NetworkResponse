@@ -1,6 +1,6 @@
-package com.javiersc.resources.networkResponse.retrofit.suspend
+package com.javiersc.networkResponse.retrofit.suspend
 
-import com.javiersc.resources.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.NetworkResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.CallAdapter

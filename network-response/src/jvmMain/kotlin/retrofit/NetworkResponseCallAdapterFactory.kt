@@ -1,8 +1,8 @@
-package com.javiersc.resources.networkResponse.retrofit
+package com.javiersc.networkResponse.retrofit
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.retrofit.deferred.NetworkResponseDeferredCallAdapter
-import com.javiersc.resources.networkResponse.retrofit.suspend.NetworkResponseSuspendCallAdapter
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.retrofit.deferred.NetworkResponseDeferredCallAdapter
+import com.javiersc.networkResponse.retrofit.suspend.NetworkResponseSuspendCallAdapter
 import kotlinx.coroutines.Deferred
 import retrofit2.Call
 import retrofit2.CallAdapter

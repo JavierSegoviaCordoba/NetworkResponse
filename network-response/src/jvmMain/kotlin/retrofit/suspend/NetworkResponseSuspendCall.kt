@@ -1,13 +1,13 @@
-package com.javiersc.resources.networkResponse.retrofit.suspend
+package com.javiersc.networkResponse.retrofit.suspend
 
-import com.javiersc.resources.networkResponse.NetworkResponse
-import com.javiersc.resources.networkResponse.isInternetAvailable
-import com.javiersc.resources.networkResponse.ktor.emptyHeader
-import com.javiersc.resources.networkResponse.retrofit.suspend.handlers.httpExceptionSuspendHandler
-import com.javiersc.resources.networkResponse.retrofit.suspend.handlers.responseSuspendHandler
-import com.javiersc.resources.networkResponse.utils.hasBody
-import com.javiersc.resources.networkResponse.utils.printlnError
-import com.javiersc.resources.networkResponse.utils.printlnWarning
+import com.javiersc.networkResponse.NetworkResponse
+import com.javiersc.networkResponse.isInternetAvailable
+import com.javiersc.networkResponse.ktor.emptyHeader
+import com.javiersc.networkResponse.retrofit.suspend.handlers.httpExceptionSuspendHandler
+import com.javiersc.networkResponse.retrofit.suspend.handlers.responseSuspendHandler
+import com.javiersc.networkResponse.utils.hasBody
+import com.javiersc.networkResponse.utils.printlnError
+import com.javiersc.networkResponse.utils.printlnWarning
 import io.ktor.http.HttpStatusCode
 import kotlinx.serialization.SerializationException
 import okhttp3.Request
