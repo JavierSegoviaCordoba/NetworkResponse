@@ -2,6 +2,7 @@ import tasks.baseKotlinOptions
 
 plugins {
     DependencyUpdates
+    Detekt
 }
 
 allprojects {

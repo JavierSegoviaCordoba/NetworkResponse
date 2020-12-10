@@ -19,11 +19,13 @@ import kotlin.test.Test
 internal class ResourceExtensionsTest {
 
     private val headers = headersOf("Content-Type" to listOf("application/json"))
+    private val name = "Auri"
+    private val error = "error"
 
     @Test
     fun `Map Success to Resource`() {
-        val dogDTO = DogDTO(1, "Auri", 7)
-        val expectedDog = Dog("Auri", 200, headers)
+        val dogDTO = DogDTO(1, name, 7)
+        val expectedDog = Dog(name, 200, headers)
 
         val networkResponse: NetworkResponse<DogDTO, ErrorDTO> = NetworkResponse.Success(dogDTO, OK, headers)
         networkResponse.toResource(
@@ -37,8 +39,8 @@ internal class ResourceExtensionsTest {
 
     @Test
     fun `Map Error to Resource`() {
-        val errorDTO = ErrorDTO("error")
-        val expectedError = ErrorD("error", 404, headers)
+        val errorDTO = ErrorDTO(error)
+        val expectedError = ErrorD(error, 404, headers)
 
         val networkResponse: NetworkResponse<DogDTO, ErrorDTO> = NetworkResponse.Error(errorDTO, NotFound, headers)
         networkResponse.toResource(
@@ -52,8 +54,8 @@ internal class ResourceExtensionsTest {
 
     @Test
     fun `Map UnknownError to Resource`() {
-        val exception = IllegalStateException("error")
-        val expectedError = ErrorD("error", null, null)
+        val exception = IllegalStateException(error)
+        val expectedError = ErrorD(error, null, null)
 
         val networkResponse: NetworkResponse<DogDTO, ErrorDTO> = NetworkResponse.UnknownError(exception)
         networkResponse.toResource(

@@ -1,7 +1,6 @@
 plugins {
     KotlinMultiplatform
     JaCoCo
-    Detekt
     MavenPublish
     Nexus
     Dokka

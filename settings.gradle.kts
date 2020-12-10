@@ -1,4 +1,4 @@
-pluginManagement {
+dependencyResolutionManagement {
     repositories {
         maven("https://dl.bintray.com/kotlin/kotlin-eap")
         gradlePluginPortal()
