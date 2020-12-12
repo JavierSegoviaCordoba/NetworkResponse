@@ -2,16 +2,7 @@ plugins {
     KotlinMultiplatform
     JaCoCo
     MavenPublish
-    Nexus
     Dokka
-}
-
-repositories {
-    maven("https://dl.bintray.com/kotlin/kotlin-eap")
-    maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
-    mavenCentral()
-    jcenter()
 }
 
 val networkResponseVersion: String by project

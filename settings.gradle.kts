@@ -1,10 +1,12 @@
 dependencyResolutionManagement {
     repositories {
-        maven("https://dl.bintray.com/kotlin/kotlin-eap")
         gradlePluginPortal()
+        maven("https://dl.bintray.com/kotlin/kotlin-eap")
         mavenCentral()
         jcenter()
         google()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/dokka/dev")
+        maven("https://oss.sonatype.org/content/repositories/snapshots")
     }
 }
 
