@@ -5,8 +5,7 @@ val NamedDomainObjectContainer<KotlinSourceSet>.defaultLanguageSettings: Unit
     get() {
         all {
             with(languageSettings) {
-                useExperimentalAnnotation("inline-classes")
-                useExperimentalAnnotation("androidx.compose.foundation.lazy.ExperimentalLazyDsl")
+                useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes")
                 useExperimentalAnnotation("io.ktor.util.KtorExperimentalAPI")
                 useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
                 useExperimentalAnnotation("kotlinx.coroutines.FlowPreview")

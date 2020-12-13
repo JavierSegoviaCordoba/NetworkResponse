@@ -7,7 +7,7 @@ import io.ktor.http.headersOf
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 
-class NetworkResponseSerializerTest {
+internal class NetworkResponseSerializerTest {
     private val headers = headersOf("ContentType" to listOf("application/json"))
 
     @Test

@@ -10,14 +10,6 @@ val TaskContainerScope.baseKotlinOptions: Unit
         withType<KotlinCompile>().all {
             kotlinOptions {
                 jvmTarget = JavaVersion.VERSION_1_8.toString()
-                freeCompilerArgs = freeCompilerArgs + listOf(
-                    "-Xinline-classes",
-                    "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                    "-Xopt-in=kotlinx.coroutines.ObsoleteCoroutinesApi",
-                    "-Xopt-in=kotlinx.coroutines.FlowPreview",
-                    "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi",
-                    "-Xopt-in=io.ktor.util.KtorExperimentalAPI"
-                )
             }
         }
     }
