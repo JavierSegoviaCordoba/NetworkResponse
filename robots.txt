@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /
+
+
+
+Sitemap: http://network-response.javiersc.com/sitemap.xml
+

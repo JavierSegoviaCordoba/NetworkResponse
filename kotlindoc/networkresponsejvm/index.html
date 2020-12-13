@@ -1,0 +1,383 @@
+<!DOCTYPE HTML>
+<!--
+    Editorial by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+
+
+
+
+
+
+<meta charset="utf-8"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+<meta name="generator" content="Orchid 0.21.1"/>
+<link rel="icon" href="http://network-response.javiersc.com/favicon.ico">
+
+
+<meta name="robots" content="index, follow">
+
+
+
+<title>NetworkResponseJVM</title>
+
+
+<meta name="description" content="NetworkResponse is a sealed class to wrap responses from network requests.">
+
+
+
+
+
+<!-- start:inject styles -->
+<link rel="stylesheet" type="text/css" href="http://network-response.javiersc.com/Editorial/bd651712/assets/css/editorial_main.css"  />
+<link rel="stylesheet" type="text/css" href="http://network-response.javiersc.com/Editorial/bd651712/assets/css/editorial_orchidCustomizations.css"  />
+<link rel="stylesheet" type="text/css" href="http://network-response.javiersc.com/Editorial/bd651712/assets/css/orchidSearch.css"  />
+<link rel="stylesheet" type="text/css" href="http://network-response.javiersc.com/Editorial/bd651712/assets/css/code.css"  />
+<link rel="stylesheet" type="text/css" href="http://network-response.javiersc.com/assets/css/orchidSearch.css"  />
+<!-- end:inject styles -->
+
+
+
+
+
+<!-- start:debug info -->
+
+<!-- THEME -->
+<!-- Type: Editorial -->
+<!-- Class: com.eden.orchid.editorial.EditorialTheme -->
+
+<!-- PAGE -->
+<!-- Type: kotlindoc -->
+<!-- Class: com.eden.orchid.sourcedoc.page.SourceDocModuleHomePage -->
+<!-- Layout: index -->
+<!-- Resolved Layout: templates/layouts/index.peb -->
+<!-- Page Template: kotlindocModule, sourceDocModuleHomepage, kotlindoc, page -->
+<!-- Resolved Page Template: templates/pages/sourceDocModuleHomepage.peb -->
+
+<!-- RESOURCE -->
+<!-- Class: com.eden.orchid.api.resources.resource.FileResource -->
+<!-- Source Filename: README.md -->
+
+<!-- COMPLETE PAGE CONFIGURATION -->
+<script>
+    window.allData = {"reference":{"path":"kotlindoc","baseUrl":"http://network-response.javiersc.com","fileName":"networkresponsejvm","extension":"html","usePrettyUrl":true,"link":"http://network-response.javiersc.com/kotlindoc/networkresponsejvm"},"description":"","title":"NetworkResponseJVM"};
+</script>
+
+<!-- end:debug info -->
+
+
+
+<script>
+    window.site = {"orchidVersion":"0.21.1","baseUrl":"http://network-response.javiersc.com","environment":"debug","version":"unspecified"};
+</script>
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+    <!-- start:inject meta-components [head] -->
+    
+
+        
+            
+        
+
+        
+            
+        
+    
+    <!-- end:inject meta-components [head] -->
+
+
+
+
+
+
+
+</head>
+<body class="is-loading">
+
+
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+    <!-- start:inject meta-components [bodyStart] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyStart] -->
+
+
+
+
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Main -->
+    <div id="main">
+        <div class="inner">
+
+            <!-- Header -->
+            
+                <header id="header">
+    <a href="http://network-response.javiersc.com" class="logo">NetworkResponse</a>
+    <ul class="icons">
+    
+    
+        <li>
+            <a href="https://github.com/JavierSegoviaCordoba/NetworkResponse" class="icon fa-github">
+                <span class="label">github</span>
+            </a>
+        </li>
+    
+    
+    </ul>
+</header>
+
+            
+            
+            
+            
+                <section id="pageContent">
+                    <header class="major"><h2>NetworkResponseJVM</h2></header>
+                    <article>
+                        
+    <!-- start:inject components -->
+    
+        
+            
+                
+                    
+                        <table>
+<thead>
+<tr><th align="left"><a href="https://repo1.maven.org/maven2/com/javiersc/network-response/network-response/"><img src="https://img.shields.io/maven-central/v/com.javiersc.network-response/network-response?label=Master" alt="Master Download" /></a></th><th align="left"><a href="https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/master"><img src="https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/NetworkResponse/master?label=Coverage&amp;logo=codecov&amp;logoColor=white" alt="Coverage Master" /></a></th><th align="left"><a href="https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3AMaster/master"><img src="https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Master/master?label=Build&amp;logo=GitHub" alt="Master Build" /></a></th><th align="left"><a href="https://app.codacy.com/manual/JavierSegoviaCordoba/NetworkResponse/dashboard?bid=17394400"><img src="https://img.shields.io/codacy/grade/be9b2f773c72435a87809cc31bae3df9/master?label=Code%20quality&amp;logo=codacy&amp;logoColor=white" alt="Quality Master" /></a></th></tr>
+</thead>
+<tbody>
+<tr><td align="left"><a href="https://oss.sonatype.org/content/repositories/snapshots/com/javiersc/network-response/network-response/"><img src="https://img.shields.io/nexus/s/com.javiersc.network-response/network-response?server=https%3A%2F%2Foss.sonatype.org%2F&amp;label=Develop&amp;color=orange" alt="Develop Download" /></a></td><td align="left"><a href="https://codecov.io/gh/JavierSegoviaCordoba/NetworkResponse/branch/develop"><img src="https://img.shields.io/codecov/c/github/JavierSegoviaCordoba/NetworkResponse/develop?label=Coverage&amp;logo=codecov&amp;logoColor=white" alt="Coverage Develop" /></a></td><td align="left"><a href="https://github.com/JavierSegoviaCordoba/NetworkResponse/actions?query=workflow%3ADevelop/develop"><img src="https://img.shields.io/github/workflow/status/JavierSegoviaCordoba/NetworkResponse/Develop/develop?label=Build&amp;logo=GitHub" alt="Develop Build" /></a></td><td align="left"><a href="https://app.codacy.com/manual/JavierSegoviaCordoba/NetworkResponse/dashboard?bid=17394399"><img src="https://img.shields.io/codacy/grade/be9b2f773c72435a87809cc31bae3df9/develop?label=Code%20quality&amp;logo=codacy&amp;logoColor=white" alt="Quality Develop" /></a></td></tr>
+</tbody>
+</table>
+<h1 id="networkresponse"><a href="#networkresponse" id="networkresponse" class="anchor"></a><a href="/network-response/src/commonMain/kotlin/NetworkResponse.kt">NetworkResponse</a></h1>
+<p><code>NetworkResponse</code> is a <code>sealed class</code> to wrap responses from network requests:</p>
+<ul>
+<li><code>Success</code> [<code>data</code>, <code>code</code> and <code>headers</code>]</li>
+<li><code>Error</code> [<code>error</code>, <code>code</code> and <code>headers</code>]</li>
+<li><code>UnknownError</code> [<code>throwable</code>]</li>
+<li><code>RemoteNotAvailable</code></li>
+<li><code>InternetNotAvailable</code></li>
+</ul>
+<p>This library works very well when used in conjunction with
+<a href="https://github.com/JavierSegoviaCordoba/Resource"><code>Resource</code></a> which is very similar
+to <code>NetworkResponse</code> but thought to use with another architecture layer, for example domain objects.
+<code>NetworkResponse</code> has mappers to transform it to a <code>Resource</code>.</p>
+<h2 id="features"><a href="#features" id="features" class="anchor"></a>Features</h2>
+<ul>
+<li>Multiplatform (NetworkResponse and Resource support)</li>
+<li>Retrofit support (jvm)</li>
+<li>Ktor support</li>
+</ul>
+<h2 id="download"><a href="#download" id="download" class="anchor"></a>Download</h2>
+<p>This library is Kotlin Multiplatform but at this moment jvm is the only artifact generated. It is
+available at Maven Central.</p>
+<pre><code class="language-kotlin">implementation(&quot;com.javiersc.network-response:network-response:$version&quot;)
+</code></pre>
+<h2 id="retrofit"><a href="#retrofit" id="retrofit" class="anchor"></a>Retrofit</h2>
+<p>This adapter for <code>Retrofit</code> wraps automatically the <code>Retrofit</code> responses with a <code>NetworkResponse</code>:</p>
+<pre><code class="language-kotlin">@GET(&quot;users&quot;)
+suspend fun getUsers(): NetworkResponse&lt;List&lt;UserDTO&gt;, ErrorDTO&gt;
+// UserDTO and ErrorDTO should be your data classes
+</code></pre>
+<p>If the server doesn't return an error body, or it is irrelevant you can mark it as <code>Unit</code>:</p>
+<pre><code class="language-kotlin">@GET(&quot;users&quot;)
+suspend fun getUsers(): NetworkResponse&lt;List&lt;UserDTO&gt;, Unit&gt;
+</code></pre>
+<p>Add the <code>NetworkResponseCallAdapterFactory</code> to the <code>Retrofit</code> builder:</p>
+<pre><code class="language-kotlin">private val retrofit = Retrofit.Builder().apply {
+    //...
+    addCallAdapterFactory(NetworkResponseCallAdapterFactory())
+    //...
+}.build()
+</code></pre>
+<p>It is possible to use <code>Deferred</code> too:</p>
+<pre><code class="language-kotlin">@GET(&quot;users&quot;)
+fun getUsers(): Deferred&lt;NetworkResponse&lt;List&lt;UserDTO&gt;, ErrorDTO&gt;&gt;
+</code></pre>
+<h2 id="ktor"><a href="#ktor" id="ktor" class="anchor"></a>Ktor</h2>
+<p>You only need to wrap the request and do not indicate the type in the client method because it is
+inferred automatically</p>
+<pre><code class="language-kotlin">val usersNetworkResponse = NetworkResponse&lt;List&lt;UsersDTO&gt;, ErrorDTO&gt; { client.get(&quot;https://example.com/users&quot;) }
+</code></pre>
+<h2 id="more-artifacts"><a href="#more-artifacts" id="more-artifacts" class="anchor"></a>More artifacts</h2>
+<ul>
+<li><a href="/resource-extensions">Resource extensions</a></li>
+<li><a href="/logger-extensions">Logger extensions</a></li>
+</ul>
+<h2 id="credits"><a href="#credits" id="credits" class="anchor"></a>Credits</h2>
+<p>Based on <a href="https://github.com/haroldadmin/NetworkResponseAdapter">NetworkResponseAdapter</a>
+by <a href="https://github.com/haroldadmin">Kshitij Chauhan</a></p>
+
+
+
+
+                    
+                
+            
+        
+    
+    <!-- end:inject components -->
+
+
+                    </article>
+                </section>
+            
+        </div>
+        <hr>
+
+        <!-- Page Footer -->
+        <div class="inner">
+    <footer id="footer">
+        <div class="clearfix">
+            
+            
+        </div>
+    </footer>
+</div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+    <div class="inner">
+
+        <!-- Search -->
+        <section id="search" class="alt">
+            <form data-orchid-search="">
+                <input type="text" name="query" id="query" placeholder="Search"/>
+            </form>
+            <div class="box" id="search-results" data-orchid-search-results style="display: none;">
+                <b>Search Results</b>
+                <ul></ul>
+            </div>
+            <div class="box" id="search-progress" data-orchid-search-progress style="display: none;">
+                <div class="loader">Loading...</div>
+            </div>
+        </section>
+
+        <!-- Menu -->
+        <nav id="siteNav" class="menu">
+            <header class="major">
+                <h2>NetworkResponse</h2>
+            </header>
+            <ul class="top-level">
+                
+                    
+    
+    <li>
+        <a class="subheader">API Docs</a>
+    </li>
+    
+
+                
+            </ul>
+        </nav>
+        
+        <nav class="menu">
+            <header class="major">
+                <h2>NetworkResponseJVM</h2>
+            </header>
+            <ul class="top-level">
+                
+            </ul>
+        </nav>
+        
+
+        <!-- Footer -->
+        <footer id="footer">
+            <p class="text-center">Created with <a href="https://orchid.run">Orchid</a></p>
+        </footer>
+
+    </div>
+</div>
+</div>
+
+
+
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+    <!-- start:inject meta-components [bodyEnd] -->
+    
+
+        
+            
+        
+
+        
+    
+    <!-- end:inject meta-components [bodyEnd] -->
+
+
+
+
+<!-- start:inject scripts -->
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/skel/3.0.1/skel.min.js"></script>
+<script  src="http://network-response.javiersc.com/Editorial/bd651712/assets/js/editorial_util.js"></script>
+<script  src="http://network-response.javiersc.com/Editorial/bd651712/assets/js/editorial_main.js"></script>
+<script  src="http://network-response.javiersc.com/Editorial/bd651712/assets/js/editorial_orchidCustomizations.js"></script>
+<script data-selector="pre code[class='language-run-kotlin']" src="https://unpkg.com/kotlin-playground@1"></script>
+<script  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script  src="https://unpkg.com/lunr/lunr.js"></script>
+<script  src="http://network-response.javiersc.com/assets/js/orchidSearch.js"></script>
+<!-- end:inject scripts -->
+
+
+</body>
+</html>
