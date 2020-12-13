@@ -9,6 +9,7 @@ object Versions {
     const val kotest = "4.3.1"
     const val kotlin = "1.4.20"
     const val ktor = "1.4.3"
+    const val logger = "0.0.9"
     const val nexus = "0.22.0"
     const val okHttp = "4.9.0"
     const val retrofit = "2.9.0"

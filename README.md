@@ -77,6 +77,7 @@ val usersNetworkResponse = NetworkResponse<List<UsersDTO>, ErrorDTO> { client.ge
 ## More artifacts
 
 - [Resource extensions](/resource-extensions)
+- [Logger extensions](/logger-extensions)
 
 ## Credits
 Based on [NetworkResponseAdapter](https://github.com/haroldadmin/NetworkResponseAdapter)

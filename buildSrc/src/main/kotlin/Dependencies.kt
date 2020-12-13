@@ -10,6 +10,7 @@ object Dependencies {
         val ktorCore = ktor("client-core:${versions.ktor}")
         val ktorJson = ktor("client-json:${versions.ktor}")
         val ktorSerialization = ktor("client-serialization:${versions.ktor}")
+        const val logger = "com.javiersc.logger:logger-serialization:${versions.logger}"
         const val resource = "com.javiersc.resources:resource:${versions.resource}"
     }
 

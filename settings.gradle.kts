@@ -16,4 +16,6 @@ enableFeaturePreview("GRADLE_METADATA")
 
 include(":network-response")
 include(":resource-extensions")
+include(":logger-extensions")
+
 include(":docs")
