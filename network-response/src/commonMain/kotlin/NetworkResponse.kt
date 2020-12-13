@@ -6,7 +6,7 @@ import io.ktor.http.HttpStatusCode
 /**
  * Sealed class which cover usual use cases related which network responses
  */
-public sealed class NetworkResponse<out NR, out E> {
+public sealed class NetworkResponse<out S, out E> {
 
     /**
      * Success branch (code 200 to 299)
