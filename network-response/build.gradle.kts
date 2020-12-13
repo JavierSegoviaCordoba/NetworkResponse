@@ -1,19 +1,10 @@
 plugins {
     KotlinMultiplatform
     JaCoCo
-    MavenPublish
+    NexusPublish
     Dokka
+    NetworkResponseVersioning
 }
-
-val networkResponseVersion: String by project
-val isNetworkResponseReleaseEnv: Boolean? = System.getenv("isNetworkResponseReleaseEnv")?.toBoolean()
-val isNetworkResponseRelease: String by project
-
-val finalVersion =
-    networkResponseVersion.generateVersion(isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean())
-
-group = "com.javiersc.network-response"
-version = finalVersion
 
 val dokkaJar by tasks.creating(Jar::class) {
     archiveClassifier.set("javadoc")

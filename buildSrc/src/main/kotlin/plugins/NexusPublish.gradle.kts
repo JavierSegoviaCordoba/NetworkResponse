@@ -1,15 +1,7 @@
 plugins {
-    id("maven-publish")
+    id("de.marcphilipp.nexus-publish")
     signing
 }
-
-signing {
-    useGpgCmd()
-    sign(publishing.publications)
-}
-
-val isNetworkResponseReleaseEnv: Boolean? = System.getenv("isNetworkResponseReleaseEnv")?.toBoolean()
-val isNetworkResponseRelease: String by project
 
 publishing {
     publications.withType<MavenPublication> {
@@ -36,18 +28,20 @@ publishing {
                 developerConnection.set("scm:git:git@github.com:JavierSegoviaCordoba/NetworkResponse.git")
             }
         }
-        repositories {
-            val releasesRepo = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            val snapshotsRepo = "https://oss.sonatype.org/content/repositories/snapshots"
+    }
+}
 
-            val isRelease = isNetworkResponseReleaseEnv ?: isNetworkResponseRelease.toBoolean()
+nexusPublishing {
+    repositories {
+        sonatype()
+    }
 
-            maven(if (isRelease) releasesRepo else snapshotsRepo) {
-                credentials {
-                    username = System.getenv("ossUser")
-                    password = System.getenv("ossToken")
-                }
-            }
-        }
+    useStaging.set(isLibRelease)
+}
+
+signing {
+    if (isLibRelease) {
+        useGpgCmd()
+        sign(publishing.publications)
     }
 }
