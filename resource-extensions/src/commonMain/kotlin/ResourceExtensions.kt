@@ -1,7 +1,7 @@
 package com.javiersc.networkResponse.extensions
 
 import com.javiersc.networkResponse.NetworkResponse
-import com.javiersc.resources.resource.Resource
+import com.javiersc.resource.Resource
 import io.ktor.http.Headers
 import io.ktor.http.HttpStatusCode
 import kotlin.jvm.JvmName

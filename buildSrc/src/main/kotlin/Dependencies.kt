@@ -11,7 +11,7 @@ object Dependencies {
         val ktorJson = ktor("client-json:${versions.ktor}")
         val ktorSerialization = ktor("client-serialization:${versions.ktor}")
         const val logger = "com.javiersc.logger:logger-serialization:${versions.logger}"
-        const val resource = "com.javiersc.resources:resource:${versions.resource}"
+        const val resource = "com.javiersc.resource:resource:${versions.resource}"
     }
 
     object CommonTest {

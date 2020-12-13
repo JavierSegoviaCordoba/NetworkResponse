@@ -9,7 +9,7 @@ import com.javiersc.networkResponse.extensions.config.models.internetNotAvailabl
 import com.javiersc.networkResponse.extensions.config.models.remoteNotAvailableToErrorD
 import com.javiersc.networkResponse.extensions.config.models.toDog
 import com.javiersc.networkResponse.extensions.config.models.toErrorD
-import com.javiersc.resources.resource.Resource
+import com.javiersc.resource.Resource
 import io.kotest.matchers.shouldBe
 import io.ktor.http.HttpStatusCode.Companion.NotFound
 import io.ktor.http.HttpStatusCode.Companion.OK

@@ -15,6 +15,6 @@ object Versions {
     const val okHttp = "4.9.0"
     const val retrofit = "2.9.0"
     const val retrofitConverter = "0.8.0"
-    const val resource = "3.2.0"
+    const val resource = "4.0.0"
     const val serialization = "1.0.1"
 }
